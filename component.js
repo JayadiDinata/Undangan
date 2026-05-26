@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var cover = document.getElementById('cover');
     var mainContent = document.getElementById('mainContent');
     var floatingNav = document.getElementById('floatingNav');
+    var autoScrollBtn = document.getElementById('autoScrollBtn');
 
     openBtn.addEventListener('click', function() {
         cover.style.transition = 'transform 1s ease, opacity 1s ease';
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
             cover.style.display = 'none';
             floatingNav.classList.add('active');
+            autoScrollBtn.classList.add('active');
             initObserver();
         }, 1000);
         initAudio();
@@ -127,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     navItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
+            stopAutoScroll();
             var targetId = this.getAttribute('href');
             if (targetId && targetId !== '#') {
                 var target = document.querySelector(targetId);
@@ -138,6 +141,61 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // ===== AUTO SCROLL =====
+    var isAutoScrolling = false;
+    var autoScrollTimer = null;
+    var autoScrollIgnoreUntil = 0;
+    var autoScrollSections = [
+        'quran', 'couple', 'countdown-section', 'story',
+        'event', 'gallery', 'gift', 'comments', 'closing-section'
+    ];
+    var autoScrollIndex = 0;
+
+    function stopAutoScroll() {
+        if (isAutoScrolling) {
+            isAutoScrolling = false;
+            autoScrollBtn.classList.remove('playing');
+            if (autoScrollTimer) {
+                clearTimeout(autoScrollTimer);
+                autoScrollTimer = null;
+            }
+        }
+    }
+
+    function doAutoScroll() {
+        if (!isAutoScrolling) return;
+        if (autoScrollIndex >= autoScrollSections.length) {
+            stopAutoScroll();
+            return;
+        }
+        var target = document.getElementById(autoScrollSections[autoScrollIndex]);
+        if (target) {
+            autoScrollIgnoreUntil = Date.now() + 600;
+            var targetPos = target.getBoundingClientRect().top + window.scrollY - 10;
+            window.scrollTo({ top: targetPos, behavior: 'smooth' });
+        }
+        autoScrollIndex++;
+        autoScrollTimer = setTimeout(doAutoScroll, 4000);
+    }
+
+    autoScrollBtn.addEventListener('click', function() {
+        if (isAutoScrolling) {
+            stopAutoScroll();
+        } else {
+            isAutoScrolling = true;
+            autoScrollIndex = 0;
+            autoScrollBtn.classList.add('playing');
+            doAutoScroll();
+        }
+    });
+
+    // stop on manual scroll (ignore programmatic scroll within 600ms)
+    window.addEventListener('scroll', function() {
+        if (isAutoScrolling && Date.now() > autoScrollIgnoreUntil) {
+            stopAutoScroll();
+        }
+    }, { passive: true });
 
     // ===== MUSIC =====
     var audio = document.getElementById('weddingMusic');

@@ -770,6 +770,57 @@ body {
     color: var(--primary);
 }
 
+/* ===== AUTO SCROLL BUTTON ===== */
+.auto-scroll-btn {
+    position: fixed;
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--medium);
+    border: 2px solid var(--white);
+    color: var(--white);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 998;
+    box-shadow: 0 2px 12px rgba(43,107,158,0.3);
+    transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+.auto-scroll-btn.active {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+}
+.auto-scroll-btn:hover {
+    background: var(--primary);
+    transform: translateX(-50%) scale(1.1);
+}
+.auto-scroll-btn.playing {
+    background: #e74c3c;
+}
+.auto-scroll-btn svg {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.3s ease;
+}
+.auto-scroll-btn.playing svg {
+    transform: rotate(180deg);
+}
+/* bounce animation for arrow */
+.auto-scroll-btn:not(.playing) svg {
+    animation: bounceDown 2s ease-in-out infinite;
+}
+@keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(4px); }
+}
+
 /* ===== FLOATING NAVBAR ===== */
 .floating-nav {
     position: fixed;
