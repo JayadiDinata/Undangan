@@ -1,264 +1,170 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Comment Form Handler
-    const commentForm = document.getElementById('commentForm');
-    const commentSuccessMessage = document.getElementById('commentSuccessMessage');
-    const commentsContainer = document.getElementById('commentsContainer');
 
-    // Load and display comments on page load
-    loadAndDisplayComments();
+    // ===== LOADING SCREEN =====
+    var loadingScreen = document.getElementById('loadingScreen');
+    setTimeout(function() {
+        loadingScreen.classList.add('hidden');
+    }, 1500);
 
-    // Handle comment form submission
-    commentForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    // ===== OPEN INVITATION =====
+    var openBtn = document.getElementById('openBtn');
+    var cover = document.getElementById('cover');
+    var mainContent = document.getElementById('mainContent');
+    var floatingNav = document.getElementById('floatingNav');
 
-        const commentName = document.getElementById('commentName').value;
-        const commentMessage = document.getElementById('commentMessage').value;
-
-        const comment = {
-            name: commentName,
-            message: commentMessage,
-            timestamp: new Date().toLocaleString('id-ID')
-        };
-
-        // Save to localStorage
-        let comments = JSON.parse(localStorage.getItem('weddingComments')) || [];
-        comments.push(comment);
-        localStorage.setItem('weddingComments', JSON.stringify(comments));
-
-        // Show success message
-        commentSuccessMessage.style.display = 'flex';
-        commentForm.reset();
-
-        // Reload and display comments
-        loadAndDisplayComments();
-
-        // Hide success message after 3 seconds
+    openBtn.addEventListener('click', function() {
+        cover.style.transition = 'transform 1s ease, opacity 1s ease';
+        cover.style.transform = 'translateY(-100%)';
+        cover.style.opacity = '0';
+        mainContent.style.display = 'block';
         setTimeout(function() {
-            commentSuccessMessage.style.display = 'none';
-        }, 3000);
-
-        console.log('Comment saved:', comment);
+            cover.style.display = 'none';
+            floatingNav.classList.add('active');
+            initObserver();
+        }, 1000);
+        initAudio();
     });
 
-    // Function to load and display comments
-    function loadAndDisplayComments() {
-        const comments = JSON.parse(localStorage.getItem('weddingComments')) || [];
-
-        if (comments.length === 0) {
-            commentsContainer.innerHTML = '<p class="no-comments">Belum ada ucapan. Jadilah yang pertama memberikan doa dan ucapan!</p>';
+    // ===== COUNTDOWN =====
+    function updateCountdown() {
+        var target = new Date('2026-07-11T09:00:00').getTime();
+        var now = new Date().getTime();
+        var diff = target - now;
+        if (diff <= 0) {
+            document.getElementById('days').textContent = '00';
+            document.getElementById('hours').textContent = '00';
+            document.getElementById('minutes').textContent = '00';
+            document.getElementById('seconds').textContent = '00';
             return;
         }
+        document.getElementById('days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById('hours').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
-        commentsContainer.innerHTML = '';
-        comments.reverse().forEach(function(comment, index) {
-            const commentEl = document.createElement('div');
-            commentEl.className = 'comment-item scroll-animate-left';
-            if (index < 3) {
-                commentEl.style.setProperty('transition-delay', (index * 0.1) + 's');
-            }
-            commentEl.innerHTML = `
-                <div class="comment-avatar">
-                    <span class="material-icons">person</span>
-                </div>
-                <div class="comment-body">
-                    <p class="comment-name">${escapeHtml(comment.name)}</p>
-                    <p class="comment-text">${escapeHtml(comment.message)}</p>
-                    <p class="comment-date">${comment.timestamp}</p>
-                </div>
-            `;
-            commentsContainer.appendChild(commentEl);
+    // ===== SCROLL ANIMATIONS (AOS-style) =====
+    var observer;
+
+    function initObserver() {
+        if (observer) return;
+        var options = { threshold: 0.08, rootMargin: '0px 0px -30px 0px' };
+        observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(function() {
+                        entry.target.classList.add('visible');
+                    }, index * 60);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+
+        document.querySelectorAll('[class*="aos-"], [class*="fade-in"], [class*="scroll-animate"]').forEach(function(el) {
+            observer.observe(el);
         });
-        observeNewElements();
+
+        // observe new comment elements
+        observeComments();
     }
 
-    // Sanitize user input to prevent XSS
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
+    function observeComments() {
+        if (!observer) return;
+        document.querySelectorAll('.comments-list .fade-in-left:not([data-observed])').forEach(function(el) {
+            el.setAttribute('data-observed', 'true');
+            observer.observe(el);
+        });
     }
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+    // ===== NAVBAR ACTIVE STATE =====
+    var navItems = document.querySelectorAll('.nav-item');
+    var sections = {};
+    navItems.forEach(function(item) {
+        var href = item.getAttribute('href');
+        if (href) {
+            var id = href.replace('#', '');
+            var section = document.getElementById(id);
+            if (section) {
+                sections[id] = { el: section, nav: item };
+            }
+        }
+    });
+
+    function updateNav() {
+        var scrollY = window.scrollY + 120;
+        var current = null;
+        for (var id in sections) {
+            var sec = sections[id].el;
+            var offsetTop = sec.offsetTop;
+            var offsetBottom = offsetTop + sec.offsetHeight;
+            if (scrollY >= offsetTop && scrollY < offsetBottom) {
+                current = id;
+                break;
+            }
+        }
+        if (!current && scrollY < 1) {
+            current = 'quran';
+        }
+        navItems.forEach(function(item) { item.classList.remove('active'); });
+        if (current && sections[current]) {
+            sections[current].nav.classList.add('active');
+        }
+    }
+
+    window.addEventListener('scroll', updateNav);
+
+    // ===== NAVBAR SMOOTH SCROLL =====
+    navItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth'
-                });
+            var targetId = this.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                var target = document.querySelector(targetId);
+                if (target) {
+                    var offset = 10;
+                    var targetPos = target.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top: targetPos, behavior: 'smooth' });
+                }
             }
         });
     });
 
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        threshold: 0.08,
-        rootMargin: '0px 0px -30px 0px'
-    };
+    // ===== MUSIC =====
+    var audio = document.getElementById('weddingMusic');
+    var musicBtn = document.getElementById('musicToggle');
+    var isPlaying = false;
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                setTimeout(function() {
-                    entry.target.classList.add('visible');
-                }, index * 60);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    // Observe all scroll-animate elements
-    document.querySelectorAll('[class*="scroll-animate"]').forEach(element => {
-        observer.observe(element);
-    });
-
-    // Function to observe new elements added dynamically
-    function observeNewElements() {
-        document.querySelectorAll('[class*="scroll-animate"]:not([data-observed])').forEach(element => {
-            element.setAttribute('data-observed', 'true');
-            observer.observe(element);
-        });
-    }
-
-    // Audio player
-    const audio = document.getElementById('weddingMusic');
-    const musicBtn = document.getElementById('musicToggle');
-
-    if (audio && musicBtn) {
-        let isPlaying = false;
-
+    function initAudio() {
+        if (!audio || !musicBtn) return;
         musicBtn.addEventListener('click', function() {
             if (isPlaying) {
                 audio.pause();
                 musicBtn.classList.add('paused');
-                musicBtn.querySelector('.material-icons').textContent = 'music_off';
             } else {
-                audio.play().catch(function() {
-                    musicBtn.classList.add('paused');
-                    musicBtn.querySelector('.material-icons').textContent = 'music_off';
-                });
+                audio.play().catch(function() {});
                 musicBtn.classList.remove('paused');
-                musicBtn.querySelector('.material-icons').textContent = 'music_note';
             }
             isPlaying = !isPlaying;
         });
-
-        // Try autoplay on first interaction
-        document.addEventListener('click', function initAudio() {
+        var initPlay = function() {
             if (!isPlaying) {
                 audio.play().then(function() {
                     isPlaying = true;
                     musicBtn.classList.remove('paused');
-                    musicBtn.querySelector('.material-icons').textContent = 'music_note';
                 }).catch(function() {});
             }
-            document.removeEventListener('click', initAudio);
-        }, { once: true });
+            document.removeEventListener('click', initPlay);
+        };
+        document.addEventListener('click', initPlay, { once: true });
     }
 
-    // Parallax effect for cover
-    const coverSection = document.querySelector('.cover');
-
-    window.addEventListener('scroll', function() {
-        const scrollY = window.pageYOffset;
-
-        if (coverSection) {
-            const coverInner = coverSection.querySelector('.cover-inner');
-            if (coverInner) {
-                coverInner.style.transform = `translateY(${scrollY * 0.15}px)`;
-            }
-        }
-    });
-
-    // Scroll progress indicator
-    const createProgressBar = () => {
-        const progressBar = document.createElement('div');
-        progressBar.id = 'scrollProgress';
-        progressBar.style.cssText = `
-            position: fixed;
-            top: 0;
-            top: env(safe-area-inset-top, 0px);
-            left: 50%;
-            transform: translateX(-50%);
-            height: 3px;
-            background: linear-gradient(90deg, #1a3a5c, #2b6b9e);
-            width: 0%;
-            max-width: 420px;
-            z-index: 1000;
-            transition: width 0.2s ease;
-        `;
-        document.body.appendChild(progressBar);
-    };
-
-    createProgressBar();
-
-    window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrolled = (window.scrollY / windowHeight) * 100;
-        const progressBar = document.getElementById('scrollProgress');
-        if (progressBar) {
-            progressBar.style.width = scrolled + '%';
-        }
-    });
-
-    // Scroll to top button
-    const createScrollToTop = () => {
-        const btn = document.createElement('button');
-        btn.id = 'scrollToTop';
-        btn.innerHTML = '↑';
-        btn.style.cssText = `
-            position: fixed;
-            bottom: max(20px, env(safe-area-inset-bottom, 20px));
-            right: max(20px, env(safe-area-inset-right, 20px));
-            width: 44px;
-            height: 44px;
-            background: #1a3a5c;
-            color: #ffffff;
-            border: 1px solid #ffffff;
-            cursor: pointer;
-            font-size: 20px;
-            display: none;
-            z-index: 999;
-            transition: all 0.3s ease;
-            font-family: 'Playfair Display', serif;
-        `;
-
-        document.body.appendChild(btn);
-
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                btn.style.display = 'block';
-            } else {
-                btn.style.display = 'none';
-            }
-        });
-
-        btn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        btn.addEventListener('mouseenter', function() {
-            this.style.background = '#2b6b9e';
-            this.style.color = '#ffffff';
-        });
-
-        btn.addEventListener('mouseleave', function() {
-            this.style.background = '#1a3a5c';
-            this.style.color = '#ffffff';
-        });
-    };
-
-    createScrollToTop();
-
-    // Copy to clipboard for account numbers
+    // ===== COPY =====
     document.querySelectorAll('.copy-btn').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const text = this.getAttribute('data-copy');
+            var text = this.getAttribute('data-copy');
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(function() {
                     showCopyFeedback(btn);
@@ -272,27 +178,94 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function fallbackCopy(text, btn) {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            document.execCommand('copy');
-            showCopyFeedback(btn);
-        } catch (e) {}
-        document.body.removeChild(textarea);
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); showCopyFeedback(btn); } catch (e) {}
+        document.body.removeChild(ta);
     }
 
     function showCopyFeedback(btn) {
-        const icon = btn.querySelector('.material-icons');
-        const originalText = icon.textContent;
-        icon.textContent = 'check';
+        var orig = btn.innerHTML;
+        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
         btn.classList.add('copied');
         setTimeout(function() {
-            icon.textContent = originalText;
+            btn.innerHTML = orig;
             btn.classList.remove('copied');
         }, 2000);
     }
+
+    // ===== COMMENTS =====
+    var commentForm = document.getElementById('commentForm');
+    var commentsContainer = document.getElementById('commentsContainer');
+    var commentSuccess = document.getElementById('commentSuccess');
+
+    loadComments();
+
+    commentForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = document.getElementById('commentName').value.trim();
+        var msg = document.getElementById('commentMessage').value.trim();
+        if (!name || !msg) return;
+
+        var comment = {
+            name: escapeHtml(name),
+            message: escapeHtml(msg),
+            timestamp: new Date().toLocaleString('id-ID')
+        };
+
+        var comments = JSON.parse(localStorage.getItem('weddingComments')) || [];
+        comments.push(comment);
+        localStorage.setItem('weddingComments', JSON.stringify(comments));
+
+        commentForm.reset();
+        commentSuccess.style.display = 'flex';
+        loadComments();
+        setTimeout(function() {
+            commentSuccess.style.display = 'none';
+        }, 3000);
+    });
+
+    function loadComments() {
+        var comments = JSON.parse(localStorage.getItem('weddingComments')) || [];
+        if (comments.length === 0) {
+            commentsContainer.innerHTML = '<p class="no-comments">Belum ada ucapan. Jadilah yang pertama!</p>';
+            return;
+        }
+        var html = '';
+        for (var i = comments.length - 1; i >= 0; i--) {
+            var c = comments[i];
+            html += '<div class="comment-item fade-in-left">' +
+                '<div class="comment-avatar"><svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>' +
+                '<div class="comment-body">' +
+                '<p class="comment-name">' + c.name + '</p>' +
+                '<p class="comment-text">' + c.message + '</p>' +
+                '<p class="comment-date">' + c.timestamp + '</p>' +
+                '</div></div>';
+        }
+        commentsContainer.innerHTML = html;
+        observeComments();
+    }
+
+    function escapeHtml(text) {
+        var d = document.createElement('div');
+        d.textContent = text;
+        return d.innerHTML;
+    }
+
+    // ===== PARALLAX COVER =====
+    var coverSection = document.querySelector('.cover');
+    window.addEventListener('scroll', function() {
+        if (!coverSection) return;
+        if (coverSection.style.display === 'none') return;
+        var scrollY = window.pageYOffset;
+        var bg = coverSection.querySelector('.cover-bg');
+        if (bg) {
+            bg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
+        }
+    });
+
 });
