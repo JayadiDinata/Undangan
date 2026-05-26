@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, options);
 
-        document.querySelectorAll('[data-aos], [class*="aos-"], [class*="fade-in"], [class*="scroll-animate"]').forEach(function(el) {
+        document.querySelectorAll('[data-aos], [class*="aos-"], [class*="fade-in"], [class*="scroll-animate"], .film-reel').forEach(function(el) {
             observer.observe(el);
         });
 
