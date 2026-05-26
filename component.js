@@ -253,4 +253,46 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     createScrollToTop();
+
+    // Copy to clipboard for account numbers
+    document.querySelectorAll('.copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const text = this.getAttribute('data-copy');
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopyFeedback(btn);
+                }).catch(function() {
+                    fallbackCopy(text, btn);
+                });
+            } else {
+                fallbackCopy(text, btn);
+            }
+        });
+    });
+
+    function fallbackCopy(text, btn) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            showCopyFeedback(btn);
+        } catch (e) {}
+        document.body.removeChild(textarea);
+    }
+
+    function showCopyFeedback(btn) {
+        const icon = btn.querySelector('.material-icons');
+        const originalText = icon.textContent;
+        icon.textContent = 'check';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            icon.textContent = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    }
 });

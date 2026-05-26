@@ -22,6 +22,14 @@
     --safe-bottom: env(safe-area-inset-bottom, 0px);
     --safe-left: env(safe-area-inset-left, 0px);
     --safe-right: env(safe-area-inset-right, 0px);
+
+    --elevation-1: 0 1px 3px rgba(26, 58, 92, 0.08), 0 1px 2px rgba(26, 58, 92, 0.06);
+    --elevation-2: 0 4px 6px rgba(26, 58, 92, 0.07), 0 2px 4px rgba(26, 58, 92, 0.06);
+    --elevation-3: 0 10px 20px rgba(26, 58, 92, 0.08), 0 3px 6px rgba(26, 58, 92, 0.06);
+    --elevation-4: 0 14px 28px rgba(26, 58, 92, 0.1), 0 5px 10px rgba(26, 58, 92, 0.06);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
 }
 
 html {
@@ -34,6 +42,12 @@ body {
     color: var(--gray-dark);
     line-height: 1.8;
     -webkit-text-size-adjust: 100%;
+}
+
+p, h1, h2, h3, h4, h5, h6, li, blockquote, figcaption, label, input, textarea, button, a, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .container {
@@ -53,17 +67,19 @@ body {
     position: fixed;
     top: calc(15px + var(--safe-top));
     right: calc(15px + var(--safe-right));
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     background: var(--primary-blue);
     color: var(--white);
-    border: 1px solid var(--white);
+    border: none;
     cursor: pointer;
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
+    box-shadow: var(--elevation-3);
+    border-radius: 50%;
 }
 
 .music-btn .material-icons {
@@ -98,7 +114,9 @@ body {
     position: relative;
     border: 2px solid var(--light-blue);
     padding: 30px 20px;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: var(--elevation-2);
+    transition: box-shadow 0.3s ease;
 }
 
 .section-inner::before,
@@ -196,6 +214,7 @@ body {
     position: relative;
     background: var(--white);
     border: 2px solid var(--light-blue);
+    box-shadow: var(--elevation-3);
 }
 
 .cover-border::before,
@@ -324,9 +343,10 @@ body {
 .quran-content {
     text-align: center;
     padding: 30px 20px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.97);
     border: 1px solid var(--light-blue);
     position: relative;
+    box-shadow: var(--elevation-1);
 }
 
 .quran-arab {
@@ -426,8 +446,9 @@ body {
     text-align: center;
     margin-top: 20px;
     padding: 20px 10px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
 }
 
 .invited-title {
@@ -468,8 +489,15 @@ body {
 .ceremony-card {
     text-align: center;
     padding: 25px 20px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ceremony-card:hover {
+    box-shadow: var(--elevation-3);
+    transform: translateY(-2px);
 }
 
 .ceremony-icon .material-icons {
@@ -510,8 +538,9 @@ body {
 .venue-info {
     text-align: center;
     padding: 25px 20px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
 }
 
 .venue-header {
@@ -560,19 +589,27 @@ body {
 .btn-maps {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     background: var(--primary-blue);
     color: var(--white);
-    padding: 10px 20px;
+    padding: 12px 24px;
     text-decoration: none;
     font-family: 'Poppins', sans-serif;
     font-size: 13px;
+    font-weight: 500;
     margin-top: 15px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    box-shadow: var(--elevation-2);
+    border-radius: var(--radius-md);
 }
 
 .btn-maps:hover {
     background: var(--medium-blue);
+    box-shadow: var(--elevation-3);
+}
+
+.btn-maps:active {
+    transform: scale(0.97);
 }
 
 .btn-maps .material-icons {
@@ -630,9 +667,10 @@ body {
 .gift-greeting {
     text-align: center;
     padding: 25px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
     margin-bottom: 20px;
+    box-shadow: var(--elevation-1);
 }
 
 .gift-icon-top .material-icons {
@@ -657,10 +695,11 @@ body {
 .account {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     padding: 18px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
 }
 
 .account-icon .material-icons {
@@ -698,16 +737,35 @@ body {
     background: var(--primary-blue);
     color: var(--white);
     border: none;
-    padding: 8px 14px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.2s ease;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.copy-btn .material-icons {
+    font-size: 18px;
 }
 
 .copy-btn:hover {
     background: var(--medium-blue);
+    transform: scale(1.1);
+}
+
+.copy-btn:active {
+    transform: scale(0.9);
+}
+
+.copy-btn.copied {
+    background: #2e7d32;
 }
 
 /* ========== COMMENTS / RSVP ========== */
@@ -722,10 +780,11 @@ body {
 
 .comment-item {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     padding: 18px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
 }
 
 .comment-avatar .material-icons {
@@ -770,8 +829,9 @@ body {
 
 .form-comment {
     padding: 25px;
-    background: var(--pale-blue);
+    background: rgba(255, 255, 255, 0.95);
     border: 1px solid var(--light-blue);
+    box-shadow: var(--elevation-1);
 }
 
 .form-group {
@@ -790,28 +850,29 @@ body {
 .form-input,
 .form-textarea {
     width: 100%;
-    padding: 10px 14px;
-    border: 1px solid var(--light-blue);
+    padding: 12px 16px;
+    border: 1.5px solid var(--light-blue);
     font-family: 'Poppins', sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--gray-dark);
     background: var(--white);
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     -webkit-appearance: none;
     appearance: none;
-    border-radius: 0;
+    border-radius: var(--radius-sm);
 }
 
 .form-comment textarea {
     -webkit-appearance: none;
     appearance: none;
-    border-radius: 0;
+    border-radius: var(--radius-sm);
 }
 
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: var(--medium-blue);
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(26, 58, 92, 0.1);
 }
 
 .form-textarea {
@@ -850,23 +911,35 @@ body {
 
 .btn-submit {
     width: 100%;
-    padding: 14px;
+    padding: 14px 24px;
     background: var(--primary-blue);
     color: var(--white);
     border: none;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
     -webkit-appearance: none;
     appearance: none;
-    border-radius: 0;
+    border-radius: var(--radius-md);
     position: relative;
     overflow: hidden;
+    box-shadow: var(--elevation-2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-submit:hover {
     background: var(--medium-blue);
+    box-shadow: var(--elevation-3);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
 }
 
 .btn-submit::after {
@@ -876,7 +949,7 @@ body {
     left: 50%;
     width: 0;
     height: 0;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.25);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.6s ease, height 0.6s ease;
@@ -1311,9 +1384,29 @@ body {
         word-break: break-all;
     }
 
-    .account-info h4 {
-        font-size: 12px;
-    }
+.account-info h4,
+.account-label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11px;
+    color: var(--gray-text);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.account-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    color: var(--primary-blue);
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.account-name {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    color: var(--gray-text);
+}
 
     .gift-address {
         padding: 15px;
