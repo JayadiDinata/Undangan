@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     setTimeout(function() {
                         entry.target.classList.add('visible');
                     }, index * 60);
-                    observer.unobserve(entry.target);
+                } else {
+                    entry.target.classList.remove('visible');
                 }
             });
         }, options);
