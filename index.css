@@ -827,6 +827,32 @@ p, h1, h2, h3, h4, h5, h6, li, blockquote, figcaption, label, input, textarea, b
     text-align: center;
 }
 
+.no-comments {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: var(--gray-text);
+    text-align: center;
+    padding: 20px;
+}
+
+.success-message {
+    text-align: center;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--light-blue);
+    margin-top: 20px;
+    box-shadow: var(--elevation-1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.success-message .material-icons {
+    font-size: 36px;
+    color: var(--medium-blue);
+}
+
 .form-comment {
     padding: 25px;
     background: rgba(255, 255, 255, 0.95);
