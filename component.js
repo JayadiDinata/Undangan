@@ -54,9 +54,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const commentEl = document.createElement('div');
             commentEl.className = 'comment-item';
             commentEl.innerHTML = `
-                <p class="comment-name">${escapeHtml(comment.name)}</p>
-                <p class="comment-text">${escapeHtml(comment.message)}</p>
-                <p class="comment-time">${comment.timestamp}</p>
+                <div class="comment-avatar">
+                    <span class="material-icons">person</span>
+                </div>
+                <div class="comment-body">
+                    <p class="comment-name">${escapeHtml(comment.name)}</p>
+                    <p class="comment-text">${escapeHtml(comment.message)}</p>
+                    <p class="comment-date">${comment.timestamp}</p>
+                </div>
             `;
             commentsContainer.appendChild(commentEl);
         });
@@ -161,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.cssText = `
             position: fixed;
             top: 0;
+            top: env(safe-area-inset-top, 0px);
             left: 50%;
             transform: translateX(-50%);
             height: 3px;
@@ -191,8 +197,8 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.innerHTML = '↑';
         btn.style.cssText = `
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: max(20px, env(safe-area-inset-bottom, 20px));
+            right: max(20px, env(safe-area-inset-right, 20px));
             width: 44px;
             height: 44px;
             background: #1a3a5c;
