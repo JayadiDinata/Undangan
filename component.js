@@ -50,20 +50,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initObserver() {
         if (observer) return;
-        var options = { threshold: 0.08, rootMargin: '0px 0px -30px 0px' };
+        var options = { threshold: 0.08, rootMargin: '0px 0px -60px 0px' };
         observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry, index) {
                 if (entry.isIntersecting) {
                     setTimeout(function() {
                         entry.target.classList.add('visible');
+                        if (entry.target.hasAttribute('data-aos')) {
+                            entry.target.classList.add('aos-animate');
+                        }
                     }, index * 60);
                 } else {
-                    entry.target.classList.remove('visible');
+                    // reset instantly (no transition)
+                    entry.target.classList.add('no-animate');
+                    entry.target.classList.remove('visible', 'aos-animate');
+                    void entry.target.offsetHeight;
+                    entry.target.classList.remove('no-animate');
                 }
             });
         }, options);
 
-        document.querySelectorAll('[class*="aos-"], [class*="fade-in"], [class*="scroll-animate"]').forEach(function(el) {
+        document.querySelectorAll('[data-aos], [class*="aos-"], [class*="fade-in"], [class*="scroll-animate"]').forEach(function(el) {
             observer.observe(el);
         });
 
