@@ -77,6 +77,8 @@ body {
     background: var(--white);
     position: relative;
     overflow: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
     padding-bottom: 65px;
 }
 
@@ -840,6 +842,8 @@ body {
 [class*="aos-"] {
     opacity: 0;
     transition: opacity 1s ease, transform 1s ease;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
 }
 [data-aos].aos-animate,
 [class*="aos-"].visible {
@@ -865,6 +869,14 @@ body {
 .aos-zoom-in-left { transform: scale(0.6) translateX(-100px); }
 .aos-zoom-in-right { transform: scale(0.6) translateX(100px); }
 .aos-zoom-out { transform: scale(1.2); }
+
+/* 3D EXTRA */
+.aos-3d-flip-up { transform: perspective(600px) rotateX(-75deg) scale(0.85); transform-origin: 50% 100%; }
+.aos-3d-flip-down { transform: perspective(600px) rotateX(75deg) scale(0.85); transform-origin: 50% 0%; }
+.aos-3d-rotate-left { transform: perspective(600px) rotateY(-45deg) scale(0.9); transform-origin: 0% 50%; }
+.aos-3d-rotate-right { transform: perspective(600px) rotateY(45deg) scale(0.9); transform-origin: 100% 50%; }
+.aos-3d-zoom-flip { transform: perspective(500px) rotateX(-30deg) scale(0.7); }
+.aos-3d-card { transform: perspective(800px) rotateY(15deg) scale(0.9); }
 
 [data-aos][data-aos-duration="1000"],
 .aos-duration-1000 { transition-duration: 1s; }
