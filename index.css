@@ -878,7 +878,7 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 998;
+    z-index: 1000;
     box-shadow: 0 2px 12px rgba(43,107,158,0.3);
     transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
