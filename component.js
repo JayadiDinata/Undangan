@@ -139,26 +139,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initAudio() {
         if (!audio || !musicBtn) return;
-        musicBtn.addEventListener('click', function() {
+        var resume = function() {
+            audio.play().then(function() {
+                isPlaying = true;
+                musicBtn.classList.remove('paused');
+            }).catch(function() {});
+        };
+        musicBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
             if (isPlaying) {
                 audio.pause();
                 musicBtn.classList.add('paused');
+                isPlaying = false;
             } else {
-                audio.play().catch(function() {});
-                musicBtn.classList.remove('paused');
+                resume();
             }
-            isPlaying = !isPlaying;
         });
-        var initPlay = function() {
-            if (!isPlaying) {
-                audio.play().then(function() {
-                    isPlaying = true;
-                    musicBtn.classList.remove('paused');
-                }).catch(function() {});
-            }
-            document.removeEventListener('click', initPlay);
-        };
-        document.addEventListener('click', initPlay, { once: true });
+        document.addEventListener('click', resume, { once: true });
+        document.addEventListener('touchstart', resume, { once: true });
     }
 
     // ===== COPY =====
