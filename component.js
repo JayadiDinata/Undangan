@@ -50,9 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         commentsContainer.innerHTML = '';
-        comments.reverse().forEach(comment => {
+        comments.reverse().forEach(function(comment, index) {
             const commentEl = document.createElement('div');
-            commentEl.className = 'comment-item';
+            commentEl.className = 'comment-item scroll-animate-left';
+            if (index < 3) {
+                commentEl.style.setProperty('transition-delay', (index * 0.1) + 's');
+            }
             commentEl.innerHTML = `
                 <div class="comment-avatar">
                     <span class="material-icons">person</span>
@@ -65,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             commentsContainer.appendChild(commentEl);
         });
+        observeNewElements();
     }
 
     // Sanitize user input to prevent XSS
@@ -98,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 setTimeout(function() {
                     entry.target.classList.add('visible');
-                }, index * 80);
+                }, index * 60);
                 observer.unobserve(entry.target);
             }
         });
@@ -108,6 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[class*="scroll-animate"]').forEach(element => {
         observer.observe(element);
     });
+
+    // Function to observe new elements added dynamically
+    function observeNewElements() {
+        document.querySelectorAll('[class*="scroll-animate"]:not([data-observed])').forEach(element => {
+            element.setAttribute('data-observed', 'true');
+            observer.observe(element);
+        });
+    }
 
     // Audio player
     const audio = document.getElementById('weddingMusic');
