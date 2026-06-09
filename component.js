@@ -332,4 +332,135 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // ════════════════════════════════════════════════════════════════
+    // A. NEW COUNTDOWN (Transparent) — Target: July 11, 2026
+    // ════════════════════════════════════════════════════════════════
+    function updateNewCountdown() {
+        var target = new Date('2026-07-11T09:00:00+08:00').getTime();
+        var now = Date.now();
+        var diff = target - now;
+        if (diff <= 0) {
+            document.getElementById('newDays').textContent = '00';
+            document.getElementById('newHours').textContent = '00';
+            document.getElementById('newMins').textContent = '00';
+            document.getElementById('newSecs').textContent = '00';
+            return;
+        }
+        document.getElementById('newDays').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+        document.getElementById('newHours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+        document.getElementById('newMins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        document.getElementById('newSecs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    }
+    updateNewCountdown();
+    setInterval(updateNewCountdown, 1000);
+
+    // ════════════════════════════════════════════════════════════════
+    // C. GALLERY LIGHTBOX
+    // ════════════════════════════════════════════════════════════════
+    var galleryThumbs = document.querySelectorAll('.new-gallery-thumb');
+    var galleryOverlay = document.getElementById('galleryOverlay');
+    var galleryOverlayImg = document.getElementById('galleryOverlayImg');
+
+    galleryThumbs.forEach(function(thumb) {
+        thumb.addEventListener('click', function() {
+            galleryOverlayImg.src = this.src;
+            galleryOverlayImg.alt = this.alt;
+            galleryOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    galleryOverlay.addEventListener('click', function() {
+        this.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    // ════════════════════════════════════════════════════════════════
+    // D. WEDDING GIFT COPY BUTTONS (uses existing showCopyFeedback)
+    // ════════════════════════════════════════════════════════════════
+    document.querySelectorAll('.new-copy-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var text = this.getAttribute('data-copy');
+            var self = this;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showCopyFeedback(self);
+                }).catch(function() {
+                    fallbackCopy(text, self);
+                });
+            } else {
+                fallbackCopy(text, self);
+            }
+        });
+    });
+
+    // ════════════════════════════════════════════════════════════════
+    // E. WISHES BOARD — Serverless POST + Local Append
+    // ── REPLACE the WEBHOOK_URL below with your actual endpoint (Formspree / Netlify / Google Sheets)
+    // ════════════════════════════════════════════════════════════════
+    var WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE';
+    var newWishesForm = document.getElementById('newWishesForm');
+    var newWishName = document.getElementById('newWishName');
+    var newWishMessage = document.getElementById('newWishMessage');
+    var newWishSubmit = document.getElementById('newWishSubmit');
+    var newWishesSuccess = document.getElementById('newWishesSuccess');
+    var newWishesFeed = document.getElementById('newWishesFeed');
+
+    // Load stored wishes from localStorage
+    function loadNewWishes() {
+        var stored = localStorage.getItem('weddingWishes');
+        var wishes = stored ? JSON.parse(stored) : [];
+        if (wishes.length === 0) {
+            newWishesFeed.innerHTML = '<p style="text-align:center;color:rgba(255,255,255,0.4);font-size:13px;padding:20px;font-family:Poppins,sans-serif;">Belum ada ucapan. Jadilah yang pertama!</p>';
+            return;
+        }
+        var html = '';
+        for (var i = 0; i < wishes.length; i++) {
+            var w = wishes[i];
+            html += '<div class="new-wishes-item">' +
+                '<div class="new-wishes-item-name">' + escapeHtml(w.name) + '</div>' +
+                '<div class="new-wishes-item-msg">' + escapeHtml(w.message) + '</div>' +
+                '<div class="new-wishes-item-time">' + (w.timestamp || '') + '</div>' +
+                '</div>';
+        }
+        newWishesFeed.innerHTML = html;
+    }
+    loadNewWishes();
+
+    newWishesForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var name = newWishName.value.trim();
+        var msg = newWishMessage.value.trim();
+        if (!name || !msg) return;
+
+        var wish = {
+            name: escapeHtml(name),
+            message: escapeHtml(msg),
+            timestamp: new Date().toLocaleString('id-ID')
+        };
+
+        // Optimistic local append
+        var stored = localStorage.getItem('weddingWishes');
+        var wishes = stored ? JSON.parse(stored) : [];
+        wishes.unshift(wish);
+        localStorage.setItem('weddingWishes', JSON.stringify(wishes));
+
+        newWishName.value = '';
+        newWishMessage.value = '';
+        newWishesSuccess.style.display = 'block';
+        setTimeout(function() { newWishesSuccess.style.display = 'none'; }, 3000);
+
+        loadNewWishes();
+
+        // Fire-and-forget POST to serverless webhook
+        try {
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(wish)
+            }).catch(function() {});
+        } catch(e) {}
+    });
+
 });
