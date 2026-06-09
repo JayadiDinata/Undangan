@@ -3,12 +3,13 @@
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion'
 import { ContainerScroll } from '@/components/ui/container-scroll-animation'
+import FlowArt, { FlowSection } from '@/components/ui/flow-art'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
 
 const couples = {
-  bride: { name: 'Sarah Saraswati', title: 'S.Ds.', parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari', img: '/img/SR1.jpeg' },
+  bride: { name: 'Sarah Saraswati', title: 'S.Ds.', parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari', img: '/img/SR4.jpeg' },
   groom: { name: 'Ryan Malik Azhar', title: 'S.H.', parents: 'Putra dari Bapak Hendra Malik & Ibu Rina Fitriani', img: '/img/SR4.jpeg' },
 }
 
@@ -362,114 +363,112 @@ function CoverSection() {
 
 function QuoteSection() {
   return (
-    <section id="quote" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden px-6">
+    <FlowSection id="quote" className="min-h-screen">
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
       <Decorations />
-      <motion.div {...vw({ initial: { opacity: 0, y: 60 }, animate: { opacity: 1, y: 0 } })}
-        transition={fadeUp(0)} className="relative z-20 w-full max-w-sm"
-      >
-        <div className="cover-blur border border-cream/20 rounded-2xl p-6 sm:p-8 text-center">
-          <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.1)}
+      <div className="relative z-20 w-full max-w-sm">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={fadeUp(0)}
+          className="cover-blur border border-cream/20 rounded-2xl p-6 sm:p-8 text-center"
+        >
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.1)}
             className="font-serif text-cream/70 text-xs sm:text-sm italic mb-4">
             QS. Ar-Rum Ayat 21
           </motion.p>
-          <motion.p {...vw({ initial: { opacity: 0, scale: 0.95 }, animate: { opacity: 1, scale: 1 } })}
+          <motion.p initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
             transition={fadeUp(0.2)}
             className="text-lg sm:text-xl text-cream leading-[2] mb-4 font-arabic">
             وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
             وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
           </motion.p>
-          <motion.div {...vw({ initial: { scaleX: 0 }, animate: { scaleX: 1 } })} transition={{ duration: 1.2, delay: 0.3, ease: easeSmooth }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.3, ease: easeSmooth }}
             className="w-10 h-[1px] bg-cream/30 mx-auto mb-4" />
-          <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.4)}
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.4)}
             className="text-cream/70 text-xs sm:text-sm leading-relaxed italic">
             &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan
             untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya,
             dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
           </motion.p>
-        </div>
-      </motion.div>
-    </section>
+        </motion.div>
+      </div>
+    </FlowSection>
   )
 }
 
 function BrideSection() {
   return (
-    <section id="bride" className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden px-6 pt-16 pb-10">
+    <FlowSection id="bride" className="min-h-screen">
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.bride.img}')` }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
       <Decorations />
-      <motion.p {...vw({ initial: { opacity: 0, y: -25 }, animate: { opacity: 1, y: 0 } })} transition={fadeUp(0.1)}
-        className="relative z-20 text-cream/70 text-sm font-content text-center px-4">
-        Kami mohon do&apos;a &amp; restunya atas pernikahan kami
-      </motion.p>
-
-      <motion.div
-        initial={{ opacity: 0, y: 70, scale: 0.9 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true }}
-        transition={fadeUp(0.2)}
-        className="relative z-20 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
-      >
+      <div className="relative z-20 w-full max-w-xs">
         <motion.div
-          initial={{ scale: 1.15 }}
-          whileInView={{ scale: 1 }}
+          initial={{ opacity: 0, y: 70, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
-          className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          transition={fadeUp(0.2)}
+          className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
         >
-          <img src={couples.bride.img} alt={couples.bride.name} className="w-full h-full object-cover" />
+          <motion.div
+            initial={{ scale: 1.15 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
+            className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          >
+            <img src={couples.bride.img} alt={couples.bride.name} className="w-full h-full object-cover" />
+          </motion.div>
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
+            className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</motion.p>
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
+            className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.bride.name.split(' ').slice(1).join(' ')}, {couples.bride.title}</motion.p>
+          <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.55)}
+            className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</motion.p>
         </motion.div>
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.35)}
-          className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</motion.p>
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.45)}
-          className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.bride.name.split(' ').slice(1).join(' ')}, {couples.bride.title}</motion.p>
-        <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.55)}
-          className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</motion.p>
-      </motion.div>
-    </section>
+      </div>
+    </FlowSection>
   )
 }
 
 function GroomSection() {
   return (
-    <section id="groom" className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden px-6 pt-10 pb-16">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.groom.img}')` }} />
+    <FlowSection id="groom" className="min-h-screen">
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
       <Decorations />
 
-      <motion.div
-        initial={{ opacity: 0, y: -70, scale: 0.9 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true }}
-        transition={fadeUp(0.2)}
-        className="relative z-20 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
-      >
+      <div className="relative z-20 w-full max-w-xs">
         <motion.div
-          initial={{ scale: 1.15 }}
-          whileInView={{ scale: 1 }}
+          initial={{ opacity: 0, y: 70, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
-          className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          transition={fadeUp(0.2)}
+          className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
         >
-          <img src={couples.groom.img} alt={couples.groom.name} className="w-full h-full object-cover" />
+          <motion.div
+            initial={{ scale: 1.15 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
+            className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          >
+            <img src={couples.groom.img} alt={couples.groom.name} className="w-full h-full object-cover" />
+          </motion.div>
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
+            className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</motion.p>
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
+            className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.groom.name.split(' ').slice(1).join(' ')}, {couples.groom.title}</motion.p>
+          <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.55)}
+            className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</motion.p>
         </motion.div>
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.35)}
-          className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</motion.p>
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.45)}
-          className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.groom.name.split(' ').slice(1).join(' ')}, {couples.groom.title}</motion.p>
-        <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.55)}
-          className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</motion.p>
-      </motion.div>
-
-      <motion.p {...vw({ initial: { opacity: 0, y: 25 }, animate: { opacity: 1, y: 0 } })} transition={fadeUp(0.35)}
-        className="relative z-20 text-cream/70 text-sm font-content text-center px-4">
-        Yang akan menikah
-      </motion.p>
-    </section>
+      </div>
+    </FlowSection>
   )
 }
 
@@ -898,9 +897,11 @@ function MainContent() {
 
         <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen">
           <CoverSection />
-          <QuoteSection />
-          <BrideSection />
-          <GroomSection />
+          <FlowArt>
+            <QuoteSection />
+            <BrideSection />
+            <GroomSection />
+          </FlowArt>
           <ScheduleSection />
           <LoveStorySection />
           <GallerySection />
