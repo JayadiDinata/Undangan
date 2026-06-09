@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, FormEvent, RefObject } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, type Target } from 'framer-motion'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -40,8 +40,14 @@ function esc(text: string): string {
   return d.innerHTML
 }
 
-// ─── HELPER: SPRING TRANSITION ─────────────────────────────────────
-const spring = { type: 'spring' as const, stiffness: 60, damping: 20 }
+// ─── HELPER: TRANSITION VARIANTS ────────────────────────────────────
+const popUp = { type: 'spring' as const, stiffness: 80, damping: 16 }
+const slideUp = { type: 'spring' as const, stiffness: 60, damping: 20 }
+const dropIn = { type: 'spring' as const, stiffness: 100, damping: 14 }
+
+function vw(config: { initial: Target; animate: Target }) {
+  return { initial: config.initial, whileInView: config.animate, viewport: { once: true, margin: '-80px' } } as const
+}
 
 // ─── SECTION WRAPPER ─────────────────────────────────────────────────
 function Section({ children, className = '' }: { children: React.ReactNode; className?: string }) {
@@ -71,22 +77,24 @@ function Cover({ onOpen }: { onOpen: () => void }) {
         >
           <div className="absolute inset-0 bg-black/40" />
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: -120 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-20"
           >
             <motion.p
-              initial={{ opacity: 0, letterSpacing: '0.5em' }}
-              animate={{ opacity: 1, letterSpacing: '0.3em' }}
-              transition={{ duration: 1.2, delay: 0.6 }}
+              initial={{ opacity: 0, y: -60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-white/70 text-xs sm:text-sm uppercase tracking-[0.3em] font-sans mb-6"
             >
               The Wedding of
             </motion.p>
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+              initial={{ opacity: 0, scale: 0.3, y: -80 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7, type: 'spring', stiffness: 120, damping: 12 }}
+              whileHover={{ scale: 1.1 }}
               className="mb-8"
             >
               <svg viewBox="0 0 64 64" className="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-champagne/80" fill="currentColor">
@@ -94,9 +102,9 @@ function Cover({ onOpen }: { onOpen: () => void }) {
               </svg>
             </motion.div>
             <motion.h1
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, y: -100, scale: 0.7 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.9, type: 'spring', stiffness: 100, damping: 14 }}
               className="font-calligraphy text-5xl sm:text-6xl md:text-7xl text-white text-shadow-glow mb-4"
             >
               Sarah &amp; Ryan
@@ -104,21 +112,21 @@ function Cover({ onOpen }: { onOpen: () => void }) {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: '4rem' }}
-              transition={{ duration: 1, delay: 1.2 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
               className="h-[1.5px] bg-champagne/60 mx-auto mb-6"
             />
             <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.4 }}
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 1.5, ease: [0.16, 1, 0.3, 1] }}
               className="text-white/80 text-xs sm:text-sm font-sans mb-8"
             >
               Anda telah diundang ke pernikahan kami
             </motion.p>
             <motion.button
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
+              transition={{ duration: 0.7, delay: 1.7, type: 'spring', stiffness: 80, damping: 12 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleOpen}
@@ -137,27 +145,42 @@ function Cover({ onOpen }: { onOpen: () => void }) {
 function Initial() {
   return (
     <Section>
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={spring} viewport={{ once: true, margin: '-100px' }}>
+      <motion.div {...vw({ initial: { opacity: 0, scale: 0.75, y: 60 }, animate: { opacity: 1, scale: 1, y: 0 } })}
+        transition={popUp}
+      >
+        <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ ...popUp, delay: 0.1 }} viewport={{ once: true }}
+          className="absolute -top-8 -left-4 w-20 h-20 opacity-40">
+          <img src="/img/sk-c.png" className="w-full h-full object-contain" alt="" />
+        </motion.div>
+        <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ ...popUp, delay: 0.15 }} viewport={{ once: true }}
+          className="absolute -bottom-6 -right-4 w-16 h-16 opacity-30">
+          <img src="/img/sk-a.png" className="w-full h-full object-contain" alt="" />
+        </motion.div>
         <div className="border border-champagne/30 rounded-[3rem] p-8 sm:p-12 bg-black/10 backdrop-blur-sm">
-          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.2 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...slideUp, delay: 0.2 }} viewport={{ once: true }}
             className="text-white/60 text-xs sm:text-sm uppercase tracking-[0.3em] font-sans mb-4">
             Undangan Pernikahan
           </motion.p>
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.4 }} viewport={{ once: true }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }} viewport={{ once: true }}
             className="w-12 h-[1px] bg-champagne/40 mx-auto mb-6 origin-center" />
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.5 }} viewport={{ once: true }}
+          <motion.h2 initial={{ opacity: 0, y: 30, scale: 0.9 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ ...popUp, delay: 0.35 }} viewport={{ once: true }}
             className="font-calligraphy text-5xl sm:text-6xl md:text-7xl text-white text-shadow-glow leading-tight">
             Sarah
           </motion.h2>
-          <motion.p initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.7, type: 'spring', stiffness: 120 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, scale: 0.3 }} whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.5, type: 'spring', stiffness: 150, damping: 10 }} viewport={{ once: true }}
             className="font-serif text-champagne text-lg sm:text-xl italic my-2">&amp;</motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.8 }} viewport={{ once: true }}
+          <motion.h2 initial={{ opacity: 0, y: 30, scale: 0.9 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ ...popUp, delay: 0.6 }} viewport={{ once: true }}
             className="font-calligraphy text-5xl sm:text-6xl md:text-7xl text-white text-shadow-glow leading-tight">
             Ryan
           </motion.h2>
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 1 }} viewport={{ once: true }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.75 }} viewport={{ once: true }}
             className="w-12 h-[1px] bg-champagne/40 mx-auto mt-6 mb-4 origin-center" />
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.1 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...slideUp, delay: 0.85 }} viewport={{ once: true }}
             className="text-white/70 text-xs sm:text-sm font-sans">
             Kepada Yth. Bapak/Ibu/Saudara/i
           </motion.p>
@@ -171,21 +194,31 @@ function Initial() {
 function QuranVerse() {
   return (
     <Section>
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={spring} viewport={{ once: true, margin: '-100px' }}>
+      <motion.div {...vw({ initial: { opacity: 0, scale: 0.8, y: 50 }, animate: { opacity: 1, scale: 1, y: 0 } })}
+        transition={popUp}
+      >
+        <motion.div initial={{ opacity: 0, scale: 0.3 }} whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ ...popUp, delay: 0.1 }} viewport={{ once: true }}
+          className="absolute -top-6 -right-6 w-24 h-24 opacity-30">
+          <img src="/img/sk-b.png" className="w-full h-full object-contain" alt="" />
+        </motion.div>
         <div className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-2xl p-6 sm:p-8">
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.2 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
             className="font-serif text-champagne/80 text-sm sm:text-base italic mb-4">
             QS. Ar-Rum Ayat 21
           </motion.p>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.4 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ ...popUp, delay: 0.3 }} viewport={{ once: true }}
             className="text-lg sm:text-xl md:text-2xl text-white leading-[2] mb-6"
             style={{ fontFamily: "'Traditional Arabic', 'Scheherazade New', serif" }}>
             وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
             وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
           </motion.p>
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.6 }} viewport={{ once: true }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.45 }} viewport={{ once: true }}
             className="w-12 h-[1px] bg-champagne/30 mx-auto mb-4 origin-center" />
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.7 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.55 }} viewport={{ once: true }}
             className="text-white/70 text-xs sm:text-sm leading-relaxed italic">
             &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan
             untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya,
@@ -204,26 +237,32 @@ const groom = { name: 'Ryan Malik Azhar', title: 'S.H.', parents: 'Putra dari Ba
 function Couple() {
   return (
     <Section>
-      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}
+      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...slideUp }} viewport={{ once: true }}
         className="text-white/60 text-xs uppercase tracking-[0.3em] font-sans mb-8">
         Mempelai
       </motion.p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
         {[{ ...bride, dir: -1 }, { ...groom, dir: 1 }].map((p, i) => (
           <motion.div key={i}
-            initial={{ opacity: 0, x: p.dir * 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ ...spring, delay: 0.2 }}
+            initial={{ opacity: 0, x: p.dir * 80, scale: 0.7 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ ...popUp, delay: 0.2 + i * 0.15 }}
             viewport={{ once: true }}
             className="text-center"
           >
-            <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            <motion.div whileHover={{ scale: 1.08, rotate: 3 }} transition={{ type: 'spring', stiffness: 200, damping: 15 }}
               className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-champagne/40 shadow-lg shadow-black/20">
               <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
             </motion.div>
-            <h3 className="font-calligraphy text-2xl sm:text-3xl text-white">{p.name}</h3>
-            <p className="text-champagne/70 text-xs font-sans mt-0.5">{p.title}</p>
-            <p className="text-white/60 text-[11px] font-sans mt-3 max-w-[180px] mx-auto leading-relaxed">{p.parents}</p>
+            <motion.h3 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ ...slideUp, delay: 0.35 + i * 0.15 }} viewport={{ once: true }}
+              className="font-calligraphy text-2xl sm:text-3xl text-white">{p.name}</motion.h3>
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }} viewport={{ once: true }}
+              className="text-champagne/70 text-xs font-sans mt-0.5">{p.title}</motion.p>
+            <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+              transition={{ ...slideUp, delay: 0.6 + i * 0.15 }} viewport={{ once: true }}
+              className="text-white/60 text-[11px] font-sans mt-3 max-w-[180px] mx-auto leading-relaxed">{p.parents}</motion.p>
           </motion.div>
         ))}
       </div>
@@ -261,7 +300,7 @@ function Countdown() {
   return (
     <div className="flex justify-center gap-3 sm:gap-5">
       {cdItems.map(({ key, label }) => (
-        <motion.div key={key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={spring}
+        <motion.div key={key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={popUp}
           className="flex flex-col items-center min-w-[64px] sm:min-w-[76px]">
           <div className="bg-black/25 backdrop-blur-md border border-champagne/30 rounded-xl px-3 py-3 sm:px-4 sm:py-4 w-full text-center">
             <motion.span key={tl[key]} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
@@ -280,18 +319,24 @@ function Countdown() {
 function SaveDate() {
   return (
     <Section>
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={spring} viewport={{ once: true, margin: '-100px' }}>
+      <motion.div {...vw({ initial: { opacity: 0, scale: 0.85, y: 40 }, animate: { opacity: 1, scale: 1, y: 0 } })}
+        transition={popUp}
+      >
         <div className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-2xl p-6 sm:p-8">
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.2 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
             className="text-white/60 text-xs uppercase tracking-[0.3em] font-sans mb-3">Save The Date</motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.3 }} viewport={{ once: true }}
+          <motion.h2 initial={{ opacity: 0, y: 30, scale: 0.9 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ ...popUp, delay: 0.25 }} viewport={{ once: true }}
             className="font-calligraphy text-3xl sm:text-4xl text-white mb-2">Sabtu, 11 Juli 2026</motion.h2>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.4 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.35 }} viewport={{ once: true }}
             className="text-white/50 text-xs font-sans mb-6">Bertepatan dengan 26 Dzulhijjah 1447 H</motion.p>
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.45 }} viewport={{ once: true }}
             className="w-12 h-[1px] bg-champagne/40 mx-auto mb-6 origin-center" />
           <Countdown />
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.8 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.65 }} viewport={{ once: true }}
             className="text-white/40 text-[10px] font-sans mt-6 uppercase tracking-wider">Menuju Hari Bahagia</motion.p>
         </div>
       </motion.div>
@@ -311,15 +356,21 @@ function Events() {
   return (
     <Section>
       <div className="space-y-6">
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={slideUp} viewport={{ once: true }}
           className="text-white/60 text-xs uppercase tracking-[0.3em] font-sans">Susunan Acara</motion.p>
         {events.map((ev, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ...spring, delay: i * 0.2 }} viewport={{ once: true }}
-            className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-xl p-5 sm:p-6">
-            <div className="w-10 h-10 mx-auto mb-3 rounded-full bg-champagne/15 flex items-center justify-center">
+          <motion.div key={i}
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.2 + i * 0.15 }}
+            viewport={{ once: true, margin: '-50px' }}
+            className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-xl p-5 sm:p-6"
+          >
+            <motion.div initial={{ opacity: 0, scale: 0.3 }} whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ ...popUp, delay: 0.3 + i * 0.15 }} viewport={{ once: true }}
+              className="w-10 h-10 mx-auto mb-3 rounded-full bg-champagne/15 flex items-center justify-center">
               <svg viewBox="0 0 24 24" className="w-5 h-5 text-champagne" fill="currentColor"><path d={ev.icon} /></svg>
-            </div>
+            </motion.div>
             <h3 className="font-serif text-xl sm:text-2xl text-white font-semibold mb-2">{ev.title}</h3>
             <div className="flex items-center justify-center gap-2 text-white/60 text-xs font-sans mb-1">
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
@@ -331,19 +382,29 @@ function Events() {
             </div>
           </motion.div>
         ))}
-        <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.4 }} viewport={{ once: true }}
-          className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-xl p-5 sm:p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.5 }}
+          viewport={{ once: true, margin: '-50px' }}
+          className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-xl p-5 sm:p-6"
+        >
           <div className="flex items-center justify-center gap-2 text-champagne/80 text-sm font-sans mb-2">
             <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
             Lokasi Acara
           </div>
-          <h4 className="font-serif text-lg text-white font-medium mb-1">Grand Sulanjana</h4>
-          <p className="text-white/60 text-xs font-sans leading-relaxed mb-3">Jl. Sulanjana No. 123, Kota Bandung, Jawa Barat</p>
-          <a href="https://maps.google.com/?q=Grand+Sulanjana+Bandung" target="_blank" rel="noopener noreferrer"
+          <motion.h4 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.55 }} viewport={{ once: true }}
+            className="font-serif text-lg text-white font-medium mb-1">Grand Sulanjana</motion.h4>
+          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.6 }} viewport={{ once: true }}
+            className="text-white/60 text-xs font-sans leading-relaxed mb-3">Jl. Sulanjana No. 123, Kota Bandung, Jawa Barat</motion.p>
+          <motion.a href="https://maps.google.com/?q=Grand+Sulanjana+Bandung" target="_blank" rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
             className="inline-flex items-center gap-2 px-5 py-2.5 bg-champagne/15 border border-champagne/30 text-champagne text-xs font-sans rounded-lg hover:bg-champagne/25 transition-colors duration-300 cursor-pointer">
             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" /></svg>
             Buka Google Maps
-          </a>
+          </motion.a>
         </motion.div>
       </div>
     </Section>
@@ -356,12 +417,15 @@ function Gallery() {
 
   return (
     <Section>
-      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}
+      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={slideUp} viewport={{ once: true }}
         className="text-white/60 text-xs uppercase tracking-[0.3em] text-center font-sans mb-6">Galeri Foto</motion.p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {galleryImages.map((img, i) => (
-          <motion.button key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: i * 0.08 }} viewport={{ once: true }}
+          <motion.button key={i}
+            initial={{ opacity: 0, scale: 0.5, y: 30 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ ...popUp, delay: i * 0.08 }}
+            viewport={{ once: true }}
             onClick={() => setSelected(i)}
             className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer">
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
@@ -374,7 +438,7 @@ function Gallery() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer">
-            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.8, opacity: 0 }}
+            <motion.div initial={{ scale: 0.7, opacity: 0, y: 40 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.7, opacity: 0, y: 40 }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-2xl w-full max-h-[85vh] rounded-xl overflow-hidden">
@@ -408,19 +472,25 @@ function Gift() {
   return (
     <Section>
       <div className="space-y-4">
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={slideUp} viewport={{ once: true }}
           className="text-white/60 text-xs uppercase tracking-[0.3em] text-center font-sans mb-2">Wedding Gift</motion.p>
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.1 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.1 }} viewport={{ once: true }}
           className="text-center text-white/80 text-sm sm:text-base font-sans leading-relaxed">
           Doa restu Anda adalah hadiah terindah bagi kami. Namun jika Anda ingin memberikan hadiah, berikut informasi rekening kami:
         </motion.p>
         {bankAccounts.map((acc, i) => (
-          <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ...spring, delay: i * 0.15 }} viewport={{ once: true }}
+          <motion.div key={i}
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.2 + i * 0.15 }}
+            viewport={{ once: true }}
             className="bg-black/20 backdrop-blur-md border border-champagne/20 rounded-xl p-4 sm:p-5 flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-champagne/20 flex items-center justify-center flex-shrink-0">
+            <motion.div initial={{ opacity: 0, scale: 0.3 }} whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ ...popUp, delay: 0.3 + i * 0.15 }} viewport={{ once: true }}
+              className="w-10 h-10 rounded-full bg-champagne/20 flex items-center justify-center flex-shrink-0">
               <svg viewBox="0 0 24 24" className="w-5 h-5 text-champagne" fill="currentColor"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM2 5l8-3 8 3-8 3-8-3z" /></svg>
-            </div>
+            </motion.div>
             <div className="flex-1 min-w-0">
               <p className="text-[10px] text-white/50 uppercase tracking-widest">{acc.bank}</p>
               <p className="text-sm sm:text-base text-champagne font-semibold tracking-wider">{acc.number}</p>
@@ -482,9 +552,11 @@ function Wishes() {
   return (
     <Section>
       <div className="space-y-6">
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={slideUp} viewport={{ once: true }}
           className="text-white/60 text-xs uppercase tracking-[0.3em] text-center font-sans mb-2">Ucapan & Doa</motion.p>
-        <motion.form onSubmit={submit} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+        <motion.form onSubmit={submit} initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={slideUp} viewport={{ once: true }}
           className="bg-black/20 backdrop-blur-md border border-champagne/20 rounded-xl p-4 sm:p-6 space-y-4">
           <div>
             <label className="block text-[11px] text-white/60 uppercase tracking-widest mb-1.5 font-sans">Nama Anda</label>
@@ -549,22 +621,29 @@ function Wishes() {
 function Closing() {
   return (
     <Section>
-      <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} transition={spring} viewport={{ once: true, margin: '-100px' }}>
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.2 }} viewport={{ once: true }}
+      <motion.div {...vw({ initial: { opacity: 0, scale: 0.8, y: 40 }, animate: { opacity: 1, scale: 1, y: 0 } })}
+        transition={popUp}
+      >
+        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
           className="text-white/70 text-sm font-sans mb-2">Kami yang berbahagia</motion.p>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.3 }} viewport={{ once: true }}
-          className="w-10 h-[1px] bg-champagne/40 mx-auto mb-4 origin-center" />
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ ...spring, delay: 0.4 }} viewport={{ once: true }}
+        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.25 }}
+          viewport={{ once: true }} className="w-10 h-[1px] bg-champagne/40 mx-auto mb-4 origin-center" />
+        <motion.h2 initial={{ opacity: 0, y: 40, scale: 0.85 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ ...popUp, delay: 0.35 }} viewport={{ once: true }}
           className="font-calligraphy text-4xl sm:text-5xl md:text-6xl text-white text-shadow-glow mb-4">Sarah &amp; Ryan</motion.h2>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.5 }} viewport={{ once: true }}
-          className="w-10 h-[1px] bg-champagne/40 mx-auto mb-6 origin-center" />
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.6 }} viewport={{ once: true }}
+        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.45 }}
+          viewport={{ once: true }} className="w-10 h-[1px] bg-champagne/40 mx-auto mb-6 origin-center" />
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.55 }} viewport={{ once: true }}
           className="text-white/60 text-xs sm:text-sm font-sans mb-8 leading-relaxed">
           Merupakan suatu kehormatan dan kebahagiaan apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.
         </motion.p>
-        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.7 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.65 }} viewport={{ once: true }}
           className="text-white/50 text-xs font-sans italic">Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh</motion.p>
-        <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ ...spring, delay: 0.9 }} viewport={{ once: true }}
+        <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ ...popUp, delay: 0.8 }} viewport={{ once: true }}
           className="mt-10 flex justify-center">
           <svg viewBox="0 0 120 80" className="w-28 h-20 sm:w-36 sm:h-24 text-champagne/30" fill="currentColor">
             <circle cx="40" cy="20" r="8" />
@@ -624,19 +703,28 @@ function MusicPlayer() {
 function ForegroundLayers({ containerRef }: { containerRef: React.RefObject<HTMLElement> }) {
   const { scrollYProgress } = useScroll({ container: containerRef })
 
-  const leafLeftY = useTransform(scrollYProgress, [0, 1], [0, -180])
-  const leafRightY = useTransform(scrollYProgress, [0, 1], [0, 160])
-  const skLeftY = useTransform(scrollYProgress, [0, 1], [30, -120])
-  const skRightY = useTransform(scrollYProgress, [0, 1], [20, -140])
-  const coupleY = useTransform(scrollYProgress, [0, 1], [60, -60])
-  const skBScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.15, 0.8])
-  const skBX = useTransform(scrollYProgress, [0, 1], [0, -50])
+  const bgPanY = useTransform(scrollYProgress, [0, 1], [0, -200])
+  const leafLeftY = useTransform(scrollYProgress, [0, 1], [0, -280])
+  const leafRightY = useTransform(scrollYProgress, [0, 1], [0, 240])
+  const skLeftY = useTransform(scrollYProgress, [0, 1], [30, -180])
+  const skRightY = useTransform(scrollYProgress, [0, 1], [20, -200])
+  const coupleY = useTransform(scrollYProgress, [0, 1], [80, -80])
+  const skBScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.2, 0.7])
+  const skBX = useTransform(scrollYProgress, [0, 1], [0, -80])
 
   return (
     <>
       <motion.div
+        style={{ y: bgPanY }}
+        className="fixed inset-0 z-0 pointer-events-none"
+      >
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+        <div className="absolute inset-0 bg-gradient-to-b from-emerald-velvet/60 via-emerald-deep/50 to-black/50" />
+      </motion.div>
+
+      <motion.div
         style={{ y: leafLeftY }}
-        className="fixed -top-10 -left-10 z-40 pointer-events-none w-72 sm:w-96 opacity-40"
+        className="fixed -top-10 -left-10 z-20 pointer-events-none w-72 sm:w-96 opacity-30"
       >
         <img src="/img/—Pngtree—green leaves of tropical plants_16509761.png"
           className="w-full h-auto" alt="" />
@@ -644,7 +732,7 @@ function ForegroundLayers({ containerRef }: { containerRef: React.RefObject<HTML
 
       <motion.div
         style={{ y: leafRightY }}
-        className="fixed -bottom-16 -right-12 z-40 pointer-events-none w-80 sm:w-[28rem] opacity-35"
+        className="fixed -bottom-16 -right-12 z-20 pointer-events-none w-80 sm:w-[28rem] opacity-25"
       >
         <img src="/img/—Pngtree—lush green tropical plants arrangement_20932872.png"
           className="w-full h-auto" alt="" />
@@ -652,28 +740,28 @@ function ForegroundLayers({ containerRef }: { containerRef: React.RefObject<HTML
 
       <motion.div
         style={{ x: skLeftY }}
-        className="fixed left-4 top-1/4 z-40 pointer-events-none w-24 sm:w-32 opacity-25"
+        className="fixed left-4 top-1/4 z-20 pointer-events-none w-24 sm:w-32 opacity-20"
       >
         <img src="/img/sk-a.png" className="w-full h-auto" alt="" />
       </motion.div>
 
       <motion.div
         style={{ x: skRightY }}
-        className="fixed right-4 top-1/3 z-40 pointer-events-none w-20 sm:w-28 opacity-20"
+        className="fixed right-4 top-1/3 z-20 pointer-events-none w-20 sm:w-28 opacity-15"
       >
         <img src="/img/sk-c.png" className="w-full h-auto" alt="" />
       </motion.div>
 
       <motion.div
         style={{ y: coupleY }}
-        className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 pointer-events-none w-56 sm:w-72 opacity-15"
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 z-20 pointer-events-none w-56 sm:w-72 opacity-12"
       >
         <img src="/img/couple-sketch.png" className="w-full h-auto" alt="" />
       </motion.div>
 
       <motion.div
         style={{ y: skBX, scale: skBScale }}
-        className="fixed -top-6 right-12 z-40 pointer-events-none w-36 sm:w-44 opacity-20"
+        className="fixed -top-6 right-12 z-20 pointer-events-none w-36 sm:w-44 opacity-15"
       >
         <img src="/img/sk-b.png" className="w-full h-auto" alt="" />
       </motion.div>
@@ -702,8 +790,6 @@ export default function InvitationPage() {
 
   return (
     <main ref={mainRef} className="relative w-full h-screen overflow-y-auto snap-y snap-mandatory bg-emerald-velvet">
-      <div className="fixed inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
-      <div className="fixed inset-0 bg-gradient-to-b from-emerald-velvet/80 via-emerald-deep/70 to-black/70" />
 
       <div className="relative z-10">
         <section id="initial"><Initial /></section>
