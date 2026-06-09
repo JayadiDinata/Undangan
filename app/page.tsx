@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef, useCallback, FormEvent, RefObject } from 'react'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -620,9 +620,71 @@ function MusicPlayer() {
   )
 }
 
+// ─── FOREGROUND 3D LAYERS ────────────────────────────────────────────
+function ForegroundLayers({ containerRef }: { containerRef: React.RefObject<HTMLElement> }) {
+  const { scrollYProgress } = useScroll({ container: containerRef })
+
+  const leafLeftY = useTransform(scrollYProgress, [0, 1], [0, -180])
+  const leafRightY = useTransform(scrollYProgress, [0, 1], [0, 160])
+  const skLeftY = useTransform(scrollYProgress, [0, 1], [30, -120])
+  const skRightY = useTransform(scrollYProgress, [0, 1], [20, -140])
+  const coupleY = useTransform(scrollYProgress, [0, 1], [60, -60])
+  const skBScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.15, 0.8])
+  const skBX = useTransform(scrollYProgress, [0, 1], [0, -50])
+
+  return (
+    <>
+      <motion.div
+        style={{ y: leafLeftY }}
+        className="fixed -top-10 -left-10 z-40 pointer-events-none w-72 sm:w-96 opacity-40"
+      >
+        <img src="/img/—Pngtree—green leaves of tropical plants_16509761.png"
+          className="w-full h-auto" alt="" />
+      </motion.div>
+
+      <motion.div
+        style={{ y: leafRightY }}
+        className="fixed -bottom-16 -right-12 z-40 pointer-events-none w-80 sm:w-[28rem] opacity-35"
+      >
+        <img src="/img/—Pngtree—lush green tropical plants arrangement_20932872.png"
+          className="w-full h-auto" alt="" />
+      </motion.div>
+
+      <motion.div
+        style={{ x: skLeftY }}
+        className="fixed left-4 top-1/4 z-40 pointer-events-none w-24 sm:w-32 opacity-25"
+      >
+        <img src="/img/sk-a.png" className="w-full h-auto" alt="" />
+      </motion.div>
+
+      <motion.div
+        style={{ x: skRightY }}
+        className="fixed right-4 top-1/3 z-40 pointer-events-none w-20 sm:w-28 opacity-20"
+      >
+        <img src="/img/sk-c.png" className="w-full h-auto" alt="" />
+      </motion.div>
+
+      <motion.div
+        style={{ y: coupleY }}
+        className="fixed bottom-0 left-1/2 -translate-x-1/2 z-40 pointer-events-none w-56 sm:w-72 opacity-15"
+      >
+        <img src="/img/couple-sketch.png" className="w-full h-auto" alt="" />
+      </motion.div>
+
+      <motion.div
+        style={{ y: skBX, scale: skBScale }}
+        className="fixed -top-6 right-12 z-40 pointer-events-none w-36 sm:w-44 opacity-20"
+      >
+        <img src="/img/sk-b.png" className="w-full h-auto" alt="" />
+      </motion.div>
+    </>
+  )
+}
+
 // ─── MAIN PAGE ───────────────────────────────────────────────────────
 export default function InvitationPage() {
   const [invitationOpened, setInvitationOpened] = useState(false)
+  const mainRef = useRef<HTMLElement>(null)
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
@@ -639,7 +701,7 @@ export default function InvitationPage() {
   }
 
   return (
-    <main className="relative w-full h-screen overflow-y-auto snap-y snap-mandatory bg-emerald-velvet">
+    <main ref={mainRef} className="relative w-full h-screen overflow-y-auto snap-y snap-mandatory bg-emerald-velvet">
       <div className="fixed inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
       <div className="fixed inset-0 bg-gradient-to-b from-emerald-velvet/80 via-emerald-deep/70 to-black/70" />
 
@@ -666,6 +728,7 @@ export default function InvitationPage() {
         </footer>
       </div>
 
+      <ForegroundLayers containerRef={mainRef as RefObject<HTMLElement>} />
       <MusicPlayer />
 
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-md bg-black/40 backdrop-blur-xl border-t border-champagne/15 px-2 py-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom,0px))]">
