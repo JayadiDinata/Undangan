@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion'
+import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -272,47 +273,89 @@ function Countdown() {
 // ─── SECTIONS ────────────────────────────────────────────────────────
 function CoverSection() {
   return (
-    <section id="cover" className="relative w-full min-h-screen flex flex-col items-center justify-center text-center overflow-hidden px-6">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.5) 50%, rgba(62,22,12,1) 100%)' }} />
-      <Decorations />
-      <motion.div {...vw({ initial: { opacity: 0, y: 50 }, animate: { opacity: 1, y: 0 } })}
-        transition={fadeUp(0)}
-        className="relative z-20 max-w-sm w-full"
+    <section id="cover" className="relative w-full">
+      <ContainerScroll
+        titleComponent={
+          <div className="text-center px-4">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1, ease: easeSmooth }}
+              className="text-cream/80 text-sm uppercase tracking-[0.3em] font-content mb-4"
+            >
+              Undangan Pernikahan
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 40, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2, ease: easeSmooth }}
+              className="font-title text-5xl md:text-6xl text-cream leading-tight"
+            >
+              Sarah
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, scale: 0 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.35, ease: easeSmooth }}
+              className="font-serif text-cream/60 text-2xl italic my-1"
+            >
+              &amp;
+            </motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: -40, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.5, ease: easeSmooth }}
+              className="font-title text-5xl md:text-6xl text-cream leading-tight"
+            >
+              Ryan
+            </motion.h2>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.2, delay: 0.65, ease: easeSmooth }}
+              className="w-12 h-[1px] bg-cream/30 mx-auto my-4"
+            />
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.75, ease: easeSmooth }}
+              className="text-cream/60 text-sm font-content"
+            >
+              Sabtu, 11 Juli 2026
+            </motion.p>
+          </div>
+        }
       >
-        <motion.p {...vw({ initial: { opacity: 0, y: -20 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.1)}
-          className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content mb-6">
-          Undangan Pernikahan
-        </motion.p>
-        <motion.h2 {...vw({ initial: { opacity: 0, y: -30, scale: 0.8 }, animate: { opacity: 1, y: 0, scale: 1 } })}
-          transition={fadeUp(0.2)}
-          className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-1">
-          Sarah
-        </motion.h2>
-        <motion.p {...vw({ initial: { opacity: 0, scale: 0 }, animate: { opacity: 1, scale: 1 } })}
-          transition={{ duration: 0.8, delay: 0.4, ease: easeSmooth }}
-          className="font-serif text-cream/70 text-lg italic my-1">&amp;</motion.p>
-        <motion.h2 {...vw({ initial: { opacity: 0, y: 30, scale: 0.8 }, animate: { opacity: 1, y: 0, scale: 1 } })}
-          transition={fadeUp(0.5)}
-          className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-4">
-          Ryan
-        </motion.h2>
-        <motion.div {...vw({ initial: { scaleX: 0 }, animate: { scaleX: 1 } })} transition={{ duration: 1.2, delay: 0.65, ease: easeSmooth }}
-          className="w-12 h-[1px] bg-cream/40 mx-auto mb-5" />
-        <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.75)}
-          className="font-serif text-cream text-base sm:text-lg font-medium mb-1">
-          Sabtu, 11 Juli 2026
-        </motion.p>
-        <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(0.85)}
-          className="text-cream/50 text-xs font-content mb-6">
-          26 Dzulhijjah 1447 H
-        </motion.p>
-        <Countdown />
-        <motion.p {...vw({ initial: { opacity: 0, y: 15 }, animate: { opacity: 1, y: 0 } })} transition={fadeIn(1)}
-          className="text-cream/40 text-[10px] font-content mt-6 uppercase tracking-wider">
+        <div className="relative w-full h-full rounded-2xl overflow-hidden">
+          <div
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/img/SR.jpeg')" }}
+          />
+          <div
+            className="absolute inset-0 z-10"
+            style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.6) 100%)' }}
+          />
+          <Decorations />
+        </div>
+      </ContainerScroll>
+      <div className="relative z-20 w-full max-w-sm mx-auto px-6 py-16 text-center bg-brown-dark">
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: easeSmooth }}
+          className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content mb-6"
+        >
           Menuju Hari Bahagia
         </motion.p>
-      </motion.div>
+        <Countdown />
+      </div>
     </section>
   )
 }
@@ -829,15 +872,14 @@ function MusicPlayer() {
 
 // ─── MAIN CONTENT ────────────────────────────────────────────────────
 function MainContent() {
-  const mainRef = useRef<HTMLElement>(null)
   const scrollTo = useCallback((id: string) => {
     const el = document.getElementById(id)
     if (el) el.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
   return (
-    <main ref={mainRef} className="relative w-full h-screen overflow-y-auto bg-brown-dark">
-      <div className="flex max-md:flex-col md:flex-row min-h-full">
+    <main className="relative w-full min-h-screen bg-brown-dark">
+      <div className="flex max-md:flex-col md:flex-row">
         <div className="hidden md:flex md:w-1/2 lg:w-2/3 h-screen sticky top-0 flex-col items-center justify-center bg-brown-dark overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <Fireflies count={8} />
