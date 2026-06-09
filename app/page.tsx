@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion'
-import { ContainerScroll } from '@/components/ui/container-scroll-animation'
+import ExpandReveal from '@/components/ui/expand-reveal'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -273,89 +273,12 @@ function Countdown() {
 // ─── SECTIONS ────────────────────────────────────────────────────────
 function CoverSection() {
   return (
-    <section id="cover" className="relative w-full">
-      <ContainerScroll
-        titleComponent={
-          <div className="text-center px-4">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.1, ease: easeSmooth }}
-              className="text-cream/80 text-sm uppercase tracking-[0.3em] font-content mb-4"
-            >
-              Undangan Pernikahan
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 40, scale: 0.8 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.2, ease: easeSmooth }}
-              className="font-title text-5xl md:text-6xl text-cream leading-tight"
-            >
-              Sarah
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.35, ease: easeSmooth }}
-              className="font-serif text-cream/60 text-2xl italic my-1"
-            >
-              &amp;
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: -40, scale: 0.8 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.5, ease: easeSmooth }}
-              className="font-title text-5xl md:text-6xl text-cream leading-tight"
-            >
-              Ryan
-            </motion.h2>
-            <motion.div
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: 0.65, ease: easeSmooth }}
-              className="w-12 h-[1px] bg-cream/30 mx-auto my-4"
-            />
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.75, ease: easeSmooth }}
-              className="text-cream/60 text-sm font-content"
-            >
-              Sabtu, 11 Juli 2026
-            </motion.p>
-          </div>
-        }
-      >
-        <div className="relative w-full h-full rounded-2xl overflow-hidden">
-          <div
-            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/img/SR.jpeg')" }}
-          />
-          <div
-            className="absolute inset-0 z-10"
-            style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.6) 100%)' }}
-          />
-          <Decorations />
-        </div>
-      </ContainerScroll>
-      <div className="relative z-20 w-full max-w-sm mx-auto px-6 py-16 text-center bg-brown-dark">
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: easeSmooth }}
-          className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content mb-6"
-        >
-          Menuju Hari Bahagia
-        </motion.p>
-        <Countdown />
-      </div>
+    <section id="cover" className="relative w-full py-24 flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+      <p className="text-cream/40 text-xs uppercase tracking-[0.3em] font-content mb-3">Undangan Pernikahan</p>
+      <h2 className="font-title text-4xl sm:text-5xl text-cream leading-tight">Sarah &amp; Ryan</h2>
+      <div className="w-10 h-[1px] bg-cream/20 mx-auto my-4" />
+      <p className="text-cream/60 text-xs font-content mb-6">Sabtu, 11 Juli 2026</p>
+      <Countdown />
     </section>
   )
 }
@@ -934,13 +857,25 @@ function MainContent() {
 
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
-  const [invitationOpened, setInvitationOpened] = useState(false)
+  const [phase, setPhase] = useState<'gate' | 'reveal' | 'content'>('gate')
 
-  if (!invitationOpened) {
+  if (phase === 'gate') {
     return (
       <div className="fixed inset-0 w-full h-full bg-brown-dark">
-        <CoverGate onOpen={() => setInvitationOpened(true)} />
+        <CoverGate onOpen={() => setPhase('reveal')} />
       </div>
+    )
+  }
+
+  if (phase === 'reveal') {
+    return (
+      <ExpandReveal
+        imageSrc="/img/SR.jpeg"
+        bgImageSrc="/img/SR.jpeg"
+        titleFirst="Sarah"
+        titleSecond="Ryan"
+        onComplete={() => setPhase('content')}
+      />
     )
   }
 
