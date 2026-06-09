@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
-import { motion, AnimatePresence, type Target } from 'framer-motion'
+import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -105,9 +105,11 @@ const cdItems: { key: keyof TL; label: string }[] = [
   { key: 'minutes', label: 'Menit' }, { key: 'seconds', label: 'Detik' },
 ]
 
-const popUp = { type: 'spring' as const, stiffness: 80, damping: 16 }
-const slideUp = { type: 'spring' as const, stiffness: 60, damping: 20 }
-const dropIn = { type: 'spring' as const, stiffness: 100, damping: 14 }
+const easeSmooth: Easing = [0.16, 1, 0.3, 1]
+const popUp = { type: 'spring' as const, stiffness: 50, damping: 22 }
+const slideUp = { type: 'spring' as const, stiffness: 40, damping: 24 }
+const dropIn = { type: 'spring' as const, stiffness: 60, damping: 20 }
+const fadeUp = { duration: 1, ease: easeSmooth }
 
 function vw(config: { initial: Target; animate: Target }) {
   return { initial: config.initial, whileInView: config.animate, viewport: { once: true, margin: '-80px' } } as const
@@ -124,59 +126,85 @@ function Fireflies({ count = 8 }: { count?: number }) {
   )
 }
 
+// ─── DECORATIVE EDGE PNGs ────────────────────────────────────────────
+const decoImgs = [
+  { src: '/img/sk-a.png', className: 'top-0 left-0 -translate-x-1/3 -translate-y-1/3 w-20 sm:w-24 opacity-30' },
+  { src: '/img/sk-b.png', className: 'top-0 right-0 translate-x-1/3 -translate-y-1/3 w-16 sm:w-20 opacity-25' },
+  { src: '/img/sk-c.png', className: 'bottom-0 left-0 -translate-x-1/3 translate-y-1/3 w-16 sm:w-20 opacity-25' },
+]
+
+function Decorations() {
+  return (
+    <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+      {decoImgs.map((d, i) => (
+        <motion.img
+          key={i}
+          initial={{ opacity: 0, scale: 0.3 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ ...popUp, delay: i * 0.06 }}
+          viewport={{ once: true }}
+          src={d.src}
+          className={`absolute ${d.className}`}
+          alt=""
+        />
+      ))}
+    </div>
+  )
+}
+
 // ─── COVER GATE ──────────────────────────────────────────────────────
 function CoverGate({ onOpen }: { onOpen: () => void }) {
   const [opened, setOpened] = useState(false)
-  const handleOpen = () => { setOpened(true); setTimeout(onOpen, 1200) }
+  const handleOpen = () => { setOpened(true); setTimeout(onOpen, 1400) }
 
   return (
     <AnimatePresence>
       {!opened && (
         <motion.div
           key="cover-gate"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 0.96 }}
+          transition={{ duration: 1.4, ease: easeSmooth }}
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ background: '#3E160C' }}
         >
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 50%, rgba(62,22,12,1) 100%)' }} />
+          <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+          <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.7) 40%, rgba(62,22,12,0.95) 100%)' }} />
           <Fireflies count={8} />
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
+            initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.3, ease: easeSmooth }}
             className="relative z-20 text-center px-6 max-w-md"
           >
             <motion.p
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 1, delay: 0.6, ease: easeSmooth }}
               className="text-cream/60 text-sm uppercase tracking-[0.25em] font-content mb-6"
             >
               Undangan Pernikahan
             </motion.p>
 
             <motion.h1
-              initial={{ opacity: 0, scale: 0.5, y: -30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.8, type: 'spring', stiffness: 100, damping: 14 }}
+              initial={{ opacity: 0, y: -40, scale: 0.6 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.1, delay: 0.8, ease: easeSmooth }}
               className="font-title text-6xl sm:text-7xl text-cream leading-tight mb-2"
             >
               Sarah
             </motion.h1>
             <motion.p
-              initial={{ opacity: 0, scale: 0.3 }}
+              initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.1, type: 'spring', stiffness: 150, damping: 10 }}
+              transition={{ duration: 0.8, delay: 1.1, ease: easeSmooth }}
               className="font-serif text-cream/80 text-xl italic my-1"
             >
               &amp;
             </motion.p>
             <motion.h1
-              initial={{ opacity: 0, scale: 0.5, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 1.3, type: 'spring', stiffness: 100, damping: 14 }}
+              initial={{ opacity: 0, y: 40, scale: 0.6 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.1, delay: 1.3, ease: easeSmooth }}
               className="font-title text-6xl sm:text-7xl text-cream leading-tight mb-6"
             >
               Ryan
@@ -185,20 +213,20 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.6 }}
+              transition={{ duration: 0.8, delay: 1.6, ease: easeSmooth }}
               className="text-cream/50 text-xs font-content mb-8"
             >
               Sabtu, 11 Juli 2026
             </motion.p>
 
             <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.8, type: 'spring', stiffness: 80, damping: 12 }}
-              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.8, delay: 1.9, ease: easeSmooth }}
+              whileHover={{ scale: 1.06, backgroundColor: 'rgba(232,217,196,0.2)' }}
               whileTap={{ scale: 0.95 }}
               onClick={handleOpen}
-              className="px-10 py-3.5 bg-cream/10 backdrop-blur-md border border-cream/30 text-cream font-content text-sm font-medium rounded-full hover:bg-cream/20 transition-all duration-300 cursor-pointer tracking-wider animate-pulse-fwd"
+              className="px-10 py-3.5 bg-cream/10 backdrop-blur-md border border-cream/30 text-cream font-content text-sm font-medium rounded-full transition-all duration-500 cursor-pointer tracking-wider animate-pulse-fwd"
             >
               Buka Undangan
             </motion.button>
@@ -223,10 +251,10 @@ function Countdown() {
   return (
     <div className="flex justify-center gap-3 sm:gap-4">
       {cdItems.map(({ key, label }) => (
-        <motion.div key={key} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={popUp}
+        <motion.div key={key} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ ...slideUp, delay: 0.05 }}
           className="flex flex-col items-center min-w-[60px] sm:min-w-[72px]">
           <div className="cover-blur border border-cream/20 rounded-xl px-3 py-3 sm:px-4 sm:py-4 w-full text-center">
-            <motion.span key={tl[key]} initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}
+            <motion.span key={tl[key]} initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25, ease: easeSmooth }}
               className="block font-serif text-2xl sm:text-3xl font-bold text-cream">
               {tl[key]}
             </motion.span>
@@ -238,49 +266,50 @@ function Countdown() {
   )
 }
 
-// ─── COVER SECTION (right panel) ─────────────────────────────────────
+// ─── SECTIONS ────────────────────────────────────────────────────────
 function CoverSection() {
   return (
     <section id="cover" className="relative w-full min-h-screen flex flex-col items-center justify-center text-center overflow-hidden px-6">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 50%, rgba(62,22,12,1) 100%)' }} />
-      <motion.div {...vw({ initial: { opacity: 0, y: 40 }, animate: { opacity: 1, y: 0 } })}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.5) 50%, rgba(62,22,12,1) 100%)' }} />
+      <Decorations />
+      <motion.div {...vw({ initial: { opacity: 0, y: 50 }, animate: { opacity: 1, y: 0 } })}
+        transition={fadeUp}
         className="relative z-20 max-w-sm w-full"
       >
-        <motion.p initial={{ opacity: 0, y: -15 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.2 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
           className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content mb-6">
           Undangan Pernikahan
         </motion.p>
-        <motion.h2 initial={{ opacity: 0, scale: 0.7, y: -20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ ...popUp, delay: 0.35 }} viewport={{ once: true }}
+        <motion.h2 initial={{ opacity: 0, y: -30, scale: 0.8 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.3, ease: easeSmooth }} viewport={{ once: true }}
           className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-1">
           Sarah
         </motion.h2>
-        <motion.p initial={{ opacity: 0, scale: 0.3 }} whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.55, type: 'spring', stiffness: 150, damping: 10 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.5, ease: easeSmooth }} viewport={{ once: true }}
           className="font-serif text-cream/70 text-lg italic my-1">&amp;</motion.p>
-        <motion.h2 initial={{ opacity: 0, scale: 0.7, y: 20 }} whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ ...popUp, delay: 0.7 }} viewport={{ once: true }}
+        <motion.h2 initial={{ opacity: 0, y: 30, scale: 0.8 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.65, ease: easeSmooth }} viewport={{ once: true }}
           className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-4">
           Ryan
         </motion.h2>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.85 }}
+        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.8, ease: easeSmooth }}
           viewport={{ once: true }} className="w-12 h-[1px] bg-cream/40 mx-auto mb-5" />
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.95 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.9, ease: easeSmooth }} viewport={{ once: true }}
           className="font-serif text-cream text-base sm:text-lg font-medium mb-1">
           Sabtu, 11 Juli 2026
         </motion.p>
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 1.05 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1, ease: easeSmooth }} viewport={{ once: true }}
           className="text-cream/50 text-xs font-content mb-6">
           26 Dzulhijjah 1447 H
         </motion.p>
         <Countdown />
-        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 1.2 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.15, ease: easeSmooth }} viewport={{ once: true }}
           className="text-cream/40 text-[10px] font-content mt-6 uppercase tracking-wider">
           Menuju Hari Bahagia
         </motion.p>
@@ -289,29 +318,31 @@ function CoverSection() {
   )
 }
 
-// ─── QURAN VERSE ─────────────────────────────────────────────────────
 function QuoteSection() {
   return (
     <section id="quote" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden px-6">
-      <motion.div {...vw({ initial: { opacity: 0, y: 50 }, animate: { opacity: 1, y: 0 } })}
-        transition={popUp} className="w-full max-w-sm"
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR1.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
+      <Decorations />
+      <motion.div {...vw({ initial: { opacity: 0, y: 60 }, animate: { opacity: 1, y: 0 } })}
+        transition={fadeUp} className="relative z-20 w-full max-w-sm"
       >
         <div className="cover-blur border border-cream/20 rounded-2xl p-6 sm:p-8 text-center">
-          <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ ...slideUp, delay: 0.1 }} viewport={{ once: true }}
             className="font-serif text-cream/70 text-xs sm:text-sm italic mb-4">
             QS. Ar-Rum Ayat 21
           </motion.p>
           <motion.p initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ ...popUp, delay: 0.25 }} viewport={{ once: true }}
+            transition={{ ...popUp, delay: 0.2 }} viewport={{ once: true }}
             className="text-lg sm:text-xl text-cream leading-[2] mb-4 font-arabic">
             وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
             وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
           </motion.p>
-          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
+          <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.3, ease: easeSmooth }}
             viewport={{ once: true }} className="w-10 h-[1px] bg-cream/30 mx-auto mb-4" />
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ...slideUp, delay: 0.45 }} viewport={{ once: true }}
+          <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4, ease: easeSmooth }} viewport={{ once: true }}
             className="text-cream/70 text-xs sm:text-sm leading-relaxed italic">
             &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan
             untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya,
@@ -323,77 +354,101 @@ function QuoteSection() {
   )
 }
 
-// ─── BRIDE SECTION ───────────────────────────────────────────────────
 function BrideSection() {
   return (
     <section id="bride" className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden px-6 pt-16 pb-10">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.bride.img}')` }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.7) 100%)' }} />
-      <motion.p initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }}
-        transition={{ ...slideUp, delay: 0.1 }} viewport={{ once: true }}
-        className="relative z-10 text-cream/70 text-sm font-content text-center px-4">
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.bride.img}')` }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
+      <Decorations />
+      <motion.p initial={{ opacity: 0, y: -25 }} whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.1, ease: easeSmooth }} viewport={{ once: true }}
+        className="relative z-20 text-cream/70 text-sm font-content text-center px-4">
         Kami mohon do&apos;a &amp; restunya atas pernikahan kami
       </motion.p>
 
       <motion.div
-        initial={{ opacity: 0, y: 60, scale: 0.9 }}
+        initial={{ opacity: 0, y: 70, scale: 0.9 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ ...popUp, delay: 0.3 }}
+        transition={{ duration: 1.1, delay: 0.25, ease: easeSmooth }}
         viewport={{ once: true }}
-        className="relative z-10 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
+        className="relative z-20 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
       >
-        <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40">
+        <motion.div
+          initial={{ scale: 1.15 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1.5, delay: 0.3, ease: easeSmooth }}
+          viewport={{ once: true }}
+          className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+        >
           <img src={couples.bride.img} alt={couples.bride.name} className="w-full h-full object-cover" />
-        </div>
-        <p className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</p>
-        <p className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.bride.name.split(' ').slice(1).join(' ')}, {couples.bride.title}</p>
+        </motion.div>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: easeSmooth }} viewport={{ once: true }}
+          className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</motion.p>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: easeSmooth }} viewport={{ once: true }}
+          className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.bride.name.split(' ').slice(1).join(' ')}, {couples.bride.title}</motion.p>
         <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-        <p className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</p>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: easeSmooth }} viewport={{ once: true }}
+          className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</motion.p>
       </motion.div>
     </section>
   )
 }
 
-// ─── GROOM SECTION ───────────────────────────────────────────────────
 function GroomSection() {
   return (
     <section id="groom" className="relative w-full min-h-screen flex flex-col items-center justify-between overflow-hidden px-6 pt-10 pb-16">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.groom.img}')` }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.7) 100%)' }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.groom.img}')` }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
+      <Decorations />
 
       <motion.div
-        initial={{ opacity: 0, y: -60, scale: 0.9 }}
+        initial={{ opacity: 0, y: -70, scale: 0.9 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ ...popUp, delay: 0.3 }}
+        transition={{ duration: 1.1, delay: 0.25, ease: easeSmooth }}
         viewport={{ once: true }}
-        className="relative z-10 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
+        className="relative z-20 cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center max-w-xs w-full"
       >
-        <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40">
+        <motion.div
+          initial={{ scale: 1.15 }}
+          whileInView={{ scale: 1 }}
+          transition={{ duration: 1.5, delay: 0.3, ease: easeSmooth }}
+          viewport={{ once: true }}
+          className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+        >
           <img src={couples.groom.img} alt={couples.groom.name} className="w-full h-full object-cover" />
-        </div>
-        <p className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</p>
-        <p className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.groom.name.split(' ').slice(1).join(' ')}, {couples.groom.title}</p>
+        </motion.div>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: easeSmooth }} viewport={{ once: true }}
+          className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</motion.p>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5, ease: easeSmooth }} viewport={{ once: true }}
+          className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.groom.name.split(' ').slice(1).join(' ')}, {couples.groom.title}</motion.p>
         <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-        <p className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</p>
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6, ease: easeSmooth }} viewport={{ once: true }}
+          className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</motion.p>
       </motion.div>
 
-      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-        transition={{ ...slideUp, delay: 0.5 }} viewport={{ once: true }}
-        className="relative z-10 text-cream/70 text-sm font-content text-center px-4">
+      <motion.p initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.4, ease: easeSmooth }} viewport={{ once: true }}
+        className="relative z-20 text-cream/70 text-sm font-content text-center px-4">
         Yang akan menikah
       </motion.p>
     </section>
   )
 }
 
-// ─── SCHEDULE ────────────────────────────────────────────────────────
 function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.5) 0%, rgba(62,22,12,0.9) 100%)' }} />
-      <motion.div className="relative z-10 w-full max-w-sm">
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.4) 0%, rgba(62,22,12,0.9) 100%)' }} />
+      <Decorations />
+      <motion.div className="relative z-20 w-full max-w-sm">
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={slideUp} viewport={{ once: true }}
           className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-6">Susunan Acara</motion.p>
 
@@ -401,14 +456,14 @@ function ScheduleSection() {
           {events.map((ev, i) => (
             <div key={i}>
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ ...slideUp, delay: 0.15 + i * 0.1 }}
+                transition={{ duration: 0.9, delay: 0.1 + i * 0.1, ease: easeSmooth }}
                 viewport={{ once: true }}
                 className="text-center"
               >
                 <motion.div initial={{ opacity: 0, scale: 0.5 }} whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ ...popUp, delay: 0.2 + i * 0.1 }} viewport={{ once: true }}
+                  transition={{ ...popUp, delay: 0.15 + i * 0.1 }} viewport={{ once: true }}
                   className="w-10 h-10 mx-auto mb-3 rounded-full bg-cream/15 flex items-center justify-center">
                   <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
@@ -430,7 +485,7 @@ function ScheduleSection() {
               </motion.div>
               {i < events.length - 1 && (
                 <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }}
-                  transition={{ duration: 0.6, delay: 0.3 + i * 0.1 }} viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.25 + i * 0.1, ease: easeSmooth }} viewport={{ once: true }}
                   className="h-[1px] w-3/4 mx-auto my-5 bg-cream/20"
                   style={{ borderTop: '1px dashed rgba(232, 217, 196, 0.3)' }} />
               )}
@@ -442,17 +497,17 @@ function ScheduleSection() {
   )
 }
 
-// ─── LOVE STORY ──────────────────────────────────────────────────────
 function LoveStorySection() {
   return (
     <section id="lovestory" className="relative w-full py-20 flex flex-col items-center justify-center overflow-hidden px-6">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
-      <div className="absolute inset-0" style={{ background: 'rgba(62,22,12,0.85)' }} />
-      <motion.div className="relative z-10 w-full max-w-sm">
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'rgba(62,22,12,0.85)' }} />
+      <Decorations />
+      <motion.div className="relative z-20 w-full max-w-sm">
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={slideUp} viewport={{ once: true }}
           className="font-title text-4xl text-cream text-center mb-2">Kisah Cinta</motion.p>
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={{ ...slideUp, delay: 0.1 }} viewport={{ once: true }}
           className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-10">Love Story</motion.p>
 
@@ -460,14 +515,21 @@ function LoveStorySection() {
           <div className="timeline-line" />
           {loveStory.map((story, i) => (
             <motion.div key={i}
-              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ ...slideUp, delay: 0.15 + i * 0.12 }}
-              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.9, delay: 0.1 + i * 0.1, ease: easeSmooth }}
+              viewport={{ once: true, margin: '-60px' }}
               className="relative mb-8 last:mb-0"
             >
               <div className="cover-blur border border-cream/15 rounded-xl overflow-hidden max-w-xs mx-auto">
-                <div className="w-full h-40 sm:h-48 bg-cover bg-center" style={{ backgroundImage: `url('${story.img}')` }} />
+                <motion.div
+                  initial={{ scale: 1.1 }}
+                  whileInView={{ scale: 1 }}
+                  transition={{ duration: 1.5, ease: easeSmooth }}
+                  viewport={{ once: true }}
+                  className="w-full h-40 sm:h-48 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${story.img}')` }}
+                />
                 <div className="p-4">
                   <p className="text-cream/50 text-[10px] font-content uppercase tracking-wider mb-1">{story.date}</p>
                   <p className="font-title text-xl text-cream mb-2">{story.title}</p>
@@ -479,7 +541,7 @@ function LoveStorySection() {
         </div>
 
         <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ ...popUp, delay: 0.6 }} viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.5, ease: easeSmooth }} viewport={{ once: true }}
           className="flex justify-center mt-6">
           <svg viewBox="0 0 24 24" className="w-6 h-6 text-cream/50" fill="currentColor">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
@@ -490,28 +552,30 @@ function LoveStorySection() {
   )
 }
 
-// ─── GALLERY ─────────────────────────────────────────────────────────
 function GallerySection() {
   const [selected, setSelected] = useState<number | null>(null)
 
   return (
     <section id="gallery" className="relative w-full py-20 flex flex-col items-center justify-center overflow-hidden px-6">
-      <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR4.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.85) 100%)' }} />
+      <Decorations />
+      <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
         transition={slideUp} viewport={{ once: true }}
-        className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-6">Galeri Foto</motion.p>
-      <motion.div className="w-full max-w-sm grid grid-cols-2 gap-2">
+        className="relative z-20 text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-6">Galeri Foto</motion.p>
+      <motion.div className="relative z-20 w-full max-w-sm grid grid-cols-2 gap-2">
         {galleryImages.map((img, i) => (
           <motion.button key={i}
-            initial={{ opacity: 0, scale: 0.5, y: 30 }}
+            initial={{ opacity: 0, scale: 0.5, y: 40 }}
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ ...popUp, delay: i * 0.06 }}
+            transition={{ duration: 0.8, delay: i * 0.06, ease: easeSmooth }}
             viewport={{ once: true }}
             onClick={() => setSelected(i)}
             className="relative overflow-hidden rounded-lg group cursor-pointer"
             style={{ paddingBottom: '75%' }}
           >
             <div className="absolute inset-0">
-              <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+              <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </motion.button>
@@ -522,8 +586,8 @@ function GallerySection() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer">
-            <motion.div initial={{ scale: 0.7, opacity: 0, y: 40 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.7, opacity: 0, y: 40 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            <motion.div initial={{ scale: 0.7, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.7, opacity: 0, y: 50 }}
+              transition={{ duration: 0.6, ease: easeSmooth }}
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-2xl w-full max-h-[85vh] rounded-xl overflow-hidden">
               <img src={galleryImages[selected].src} alt={galleryImages[selected].alt} className="w-full h-full object-contain rounded-xl" />
@@ -539,7 +603,6 @@ function GallerySection() {
   )
 }
 
-// ─── GIFT ────────────────────────────────────────────────────────────
 function GiftSection() {
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
 
@@ -554,21 +617,22 @@ function GiftSection() {
   }
 
   return (
-    <section id="gift" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      <motion.div className="w-full max-w-sm space-y-4">
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+    <section id="gift" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+      <Decorations />
+      <motion.div className="relative z-20 w-full max-w-sm space-y-4">
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={slideUp} viewport={{ once: true }}
           className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-2">Wedding Gift</motion.p>
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.1 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: easeSmooth }} viewport={{ once: true }}
           className="text-center text-cream/70 text-sm font-content leading-relaxed">
           Doa restu Anda adalah hadiah terindah bagi kami. Namun jika Anda ingin memberikan hadiah, berikut informasi rekening kami:
         </motion.p>
         {bankAccounts.map((acc, i) => (
           <motion.div key={i}
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ ...slideUp, delay: 0.15 + i * 0.1 }}
+            transition={{ duration: 0.9, delay: 0.15 + i * 0.1, ease: easeSmooth }}
             viewport={{ once: true }}
             className="cover-blur border border-cream/20 rounded-xl p-4 sm:p-5 flex items-center gap-4"
           >
@@ -636,14 +700,15 @@ function WishesSection() {
   }
 
   return (
-    <section id="wishes" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      <motion.div className="w-full max-w-sm space-y-5">
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+    <section id="wishes" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+      <Decorations />
+      <motion.div className="relative z-20 w-full max-w-sm space-y-5">
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
           transition={slideUp} viewport={{ once: true }}
           className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-2">Ucapan &amp; Doa</motion.p>
 
-        <motion.form onSubmit={submit} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={slideUp} viewport={{ once: true }}
+        <motion.form onSubmit={submit} initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: easeSmooth }} viewport={{ once: true }}
           className="cover-blur border border-cream/20 rounded-xl p-4 sm:p-6 space-y-4"
         >
           <div>
@@ -682,7 +747,7 @@ function WishesSection() {
             ) : (
               wishes.map((w, i) => (
                 <motion.div key={`${w.timestamp}-${i}`} initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.4 }}
+                  transition={{ duration: 0.5, ease: easeSmooth }}
                   className="cover-blur border border-cream/10 rounded-xl p-4">
                   <div className="flex items-start gap-3">
                     <div className="w-8 h-8 rounded-full bg-cream/20 flex items-center justify-center flex-shrink-0">
@@ -710,27 +775,28 @@ function WishesSection() {
 // ─── CLOSING ─────────────────────────────────────────────────────────
 function ClosingSection() {
   return (
-    <section id="closing" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      <motion.div {...vw({ initial: { opacity: 0, scale: 0.85, y: 40 }, animate: { opacity: 1, scale: 1, y: 0 } })}
-        transition={popUp} className="max-w-sm w-full text-center"
+    <section id="closing" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+      <Decorations />
+      <motion.div {...vw({ initial: { opacity: 0, scale: 0.85, y: 50 }, animate: { opacity: 1, scale: 1, y: 0 } })}
+        transition={fadeUp} className="relative z-20 max-w-sm w-full text-center"
       >
-        <motion.p initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.15 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15, ease: easeSmooth }} viewport={{ once: true }}
           className="text-cream/70 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.25 }}
+        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.25, ease: easeSmooth }}
           viewport={{ once: true }} className="w-10 h-[1px] bg-cream/40 mx-auto mb-4" />
-        <motion.h2 initial={{ opacity: 0, y: 40, scale: 0.85 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ ...popUp, delay: 0.35 }} viewport={{ once: true }}
+        <motion.h2 initial={{ opacity: 0, y: 50, scale: 0.85 }} whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1, delay: 0.35, ease: easeSmooth }} viewport={{ once: true }}
           className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-3">Sarah &amp; Ryan</motion.h2>
-        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 0.8, delay: 0.45 }}
+        <motion.div initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} transition={{ duration: 1, delay: 0.45, ease: easeSmooth }}
           viewport={{ once: true }} className="w-10 h-[1px] bg-cream/40 mx-auto mb-5" />
-        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.55 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.55, ease: easeSmooth }} viewport={{ once: true }}
           className="text-cream/60 text-xs sm:text-sm font-content mb-6 leading-relaxed">
           Merupakan suatu kehormatan dan kebahagiaan apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.
         </motion.p>
-        <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
-          transition={{ ...slideUp, delay: 0.65 }} viewport={{ once: true }}
+        <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.65, ease: easeSmooth }} viewport={{ once: true }}
           className="text-cream/50 text-xs font-content italic">Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh</motion.p>
       </motion.div>
     </section>
@@ -767,7 +833,7 @@ function MusicPlayer() {
     <motion.button
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ type: 'spring', stiffness: 200, damping: 18, delay: 1 }}
+      transition={{ duration: 1, delay: 1, ease: easeSmooth }}
       onClick={toggle}
       className="fixed bottom-20 right-6 z-50 w-12 h-12 rounded-full bg-brown-dark/60 backdrop-blur-md border border-cream/30 flex items-center justify-center cursor-pointer hover:bg-brown-dark/80 transition-colors duration-300"
       aria-label={playing ? 'Pause musik' : 'Putar musik'}>
@@ -791,9 +857,8 @@ function MainContent() {
   return (
     <main ref={mainRef} className="relative w-full h-screen overflow-y-auto bg-brown-dark">
       <div className="flex max-md:flex-col md:flex-row min-h-full">
-        {/* Left decorative panel (desktop only) */}
         <div className="hidden md:flex md:w-1/2 lg:w-2/3 h-screen sticky top-0 flex-col items-center justify-center bg-brown-dark overflow-hidden">
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <Fireflies count={8} />
           <div className="relative z-10 text-center">
             <p className="text-cream/50 text-sm uppercase tracking-[0.3em] font-content mb-4">Undangan Pernikahan</p>
@@ -803,7 +868,6 @@ function MainContent() {
           </div>
         </div>
 
-        {/* Right scrollable panel */}
         <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen bg-brown-dark">
           <CoverSection />
           <QuoteSection />
