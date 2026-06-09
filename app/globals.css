@@ -13,8 +13,8 @@
   }
 
   body {
-    @apply font-sans text-white antialiased;
-    background: #0A2F1F;
+    @apply font-content text-white antialiased;
+    background: #3E160C;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -28,7 +28,7 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(212, 175, 55, 0.3);
+    background: rgba(232, 217, 196, 0.3);
     border-radius: 4px;
   }
 
@@ -53,14 +53,155 @@
   }
 }
 
+@layer components {
+  .cover-blur {
+    background: rgba(0, 0, 0, 0.2);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40px;
+    bottom: 30px;
+    border-left: 5px dotted rgba(232, 217, 196, 0.5);
+    background-color: transparent;
+  }
+}
+
 @layer utilities {
   .text-shadow-glow {
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3);
   }
-
-  .bg-glass {
-    background: rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
 }
+
+/* ─── Firefly Particles ──────────────────────────────────────────── */
+@keyframes drift {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes flash {
+  0%, 30%, 100% { opacity: 0; }
+  40% { opacity: 1; box-shadow: 0 0 1.5vw 0.4vw #ffeaa7; }
+}
+
+@keyframes move1 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  33% { transform: translateX(20vw) translateY(-15vh) scale(0.8); }
+  66% { transform: translateX(-10vw) translateY(10vh) scale(1.2); }
+  100% { transform: translateX(5vw) translateY(-5vh) scale(0.9); }
+}
+@keyframes move2 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  25% { transform: translateX(-15vw) translateY(10vh) scale(1.1); }
+  50% { transform: translateX(10vw) translateY(-20vh) scale(0.7); }
+  75% { transform: translateX(25vw) translateY(5vh) scale(1.3); }
+  100% { transform: translateX(-5vw) translateY(-10vh) scale(0.8); }
+}
+@keyframes move3 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  50% { transform: translateX(30vw) translateY(-10vh) scale(0.6); }
+  100% { transform: translateX(-15vw) translateY(15vh) scale(1.4); }
+}
+@keyframes move4 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  20% { transform: translateX(-20vw) translateY(-5vh) scale(0.9); }
+  40% { transform: translateX(5vw) translateY(15vh) scale(1.1); }
+  60% { transform: translateX(15vw) translateY(-10vh) scale(0.7); }
+  80% { transform: translateX(-10vw) translateY(5vh) scale(1.2); }
+  100% { transform: translateX(10vw) translateY(-15vh) scale(0.8); }
+}
+@keyframes move5 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  30% { transform: translateX(10vw) translateY(20vh) scale(1.3); }
+  60% { transform: translateX(-25vw) translateY(-5vh) scale(0.7); }
+  100% { transform: translateX(15vw) translateY(-10vh) scale(1); }
+}
+@keyframes move6 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  50% { transform: translateX(-30vw) translateY(15vh) scale(1.2); }
+  100% { transform: translateX(10vw) translateY(-20vh) scale(0.6); }
+}
+@keyframes move7 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  25% { transform: translateX(20vw) translateY(-20vh) scale(0.8); }
+  50% { transform: translateX(-10vw) translateY(10vh) scale(1.4); }
+  75% { transform: translateX(15vw) translateY(-15vh) scale(0.6); }
+  100% { transform: translateX(-20vw) translateY(5vh) scale(1.1); }
+}
+@keyframes move8 {
+  0% { transform: translateX(0) translateY(0) scale(1); }
+  33% { transform: translateX(-5vw) translateY(-25vh) scale(0.9); }
+  66% { transform: translateX(25vw) translateY(5vh) scale(1.3); }
+  100% { transform: translateX(-15vw) translateY(-10vh) scale(0.7); }
+}
+
+.firefly {
+  position: fixed;
+  left: 6%;
+  top: 50%;
+  width: 0.4vw;
+  height: 0.4vw;
+  margin: -0.2vw 0 0 0;
+  animation: ease 200s alternate infinite;
+  pointer-events: none;
+  z-index: 1;
+  list-style: none;
+}
+.firefly::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-origin: -8vw;
+  background: rgba(0, 0, 0, 0.4);
+  animation: drift ease alternate infinite;
+}
+.firefly::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform-origin: -8vw;
+  background: #fff;
+  opacity: 0;
+  box-shadow: 0 0 0 0 #ffeaa7;
+  animation: drift ease alternate infinite, flash ease infinite;
+}
+
+.firefly:nth-child(1) { animation-name: move1; left: 5%; top: 40%; }
+.firefly:nth-child(1)::before { animation-duration: 14s; }
+.firefly:nth-child(1)::after { animation-duration: 14s, 2.1s; }
+
+.firefly:nth-child(2) { animation-name: move2; left: 10%; top: 60%; }
+.firefly:nth-child(2)::before { animation-duration: 12s; }
+.firefly:nth-child(2)::after { animation-duration: 12s, 3.5s; }
+
+.firefly:nth-child(3) { animation-name: move3; left: 15%; top: 30%; }
+.firefly:nth-child(3)::before { animation-duration: 16s; }
+.firefly:nth-child(3)::after { animation-duration: 16s, 1.8s; }
+
+.firefly:nth-child(4) { animation-name: move4; left: 8%; top: 70%; }
+.firefly:nth-child(4)::before { animation-duration: 13s; }
+.firefly:nth-child(4)::after { animation-duration: 13s, 2.8s; }
+
+.firefly:nth-child(5) { animation-name: move5; left: 12%; top: 50%; }
+.firefly:nth-child(5)::before { animation-duration: 15s; }
+.firefly:nth-child(5)::after { animation-duration: 15s, 3.2s; }
+
+.firefly:nth-child(6) { animation-name: move6; left: 7%; top: 45%; }
+.firefly:nth-child(6)::before { animation-duration: 11s; }
+.firefly:nth-child(6)::after { animation-duration: 11s, 2.5s; }
+
+.firefly:nth-child(7) { animation-name: move7; left: 14%; top: 55%; }
+.firefly:nth-child(7)::before { animation-duration: 17s; }
+.firefly:nth-child(7)::after { animation-duration: 17s, 1.9s; }
+
+.firefly:nth-child(8) { animation-name: move8; left: 9%; top: 35%; }
+.firefly:nth-child(8)::before { animation-duration: 10s; }
+.firefly:nth-child(8)::after { animation-duration: 10s, 3.8s; }

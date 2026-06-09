@@ -8,16 +8,18 @@ module.exports = {
     extend: {
       colors: {
         champagne: '#D4AF37',
-        emerald: {
-          velvet: '#0A2F1F',
-          deep: '#0D3B28',
-          rich: '#145A3A',
+        cream: '#E8D9C4',
+        brown: {
+          dark: '#3E160C',
+          warm: '#785D32',
+          light: '#E8D9C4',
         },
       },
       fontFamily: {
-        calligraphy: ['"Great Vibes"', 'cursive'],
+        title: ['"Meow Script"', 'cursive'],
+        content: ['Montserrat', 'system-ui', 'sans-serif'],
         serif: ['"Playfair Display"', 'serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        arabic: ['"Traditional Arabic"', '"Scheherazade New"', 'serif'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -26,6 +28,7 @@ module.exports = {
         'spin-slow': 'spin 8s linear infinite',
         'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
+        'pulse-fwd': 'pulse-fwd 2s ease-in-out infinite',
       },
       keyframes: {
         'pulse-soft': {
@@ -35,6 +38,10 @@ module.exports = {
         'float': {
           '0%, 100%': { transform: 'translateY(0px)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        'pulse-fwd': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.08)' },
         },
       },
     },
