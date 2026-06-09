@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
-import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion'
+import { motion, AnimatePresence, useInView, useScroll, useTransform, type Target, type Easing } from 'framer-motion'
 import { ContainerScroll } from '@/components/ui/container-scroll-animation'
-import FlowArt, { FlowSection } from '@/components/ui/flow-art'
 
 // ─── DATA ────────────────────────────────────────────────────────────
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
@@ -362,12 +361,26 @@ function CoverSection() {
 }
 
 function QuoteSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'start start'],
+  })
+  const cardRotate = useTransform(scrollYProgress, [0, 1], [30, 0])
+
   return (
-    <FlowSection id="quote" className="min-h-screen">
+    <section
+      ref={sectionRef}
+      id="quote"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
+    >
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
       <Decorations />
-      <div className="relative z-20 w-full max-w-sm">
+      <motion.div
+        style={{ rotate: cardRotate, transformOrigin: 'bottom left' }}
+        className="relative z-20 w-full max-w-sm px-6"
+      >
         <motion.div
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -394,18 +407,25 @@ function QuoteSection() {
             dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
           </motion.p>
         </motion.div>
-      </div>
-    </FlowSection>
+      </motion.div>
+    </section>
   )
 }
 
 function BrideSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: false, margin: '-80px' })
+
   return (
-    <FlowSection id="bride" className="min-h-screen">
+    <section
+      ref={sectionRef}
+      id="bride"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
+    >
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.bride.img}')` }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
       <Decorations />
-      <div className="relative z-20 w-full max-w-xs">
+      <div className="relative z-20 w-full max-w-xs px-6">
         <motion.div
           initial={{ opacity: 0, y: 70, scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -413,15 +433,11 @@ function BrideSection() {
           transition={fadeUp(0.2)}
           className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
         >
-          <motion.div
-            initial={{ scale: 1.15 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
-            className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          <div
+            className={`w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40 ${isInView ? 'sr-enter' : 'sr-exit'}`}
           >
             <img src={couples.bride.img} alt={couples.bride.name} className="w-full h-full object-cover" />
-          </motion.div>
+          </div>
           <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
             className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</motion.p>
           <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
@@ -431,18 +447,24 @@ function BrideSection() {
             className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</motion.p>
         </motion.div>
       </div>
-    </FlowSection>
+    </section>
   )
 }
 
 function GroomSection() {
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: false, margin: '-80px' })
+
   return (
-    <FlowSection id="groom" className="min-h-screen">
+    <section
+      ref={sectionRef}
+      id="groom"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
+    >
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
       <Decorations />
-
-      <div className="relative z-20 w-full max-w-xs">
+      <div className="relative z-20 w-full max-w-xs px-6">
         <motion.div
           initial={{ opacity: 0, y: 70, scale: 0.9 }}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -450,15 +472,11 @@ function GroomSection() {
           transition={fadeUp(0.2)}
           className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
         >
-          <motion.div
-            initial={{ scale: 1.15 }}
-            whileInView={{ scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.8, delay: 0.25, ease: easeSmooth }}
-            className="w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40"
+          <div
+            className={`w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40 ${isInView ? 'sr-alt-enter' : 'sr-alt-exit'}`}
           >
             <img src={couples.groom.img} alt={couples.groom.name} className="w-full h-full object-cover" />
-          </motion.div>
+          </div>
           <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
             className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</motion.p>
           <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
@@ -468,7 +486,7 @@ function GroomSection() {
             className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</motion.p>
         </motion.div>
       </div>
-    </FlowSection>
+    </section>
   )
 }
 
@@ -897,11 +915,9 @@ function MainContent() {
 
         <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen">
           <CoverSection />
-          <FlowArt>
-            <QuoteSection />
-            <BrideSection />
-            <GroomSection />
-          </FlowArt>
+          <QuoteSection />
+          <BrideSection />
+          <GroomSection />
           <ScheduleSection />
           <LoveStorySection />
           <GallerySection />

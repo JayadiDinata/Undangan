@@ -139,6 +139,21 @@
   100% { transform: translateX(-15vw) translateY(-10vh) scale(0.7); }
 }
 
+/* ─── Slide‑Rotate Profile Cards (Bride / Groom) ─────────────────── */
+@keyframes slide-rotate-hor-b-bck {
+  0%   { transform: translateY(0)    rotateX(0deg)   scale(1);   transform-origin: bottom center; }
+  100% { transform: translateY(150px) rotateX(-90deg) scale(0.5); transform-origin: bottom center; }
+}
+@keyframes slide-rotate-hor-b-bck-alt {
+  0%   { transform: translateY(0)     rotateX(0deg)   scale(1);  transform-origin: top center; }
+  100% { transform: translateY(-150px) rotateX(90deg)  scale(0.5); transform-origin: top center; }
+}
+
+.sr-enter { animation: slide-rotate-hor-b-bck 1s cubic-bezier(0.455,0.030,0.515,0.955) reverse both; }
+.sr-exit  { animation: slide-rotate-hor-b-bck 1s cubic-bezier(0.455,0.030,0.515,0.955) forwards; }
+.sr-alt-enter { animation: slide-rotate-hor-b-bck-alt 1s cubic-bezier(0.455,0.030,0.515,0.955) reverse both; }
+.sr-alt-exit  { animation: slide-rotate-hor-b-bck-alt 1s cubic-bezier(0.455,0.030,0.515,0.955) forwards; }
+
 .firefly {
   position: fixed;
   left: 6%;
