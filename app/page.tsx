@@ -7,7 +7,7 @@ import { motion, AnimatePresence, type Target, type Easing } from 'framer-motion
 const targetDate = new Date('2026-07-11T09:00:00+08:00')
 
 const couples = {
-  bride: { name: 'Sarah Amara Syakira', title: 'S.Ds.', parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari', img: '/img/SR1.jpeg' },
+  bride: { name: 'Sarah Saraswati', title: 'S.Ds.', parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari', img: '/img/SR1.jpeg' },
   groom: { name: 'Ryan Malik Azhar', title: 'S.H.', parents: 'Putra dari Bapak Hendra Malik & Ibu Rina Fitriani', img: '/img/SR4.jpeg' },
 }
 
@@ -21,7 +21,7 @@ const galleryImages = [
 ]
 
 const bankAccounts = [
-  { bank: 'Bank BCA', number: '1234567890', holder: 'Sarah Amara Syakira' },
+  { bank: 'Bank BCA', number: '1234567890', holder: 'Sarah Saraswati' },
   { bank: 'Bank Mandiri', number: '9876543210', holder: 'Ryan Malik Azhar' },
 ]
 
@@ -126,15 +126,10 @@ function Fireflies({ count = 8 }: { count?: number }) {
 
 // ─── DECORATIVE EDGE PNGs ────────────────────────────────────────────
 const decoConfig = [
-  { src: '/img/sk-a.png', className: 'top-0 left-0 -translate-x-1/3 -translate-y-1/3 w-20 sm:w-24', floatY: -6, dur: 3.5 },
-  { src: '/img/sk-b.png', className: 'top-0 right-0 translate-x-1/3 -translate-y-1/3 w-16 sm:w-20', floatY: -8, dur: 4.2 },
-  { src: '/img/sk-c.png', className: 'bottom-0 left-0 -translate-x-1/3 translate-y-1/3 w-16 sm:w-20', floatY: 6, dur: 3.8 },
-  { src: '/img/daun.png', className: 'bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-24 sm:w-28', floatY: -7, dur: 4.5 },
-  { src: '/img/daun2.png', className: 'top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-20 sm:w-24', floatY: -5, dur: 5 },
-  { src: '/img/dekor.png', className: 'top-1/3 right-0 translate-x-1/2 -translate-y-1/2 w-16 sm:w-20', floatY: 7, dur: 3.6 },
-  { src: '/img/dekor2.png', className: 'bottom-1/3 left-0 -translate-x-1/2 translate-y-1/2 w-14 sm:w-18', floatY: -6, dur: 4.8 },
-  { src: '/img/dekor3.png', className: 'top-[15%] left-[15%] w-10 sm:w-12', floatY: -4, dur: 5.5 },
-  { src: '/img/dekor4.png', className: 'bottom-[20%] right-[10%] w-12 sm:w-14', floatY: 5, dur: 4 },
+  { src: '/img/sk-a.png', className: 'top-0 left-0 -translate-x-1/3 -translate-y-1/3 w-24 sm:w-28', floatY: -6, dur: 3.5 },
+  { src: '/img/sk-b.png', className: 'top-0 right-0 translate-x-1/3 -translate-y-1/3 w-20 sm:w-24', floatY: -8, dur: 4.2 },
+  { src: '/img/sk-c.png', className: 'bottom-0 left-0 -translate-x-1/3 translate-y-1/3 w-20 sm:w-24', floatY: 6, dur: 3.8 },
+  { src: '/img/sk-a.png', className: 'bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-24 sm:w-28', floatY: -7, dur: 4.5 },
 ]
 
 function Decorations() {
