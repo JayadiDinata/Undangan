@@ -548,7 +548,7 @@ function GallerySection() {
       <Decorations />
       <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
         transition={fadeIn(0)} className="relative z-20 text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-6">Galeri Foto</motion.p>
-      <motion.div className="relative z-20 w-full max-w-sm grid grid-cols-2 gap-2">
+      <motion.div className="relative z-20 w-full max-w-sm grid grid-cols-2 gap-3">
         {galleryImages.map((img, i) => (
           <motion.button key={i}
             initial={{ opacity: 0, scale: 0.5, y: 40 }}
@@ -556,8 +556,7 @@ function GallerySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.9, delay: i * 0.05, ease: easeSmooth }}
             onClick={() => setSelected(i)}
-            className="relative overflow-hidden rounded-lg group cursor-pointer"
-            style={{ paddingBottom: '75%' }}
+            className="relative overflow-hidden rounded-lg group cursor-pointer aspect-[3/4]"
           >
             <div className="absolute inset-0">
               <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
