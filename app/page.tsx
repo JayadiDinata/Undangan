@@ -36,12 +36,9 @@ export default function Home() {
   if (!invitationOpened) {
     return (
       <div className="fixed inset-0 w-full h-full">
-        {/* Background image — REPLACE with your actual image URL */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80')",
-          }}
+          style={{ backgroundImage: "url('/img/bg-floral.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-emerald-velvet/80 via-emerald-deep/70 to-black/60" />
         <CoverSection onOpen={() => setInvitationOpened(true)} />
@@ -51,17 +48,12 @@ export default function Home() {
 
   return (
     <div className="relative w-full h-screen overflow-y-auto snap-y snap-mandatory bg-emerald-velvet">
-      {/* Fixed Background Layer — REPLACE with your actual green velvet background image */}
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80')",
-        }}
+        style={{ backgroundImage: "url('/img/bg-floral.jpg')" }}
       />
       <div className="fixed inset-0 bg-gradient-to-b from-emerald-velvet/80 via-emerald-deep/70 to-black/70" />
 
-      {/* Scrollable content */}
       <div className="relative z-10">
         <section id="initial"><InitialSection /></section>
         <section id="quran"><QuranVerseSection /></section>
@@ -73,7 +65,6 @@ export default function Home() {
         <section id="wishes"><WishesSection /></section>
         <section id="closing"><ClosingSection /></section>
 
-        {/* Footer */}
         <footer className="relative z-20 text-center py-8 px-6 bg-black/20 backdrop-blur-sm border-t border-champagne/10">
           <p className="text-white/50 text-[11px] font-sans">
             Terima kasih atas kehadiran dan doa restunya
@@ -88,10 +79,8 @@ export default function Home() {
         </footer>
       </div>
 
-      {/* Floating Music Player */}
       <MusicPlayer />
 
-      {/* Floating Bottom Navigation */}
       <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-md bg-black/40 backdrop-blur-xl border-t border-champagne/15 px-2 py-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom,0px))]">
         <div className="flex justify-around items-center">
           {navItems.map((item) => (

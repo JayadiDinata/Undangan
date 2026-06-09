@@ -50,12 +50,19 @@ export default function CountdownTimer() {
           key={key}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 70, damping: 20 }}
           className="flex flex-col items-center min-w-[64px] sm:min-w-[76px]"
         >
           <div className="bg-black/25 backdrop-blur-md border border-champagne/30 rounded-xl px-3 py-3 sm:px-4 sm:py-4 w-full text-center">
-            <span className="block font-serif text-2xl sm:text-3xl font-bold text-champagne">
+            <motion.span
+              key={timeLeft[key]}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+              className="block font-serif text-2xl sm:text-3xl font-bold text-champagne"
+            >
               {timeLeft[key]}
-            </span>
+            </motion.span>
           </div>
           <span className="text-[10px] sm:text-xs text-white/70 uppercase tracking-wider mt-1.5 font-sans">
             {label}

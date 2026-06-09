@@ -6,7 +6,6 @@ const bride = {
   name: 'Sarah Amara Syakira',
   title: 'S.Ds.',
   parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari',
-  // REPLACE with your actual image URL
   img: '/img/bride.jpg',
 }
 
@@ -14,7 +13,6 @@ const groom = {
   name: 'Ryan Malik Azhar',
   title: 'S.H.',
   parents: 'Putra dari Bapak Hendra Malik & Ibu Rina Fitriani',
-  // REPLACE with your actual image URL
   img: '/img/groom.jpg',
 }
 
@@ -35,7 +33,6 @@ export default function GroomBrideSection() {
         </motion.p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
-          {/* Bride */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -43,9 +40,13 @@ export default function GroomBrideSection() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-champagne/40 shadow-lg shadow-black/20">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-champagne/40 shadow-lg shadow-black/20"
+            >
               <img src={bride.img} alt={bride.name} className="w-full h-full object-cover" />
-            </div>
+            </motion.div>
             <h3 className="font-calligraphy text-2xl sm:text-3xl text-white">{bride.name}</h3>
             <p className="text-champagne/70 text-xs font-sans mt-0.5">{bride.title}</p>
             <p className="text-white/60 text-[11px] font-sans mt-3 max-w-[180px] mx-auto leading-relaxed">
@@ -53,7 +54,6 @@ export default function GroomBrideSection() {
             </p>
           </motion.div>
 
-          {/* Ampersand */}
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -66,7 +66,6 @@ export default function GroomBrideSection() {
             </svg>
           </motion.div>
 
-          {/* Groom */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -74,9 +73,13 @@ export default function GroomBrideSection() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-champagne/40 shadow-lg shadow-black/20">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+              className="w-28 h-28 sm:w-32 sm:h-32 mx-auto mb-4 rounded-full overflow-hidden border-2 border-champagne/40 shadow-lg shadow-black/20"
+            >
               <img src={groom.img} alt={groom.name} className="w-full h-full object-cover" />
-            </div>
+            </motion.div>
             <h3 className="font-calligraphy text-2xl sm:text-3xl text-white">{groom.name}</h3>
             <p className="text-champagne/70 text-xs font-sans mt-0.5">{groom.title}</p>
             <p className="text-white/60 text-[11px] font-sans mt-3 max-w-[180px] mx-auto leading-relaxed">

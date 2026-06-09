@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 
-// EDIT these with your actual bank account details
 const accounts = [
   {
     bank: 'Bank BCA',
@@ -66,16 +65,22 @@ export default function WeddingGift() {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => copy(acc.number, i)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors duration-300 cursor-pointer ${
+            className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 cursor-pointer ${
               copiedIdx === i
-                ? 'bg-green-500/80 text-white'
+                ? 'bg-green-500/80 text-white scale-110'
                 : 'bg-champagne/20 text-champagne hover:bg-champagne/30'
             }`}
           >
             {copiedIdx === i ? (
-              <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
+              <motion.svg
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                viewBox="0 0 24 24"
+                className="w-5 h-5"
+                fill="currentColor"
+              >
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
+              </motion.svg>
             ) : (
               <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
                 <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" />
@@ -84,6 +89,17 @@ export default function WeddingGift() {
           </motion.button>
         </motion.div>
       ))}
+
+      {copiedIdx !== null && (
+        <motion.p
+          initial={{ opacity: 0, y: -5 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          className="text-center text-green-400 text-sm font-sans"
+        >
+          Berhasil disalin!
+        </motion.p>
+      )}
     </div>
   )
 }

@@ -15,19 +15,47 @@ export default function QuranVerseSection() {
         className="relative z-20 max-w-lg w-full"
       >
         <div className="bg-black/15 backdrop-blur-md border border-champagne/20 rounded-2xl p-6 sm:p-8">
-          <p className="font-serif text-champagne/80 text-sm sm:text-base italic mb-4">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="font-serif text-champagne/80 text-sm sm:text-base italic mb-4"
+          >
             QS. Ar-Rum Ayat 21
-          </p>
-          <p className="text-lg sm:text-xl md:text-2xl text-white leading-[2] mb-6" style={{ fontFamily: "'Traditional Arabic', 'Scheherazade New', serif" }}>
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
+            className="text-lg sm:text-xl md:text-2xl text-white leading-[2] mb-6"
+            style={{ fontFamily: "'Traditional Arabic', 'Scheherazade New', serif" }}
+          >
             وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
             وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
-          </p>
-          <div className="w-12 h-[1px] bg-champagne/30 mx-auto mb-4" />
-          <p className="text-white/70 text-xs sm:text-sm leading-relaxed italic">
+          </motion.p>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+            className="w-12 h-[1px] bg-champagne/30 mx-auto mb-4 origin-center"
+          />
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            viewport={{ once: true }}
+            className="text-white/70 text-xs sm:text-sm leading-relaxed italic"
+          >
             &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan
             untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya,
             dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
-          </p>
+          </motion.p>
         </div>
       </motion.div>
     </section>

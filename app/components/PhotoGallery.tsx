@@ -3,14 +3,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// REPLACE with your actual image URLs
 const images = [
-  { src: '/img/gallery1.jpg', alt: 'Prewedding 1' },
-  { src: '/img/gallery2.jpg', alt: 'Prewedding 2' },
-  { src: '/img/gallery3.jpg', alt: 'Prewedding 3' },
-  { src: '/img/gallery4.jpg', alt: 'Prewedding 4' },
-  { src: '/img/gallery5.jpg', alt: 'Prewedding 5' },
-  { src: '/img/gallery6.jpg', alt: 'Prewedding 6' },
+  { src: '/img/SR1.jpeg', alt: 'Prewedding 1' },
+  { src: '/img/SR2.jpeg', alt: 'Prewedding 2' },
+  { src: '/img/SR3.jpeg', alt: 'Prewedding 3' },
+  { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
+  { src: '/img/SR1-Photoroom (1).png', alt: 'Prewedding 5' },
+  { src: '/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 6' },
 ]
 
 export default function PhotoGallery() {
@@ -49,25 +48,29 @@ export default function PhotoGallery() {
             onClick={() => setSelected(null)}
             className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer"
           >
-            <motion.button
+            <motion.div
+              layoutId={`gallery-${selected}`}
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-              onClick={(e) => { e.stopPropagation(); setSelected(null) }}
-              className="relative max-w-2xl w-full aspect-auto max-h-[85vh] rounded-xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-2xl w-full max-h-[85vh] rounded-xl overflow-hidden"
             >
               <img
                 src={images[selected].src}
                 alt={images[selected].alt}
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain rounded-xl"
               />
-              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white">
+              <button
+                onClick={() => setSelected(null)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white cursor-pointer hover:bg-black/70 transition-colors"
+              >
                 <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12" />
                 </svg>
-              </div>
-            </motion.button>
+              </button>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

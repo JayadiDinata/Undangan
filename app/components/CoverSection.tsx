@@ -21,22 +21,26 @@ export default function CoverSection({ onOpen }: Props) {
         <motion.section
           key="cover"
           exit={{ opacity: 0, y: '-100%' }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="relative w-full min-h-screen flex flex-col items-center justify-center text-center px-6 snap-start overflow-hidden"
         >
           <div className="absolute inset-0 bg-black/40 z-10" />
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="relative z-20"
           >
-            <p className="text-white/70 text-xs sm:text-sm uppercase tracking-[0.3em] font-sans mb-6">
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.5em' }}
+              animate={{ opacity: 1, letterSpacing: '0.3em' }}
+              transition={{ duration: 1.2, delay: 0.6 }}
+              className="text-white/70 text-xs sm:text-sm uppercase tracking-[0.3em] font-sans mb-6"
+            >
               The Wedding of
-            </p>
+            </motion.p>
 
-            {/* Floating envelope icon */}
             <motion.div
               initial={{ y: 0 }}
               animate={{ y: [0, -8, 0] }}
@@ -48,17 +52,35 @@ export default function CoverSection({ onOpen }: Props) {
               </svg>
             </motion.div>
 
-            <h1 className="font-calligraphy text-5xl sm:text-6xl md:text-7xl text-white text-shadow-glow mb-4">
+            <motion.h1
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="font-calligraphy text-5xl sm:text-6xl md:text-7xl text-white text-shadow-glow mb-4"
+            >
               Sarah &amp; Ryan
-            </h1>
+            </motion.h1>
 
-            <div className="w-16 h-[1.5px] bg-champagne/60 mx-auto mb-6" />
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: '4rem' }}
+              transition={{ duration: 1, delay: 1.2 }}
+              className="h-[1.5px] bg-champagne/60 mx-auto mb-6"
+            />
 
-            <p className="text-white/80 text-xs sm:text-sm font-sans mb-8">
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.4 }}
+              className="text-white/80 text-xs sm:text-sm font-sans mb-8"
+            >
               Anda telah diundang ke pernikahan kami
-            </p>
+            </motion.p>
 
             <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleOpen}

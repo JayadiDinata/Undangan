@@ -10,8 +10,13 @@ interface Wish {
   timestamp: string
 }
 
-// CONFIG: Replace with your own webhook URL (Google Sheets / Formspree / Netlify)
 const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
+
+function escapeHtml(text: string): string {
+  const div = document.createElement('div')
+  div.appendChild(document.createTextNode(text))
+  return div.innerHTML
+}
 
 export default function WishesBoard() {
   const [wishes, setWishes] = useState<Wish[]>([])
@@ -34,37 +39,33 @@ export default function WishesBoard() {
     setSubmitting(true)
 
     const newWish: Wish = {
-      name: name.trim(),
-      status: status.trim(),
-      message: message.trim(),
+      name: escapeHtml(name.trim()),
+      status: escapeHtml(status.trim()),
+      message: escapeHtml(message.trim()),
       timestamp: new Date().toLocaleString('id-ID'),
     }
 
-    // Optimistic local update
-    setWishes((prev) => [newWish, ...prev])
-    localStorage.setItem('weddingWishes', JSON.stringify([newWish, ...wishes]))
+    const updated = [newWish, ...wishes]
+    setWishes(updated)
+    localStorage.setItem('weddingWishes', JSON.stringify(updated))
     setName('')
     setStatus('')
     setMessage('')
     setSuccess(true)
     setTimeout(() => setSuccess(false), 3000)
 
-    // Fire-and-forget POST to serverless webhook
     try {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newWish),
       })
-    } catch {
-      // Silently fail - data is preserved in localStorage
-    }
+    } catch {}
     setSubmitting(false)
   }
 
   return (
     <div className="space-y-6">
-      {/* Form */}
       <motion.form
         onSubmit={submit}
         initial={{ opacity: 0, y: 20 }}
@@ -121,6 +122,7 @@ export default function WishesBoard() {
         <AnimatePresence>
           {success && (
             <motion.p
+              key="success-msg"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -132,8 +134,7 @@ export default function WishesBoard() {
         </AnimatePresence>
       </motion.form>
 
-      {/* Wishes Feed */}
-      <div className="max-h-[400px] overflow-y-auto space-y-3 pr-1">
+      <div className="max-h-[400px] overflow-y-auto space-y-3 pr-1 scrollbar-thin">
         <AnimatePresence>
           {wishes.length === 0 ? (
             <p className="text-center text-white/40 text-sm font-sans py-8">
