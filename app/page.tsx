@@ -344,7 +344,7 @@ function CoverSection() {
           <Decorations />
         </div>
       </ContainerScroll>
-      <div className="relative z-20 w-full max-w-sm mx-auto px-6 py-16 text-center bg-brown-dark">
+      <div className="relative w-full max-w-sm mx-auto px-6 py-16 text-center">
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -644,7 +644,8 @@ function GiftSection() {
   }
 
   return (
-    <section id="gift" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+    <section id="gift" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
+      <div className="absolute inset-0 z-0 bg-brown-dark/60" />
       <Decorations />
       <motion.div className="relative z-20 w-full max-w-sm space-y-4">
         <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
@@ -724,7 +725,8 @@ function WishesSection() {
   }
 
   return (
-    <section id="wishes" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+    <section id="wishes" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
+      <div className="absolute inset-0 z-0 bg-brown-dark/60" />
       <Decorations />
       <motion.div className="relative z-20 w-full max-w-sm space-y-5">
         <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
@@ -800,7 +802,8 @@ function WishesSection() {
 
 function ClosingSection() {
   return (
-    <section id="closing" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 bg-brown-dark">
+    <section id="closing" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
+      <div className="absolute inset-0 z-0 bg-brown-dark/60" />
       <Decorations />
       <motion.div {...vw({ initial: { opacity: 0, scale: 0.85, y: 50 }, animate: { opacity: 1, scale: 1, y: 0 } })}
         transition={fadeUp(0)} className="relative z-20 max-w-sm w-full text-center"
@@ -878,9 +881,11 @@ function MainContent() {
   }, [])
 
   return (
-    <main className="relative w-full min-h-screen bg-brown-dark">
-      <div className="flex max-md:flex-col md:flex-row">
-        <div className="hidden md:flex md:w-1/2 lg:w-2/3 h-screen sticky top-0 flex-col items-center justify-center bg-brown-dark overflow-hidden">
+    <main className="relative w-full min-h-screen">
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+      <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.6) 100%)' }} />
+      <div className="flex max-md:flex-col md:flex-row relative z-[2]">
+        <div className="hidden md:flex md:w-1/2 lg:w-2/3 h-screen sticky top-0 flex-col items-center justify-center overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <Fireflies count={8} />
           <div className="relative z-10 text-center">
@@ -891,7 +896,7 @@ function MainContent() {
           </div>
         </div>
 
-        <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen bg-brown-dark">
+        <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen">
           <CoverSection />
           <QuoteSection />
           <BrideSection />
