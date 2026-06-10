@@ -3,3 +3,11 @@ node_modules/
 *.tsbuildinfo
 next-env.d.ts
 out/
+undangan/
+_next/
+img/
+index.html
+404.html
+404/
+index.txt
+CNAME
