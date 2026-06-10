@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -34,13 +34,18 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Setup Pages
+      - name: Check Build Result
+        run: |
+          echo "Root Directory"
+          ls -la
+
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: .
 
   deploy:
     needs: build
