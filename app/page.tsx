@@ -629,53 +629,173 @@ function LoveStorySection() {
   )
 }
 
-function GallerySection() {
+function AnimatedGallerySection() {
   const [selected, setSelected] = useState<number | null>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Create circular positions for animated cards around main photo
+  const positions = [
+    { top: '-40px', left: '50%', transform: 'translateX(-50%)' },      // top
+    { top: '50%', right: '-40px', transform: 'translateY(-50%)' },     // right
+    { bottom: '-40px', left: '50%', transform: 'translateX(-50%)' },   // bottom
+    { top: '50%', left: '-40px', transform: 'translateY(-50%)' },      // left
+  ]
 
   return (
-    <section id="gallery" className="relative w-full py-20 flex flex-col items-center justify-center overflow-hidden px-6">
+    <section id="gallery" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20">
       <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR4.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.85) 100%)' }} />
       <Decorations />
-      <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
-        transition={fadeIn(0)} className="relative z-20 text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-6">Galeri Foto</motion.p>
-      <motion.div className="relative z-20 w-full max-w-sm grid grid-cols-2 gap-3">
-        {galleryImages.map((img, i) => (
-          <motion.button key={i}
-            initial={{ opacity: 0, scale: 0.5, y: 40 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={fadeIn(0)}
+        className="relative z-20 text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-12"
+      >
+        Galeri Foto
+      </motion.p>
+
+      <div className="relative z-20 w-full max-w-xl flex items-center justify-center">
+        <div ref={containerRef} className="relative w-80 h-96 md:w-96 md:h-[28rem]">
+          {/* Main Center Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: i * 0.05, ease: easeSmooth }}
+            transition={fadeUp(0.2)}
+            className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-cream/30 shadow-2xl"
+          >
+            <img
+              src="/img/SR1-Photoroom (1).png"
+              alt="Couple Photo"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/20 to-transparent" />
+          </motion.div>
+
+          {/* Animated Cards Around */}
+          {positions.map((pos, i) => {
+            const photoIndex = i % galleryImages.length
+            return (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={fadeUp(0.3 + i * 0.1)}
+                className="absolute"
+                style={pos as React.CSSProperties}
+              >
+                <motion.button
+                  onClick={() => setSelected(photoIndex)}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  {/* Animated expanding border */}
+                  <motion.div
+                    initial={false}
+                    animate={{ width: ['80px', '90px', '80px'], height: ['80px', '90px', '80px'] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-0 rounded-lg border-2 border-cream/40 -m-1"
+                  />
+
+                  {/* Inner glow */}
+                  <motion.div
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-0 rounded-lg bg-cream/10 -m-1"
+                  />
+
+                  {/* Photo card */}
+                  <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-cream/50 shadow-lg bg-brown-dark/80 cursor-pointer hover:border-cream transition-all duration-300">
+                    <img
+                      src={galleryImages[photoIndex].src}
+                      alt={galleryImages[photoIndex].alt}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                </motion.button>
+              </motion.div>
+            )
+          })}
+
+          {/* Decorative center circle */}
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            className="absolute inset-0 rounded-3xl border border-dashed border-cream/20"
+          />
+        </div>
+      </div>
+
+      {/* Grid Gallery Below */}
+      <motion.div
+        initial={{ opacity: 0, y: 60 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={fadeUp(0.5)}
+        className="relative z-20 w-full max-w-2xl mt-16 grid grid-cols-2 md:grid-cols-3 gap-4"
+      >
+        {galleryImages.map((img, i) => (
+          <motion.button
+            key={i}
+            initial={{ opacity: 0, scale: 0.5 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={fadeUp(0.6 + i * 0.05)}
             onClick={() => setSelected(i)}
-            className="relative overflow-hidden rounded-lg group cursor-pointer aspect-[3/4]"
+            className="relative overflow-hidden rounded-xl group cursor-pointer aspect-[3/4] border border-cream/20 hover:border-cream/60 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
           >
             <div className="absolute inset-0">
-              <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
-              <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
           </motion.button>
         ))}
       </motion.div>
+
+      {/* Modal */}
       <AnimatePresence>
         {selected !== null && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer">
-            <motion.div initial={{ scale: 0.7, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.7, opacity: 0, y: 50 }}
+            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer"
+          >
+            <motion.div
+              initial={{ scale: 0.7, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.7, opacity: 0, y: 50 }}
               transition={{ duration: 0.7, ease: easeSmooth }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-2xl w-full max-h-[85vh] rounded-xl overflow-hidden">
+              className="relative max-w-2xl w-full max-h-[85vh] rounded-xl overflow-hidden"
+            >
               <img src={galleryImages[selected].src} alt={galleryImages[selected].alt} className="w-full h-full object-contain rounded-xl" />
-              <button onClick={() => setSelected(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center text-white cursor-pointer hover:bg-black/70 transition-colors">
-                <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-              </button>
+              <motion.button
+                onClick={() => setSelected(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="absolute top-4 right-4 w-10 h-10 rounded-full bg-cream/20 backdrop-blur-md border border-cream/40 flex items-center justify-center text-cream cursor-pointer hover:bg-cream/30 transition-all duration-300"
+              >
+                <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+              </motion.button>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
     </section>
   )
+}
+
+function GallerySection() {
+  return <AnimatedGallerySection />
 }
 
 function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: 
