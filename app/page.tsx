@@ -412,78 +412,109 @@ function QuoteSection() {
   )
 }
 
-function BrideSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: false, margin: '-80px' })
-
+function CouplesSection() {
   return (
     <section
-      ref={sectionRef}
       id="bride"
-      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20"
     >
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('${couples.bride.img}')` }} />
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.7) 100%)' }} />
       <Decorations />
-      <div className="relative z-20 w-full max-w-xs px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 70, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      <div className="relative z-20 w-full max-w-4xl">
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={fadeUp(0.2)}
-          className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
+          transition={fadeIn(0)}
+          className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-12"
         >
-          <div
-            className={`w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40 ${isInView ? 'sr-enter' : 'sr-exit'}`}
+          Pasangan Pengantin
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-2xl mx-auto">
+          {/* Bride Card */}
+          <motion.div
+            initial={{ opacity: 0, x: -40, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={fadeUp(0.1)}
+            className="group"
           >
-            <img src={couples.bride.img} alt={couples.bride.name} className="w-full h-full object-cover" />
-          </div>
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
-            className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.bride.name.split(' ')[0]}</motion.p>
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
-            className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.bride.name.split(' ').slice(1).join(' ')}, {couples.bride.title}</motion.p>
-          <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.55)}
-            className="text-cream/70 text-xs font-content leading-relaxed">{couples.bride.parents}</motion.p>
-        </motion.div>
-      </div>
-    </section>
-  )
-}
+            <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border-2 border-cream/20 hover:border-cream/40 transition-all duration-500 bg-cream/5 backdrop-blur-sm"
+            >
+              <img
+                src={couples.bride.img}
+                alt={couples.bride.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/80 via-transparent to-transparent" />
+              
+              {/* Name Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={fadeUp(0.25)}
+                >
+                  <p className="text-cream text-2xl sm:text-3xl font-title leading-tight">
+                    {couples.bride.name}
+                  </p>
+                  <p className="text-cream/70 text-sm font-content mt-1">
+                    {couples.bride.title}
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
 
-function GroomSection() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const isInView = useInView(sectionRef, { once: false, margin: '-80px' })
+          {/* Groom Card */}
+          <motion.div
+            initial={{ opacity: 0, x: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={fadeUp(0.25)}
+            className="group"
+          >
+            <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border-2 border-cream/20 hover:border-cream/40 transition-all duration-500 bg-cream/5 backdrop-blur-sm"
+            >
+              <img
+                src={couples.groom.img}
+                alt={couples.groom.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/80 via-transparent to-transparent" />
+              
+              {/* Name Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 text-center z-10">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={fadeUp(0.4)}
+                >
+                  <p className="text-cream text-2xl sm:text-3xl font-title leading-tight">
+                    {couples.groom.name}
+                  </p>
+                  <p className="text-cream/70 text-sm font-content mt-1">
+                    {couples.groom.title}
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
 
-  return (
-    <section
-      ref={sectionRef}
-      id="groom"
-      className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
-    >
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.6) 100%)' }} />
-      <Decorations />
-      <div className="relative z-20 w-full max-w-xs px-6">
+        {/* Ampersand */}
         <motion.div
-          initial={{ opacity: 0, y: 70, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={fadeUp(0.2)}
-          className="cover-blur border border-cream/20 rounded-xl p-6 sm:p-8 text-center"
+          transition={{ duration: 0.9, delay: 0.4, ease: easeSmooth }}
+          className="flex justify-center mt-8"
         >
-          <div
-            className={`w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-4 rounded-full overflow-hidden border-2 border-cream/40 ${isInView ? 'sr-alt-enter' : 'sr-alt-exit'}`}
-          >
-            <img src={couples.groom.img} alt={couples.groom.name} className="w-full h-full object-cover" />
-          </div>
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.35)}
-            className="font-title text-3xl sm:text-4xl text-cream mb-1">{couples.groom.name.split(' ')[0]}</motion.p>
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.45)}
-            className="font-title text-2xl sm:text-3xl text-cream/90 mb-2">{couples.groom.name.split(' ').slice(1).join(' ')}, {couples.groom.title}</motion.p>
-          <div className="w-8 h-[1px] bg-cream/30 mx-auto mb-3" />
-          <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={fadeIn(0.55)}
-            className="text-cream/70 text-xs font-content leading-relaxed">{couples.groom.parents}</motion.p>
+          <div className="text-cream/40 text-4xl font-serif italic">&amp;</div>
         </motion.div>
       </div>
     </section>
@@ -647,6 +678,91 @@ function GallerySection() {
   )
 }
 
+function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: 
+  { bank: string; number: string; holder: string; idx: number; copied: boolean; onCopy: () => void; color: string }) {
+  
+  const bankColors: { [key: string]: { border: string; bg: string; text: string } } = {
+    bca: { border: 'from-blue-400/40 to-blue-500/20', bg: 'from-blue-500/10 to-blue-600/5', text: 'text-blue-300' },
+    mandiri: { border: 'from-red-400/40 to-red-500/20', bg: 'from-red-500/10 to-red-600/5', text: 'text-red-300' },
+  }
+
+  const colorScheme = bankColors[color]
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true }}
+      transition={fadeUp(0.12 + idx * 0.12)}
+      className="relative"
+    >
+      <div className={`relative overflow-hidden border-2 bg-gradient-to-br ${colorScheme.bg} ${colorScheme.border} backdrop-blur-sm rounded-2xl p-0 group transition-all duration-500 hover:shadow-lg`}
+        style={{ boxShadow: copied ? `0 0 20px ${color === 'bca' ? 'rgba(96, 165, 250, 0.5)' : 'rgba(248, 113, 113, 0.5)'}` : 'none' }}>
+        
+        <div className="flex items-center gap-0 overflow-hidden relative h-32 sm:h-36">
+          {/* Left side - Action button */}
+          <motion.div
+            initial={false}
+            animate={{ width: copied ? '100%' : '0%' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className={`absolute left-0 top-0 h-full flex items-center justify-center ${color === 'bca' ? 'bg-blue-500/30' : 'bg-red-500/30'} backdrop-blur-sm border-r-2 ${color === 'bca' ? 'border-blue-400/50' : 'border-red-400/50'}`}
+          >
+            <motion.div
+              animate={{ scale: copied ? [1, 1.2, 1] : 1, rotate: copied ? 360 : 0 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            >
+              <svg viewBox="0 0 24 24" className={`w-7 h-7 ${color === 'bca' ? 'text-blue-300' : 'text-red-300'}`} fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              </svg>
+            </motion.div>
+          </motion.div>
+
+          {/* Right side - Content */}
+          <motion.div
+            initial={false}
+            animate={{ paddingLeft: copied ? '120px' : '0px' }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="flex-1 p-6 cursor-pointer relative z-10"
+            onClick={onCopy}
+          >
+            <motion.div
+              initial={false}
+              animate={{ opacity: copied ? 0 : 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <p className="text-[11px] text-cream/50 uppercase tracking-widest font-content mb-2">{bank}</p>
+              <p className={`text-lg sm:text-xl font-semibold tracking-wider ${color === 'bca' ? colorScheme.text : colorScheme.text} font-content transition-colors`}>
+                {number}
+              </p>
+              <p className="text-xs text-cream/60 mt-2 font-content">a.n {holder}</p>
+            </motion.div>
+            
+            <motion.div
+              initial={false}
+              animate={{ opacity: copied ? 1 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="absolute inset-0 flex flex-col items-center justify-center"
+            >
+              <p className={`text-sm font-medium ${color === 'bca' ? 'text-blue-300' : 'text-red-300'}`}>Disalin!</p>
+              <p className="text-xs text-cream/50 mt-1">Nomor rekening berhasil disalin</p>
+            </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Interactive button hint */}
+        <motion.button
+          onClick={onCopy}
+          className={`absolute right-4 top-1/2 -translate-y-1/2 px-4 py-2 rounded-lg border-2 ${color === 'bca' ? 'border-blue-400/60 hover:border-blue-300' : 'border-red-400/60 hover:border-red-300'} text-xs font-content text-cream/70 hover:text-cream transition-all duration-300 backdrop-blur-sm ${color === 'bca' ? 'hover:bg-blue-500/20' : 'hover:bg-red-500/20'}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {copied ? 'Disalin' : 'Salin'}
+        </motion.button>
+      </div>
+    </motion.div>
+  )
+}
+
 function GiftSection() {
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
 
@@ -657,54 +773,36 @@ function GiftSection() {
       document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta)
     }
     setCopiedIdx(idx)
-    setTimeout(() => setCopiedIdx(null), 2000)
+    setTimeout(() => setCopiedIdx(null), 2500)
   }
+
+  const bankColorMap: { [key: string]: string } = { 'Bank BCA': 'bca', 'Bank Mandiri': 'mandiri' }
 
   return (
     <section id="gift" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
       <div className="absolute inset-0 z-0 bg-brown-dark/60" />
       <Decorations />
-      <motion.div className="relative z-20 w-full max-w-sm space-y-4">
+      <motion.div className="relative z-20 w-full max-w-2xl space-y-6">
         <motion.p {...vw({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } })}
           transition={fadeIn(0)} className="text-cream/60 text-xs uppercase tracking-[0.3em] font-content text-center mb-2">Wedding Gift</motion.p>
         <motion.p {...vw({ initial: { opacity: 0, y: 25 }, animate: { opacity: 1, y: 0 } })}
           transition={fadeIn(0.1)} className="text-center text-cream/70 text-sm font-content leading-relaxed">
           Doa restu Anda adalah hadiah terindah bagi kami. Namun jika Anda ingin memberikan hadiah, berikut informasi rekening kami:
         </motion.p>
-        {bankAccounts.map((acc, i) => (
-          <motion.div key={i}
-            initial={{ opacity: 0, y: 60 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={fadeUp(0.12 + i * 0.08)}
-            className="cover-blur border border-cream/20 rounded-xl p-4 sm:p-5 flex items-center gap-4"
-          >
-            <motion.div {...vw({ initial: { opacity: 0, scale: 0.3 }, animate: { opacity: 1, scale: 1 } })}
-              transition={fadeUp(0.16 + i * 0.08)}
-              className="w-10 h-10 rounded-full bg-cream/20 flex items-center justify-center flex-shrink-0">
-              <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor"><path d="M4 10h3v7H4zm6.5 0h3v7h-3zM2 19h20v3H2zm15-9h3v7h-3zM2 5l8-3 8 3-8 3-8-3z" /></svg>
-            </motion.div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[10px] text-cream/50 uppercase tracking-widest">{acc.bank}</p>
-              <p className="text-sm sm:text-base text-cream font-semibold tracking-wider">{acc.number}</p>
-              <p className="text-xs text-cream/70">a.n {acc.holder}</p>
-            </div>
-            <motion.button whileTap={{ scale: 0.9 }} onClick={() => copy(acc.number, i)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-300 cursor-pointer ${
-                copiedIdx === i ? 'bg-green-500/80 text-white scale-110' : 'bg-cream/20 text-cream hover:bg-cream/30'
-              }`}>
-              {copiedIdx === i
-                ? <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                : <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" /></svg>
-              }
-            </motion.button>
-          </motion.div>
-        ))}
-        {copiedIdx !== null && (
-          <motion.p initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center text-green-400 text-sm font-content">
-            Berhasil disalin!
-          </motion.p>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {bankAccounts.map((acc, i) => (
+            <BankAccountCard
+              key={i}
+              bank={acc.bank}
+              number={acc.number}
+              holder={acc.holder}
+              idx={i}
+              copied={copiedIdx === i}
+              onCopy={() => copy(acc.number, i)}
+              color={bankColorMap[acc.bank] || 'bca'}
+            />
+          ))}
+        </div>
       </motion.div>
     </section>
   )
@@ -916,8 +1014,7 @@ function MainContent() {
         <div className="w-full md:w-1/2 lg:w-1/3 min-h-screen">
           <CoverSection />
           <QuoteSection />
-          <BrideSection />
-          <GroomSection />
+          <CouplesSection />
           <ScheduleSection />
           <LoveStorySection />
           <GallerySection />
