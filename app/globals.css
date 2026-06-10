@@ -75,6 +75,43 @@
   .text-shadow-glow {
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3);
   }
+
+  /* ─── UIVerse Checkout Button Animation ───────────────────────────── */
+  @keyframes expand-left {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
+  @keyframes expand-right {
+    0% { width: 100%; }
+    100% { width: 0%; }
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+  }
+
+  @keyframes slide-in-top {
+    0% { opacity: 0; transform: translateY(-30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-expand-checkout {
+    animation: expand-left 0.5s ease-out forwards;
+  }
+
+  .animate-shrink-checkout {
+    animation: expand-right 0.5s ease-out forwards;
+  }
+
+  .animate-pulse-border {
+    animation: pulse-border 2s infinite;
+  }
+
+  .animate-slide-in-top {
+    animation: slide-in-top 0.6s ease-out forwards;
+  }
 }
 
 /* ─── Firefly Particles ──────────────────────────────────────────── */

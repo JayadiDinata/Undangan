@@ -161,6 +161,7 @@ function Decorations() {
 // ─── COVER GATE ──────────────────────────────────────────────────────
 function CoverGate({ onOpen }: { onOpen: () => void }) {
   const [opened, setOpened] = useState(false)
+  const [hovering, setHovering] = useState(false)
   const handleOpen = () => { setOpened(true); setTimeout(onOpen, 1600) }
 
   return (
@@ -225,17 +226,57 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               Sabtu, 11 Juli 2026
             </motion.p>
 
-            <motion.button
+            {/* Enhanced Open Button with UIVerse Style */}
+            <motion.div
               initial={{ opacity: 0, scale: 0.85 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, delay: 1.9, ease: easeSmooth }}
-              whileHover={{ scale: 1.06, backgroundColor: 'rgba(232,217,196,0.2)' }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleOpen}
-              className="px-10 py-3.5 bg-cream/10 backdrop-blur-md border border-cream/30 text-cream font-content text-sm font-medium rounded-full transition-all duration-500 cursor-pointer tracking-wider animate-pulse-fwd"
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              className="relative inline-flex items-center justify-center group"
             >
-              Buka Undangan
-            </motion.button>
+              <div className="relative w-52 h-12 overflow-hidden rounded-full border-2 border-cream/40 bg-gradient-to-r from-cream/5 to-cream/10 backdrop-blur-md cursor-pointer"
+                onClick={handleOpen}
+              >
+                {/* Hover expanding background */}
+                <motion.div
+                  animate={hovering ? { left: '0%', width: '100%' } : { left: '50%', width: '0%' }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="absolute inset-y-0 bg-gradient-to-r from-cream/20 to-cream/10 rounded-full"
+                />
+
+                {/* Content */}
+                <motion.div
+                  animate={hovering ? { x: 15 } : { x: 0 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  className="relative z-10 flex items-center justify-center h-full gap-2"
+                >
+                  <motion.div
+                    animate={hovering ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor">
+                      <path d="M12 4v16m8-8H4" stroke="currentColor" strokeWidth="2" fill="none" />
+                    </svg>
+                  </motion.div>
+                  <span className="text-cream font-content text-sm font-medium tracking-wider">Buka Undangan</span>
+                </motion.div>
+
+                {/* Glow effect on hover */}
+                <motion.div
+                  animate={hovering ? { opacity: 1 } : { opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0 rounded-full blur-md bg-gradient-to-r from-cream/10 to-cream/5 -z-10"
+                />
+              </div>
+
+              {/* Pulse effect */}
+              <motion.div
+                animate={{ scale: hovering ? 1.15 : 1, opacity: hovering ? 0.5 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 rounded-full border-2 border-cream/30 -z-20"
+              />
+            </motion.div>
           </motion.div>
         </motion.div>
       )}
@@ -801,83 +842,111 @@ function GallerySection() {
 function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: 
   { bank: string; number: string; holder: string; idx: number; copied: boolean; onCopy: () => void; color: string }) {
   
-  const bankColors: { [key: string]: { border: string; bg: string; text: string } } = {
-    bca: { border: 'from-blue-400/40 to-blue-500/20', bg: 'from-blue-500/10 to-blue-600/5', text: 'text-blue-300' },
-    mandiri: { border: 'from-red-400/40 to-red-500/20', bg: 'from-red-500/10 to-red-600/5', text: 'text-red-300' },
+  const bankColors: { [key: string]: { border: string; bg: string; text: string; glow: string } } = {
+    bca: { 
+      border: 'border-blue-400/50', 
+      bg: 'from-blue-500/15 to-blue-600/5', 
+      text: 'text-blue-300',
+      glow: 'rgba(96, 165, 250, 0.4)'
+    },
+    mandiri: { 
+      border: 'border-red-400/50', 
+      bg: 'from-red-500/15 to-red-600/5', 
+      text: 'text-red-300',
+      glow: 'rgba(248, 113, 113, 0.4)'
+    },
   }
 
   const colorScheme = bankColors[color]
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 60, scale: 0.9 }}
+      initial={{ opacity: 0, y: 40, scale: 0.9 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true }}
+      margin: '-60px'
       transition={fadeUp(0.12 + idx * 0.12)}
-      className="relative"
+      className="w-full"
     >
-      <div className={`relative overflow-hidden border-2 bg-gradient-to-br ${colorScheme.bg} ${colorScheme.border} backdrop-blur-sm rounded-2xl p-0 group transition-all duration-500 hover:shadow-lg`}
-        style={{ boxShadow: copied ? `0 0 20px ${color === 'bca' ? 'rgba(96, 165, 250, 0.5)' : 'rgba(248, 113, 113, 0.5)'}` : 'none' }}>
-        
-        <div className="flex items-center gap-0 overflow-hidden relative h-32 sm:h-36">
-          {/* Left side - Action button */}
+      <div 
+        className={`relative overflow-hidden ${colorScheme.border} bg-gradient-to-br ${colorScheme.bg} backdrop-blur-md rounded-2xl p-0 group transition-all duration-300 hover:shadow-lg cursor-pointer border-2 h-28 sm:h-32`}
+        onClick={onCopy}
+        style={{ 
+          boxShadow: copied ? `0 0 30px ${colorScheme.glow}` : 'none',
+          transition: 'all 0.3s ease-out'
+        }}
+      >
+        <div className="flex items-center gap-0 overflow-hidden relative h-full">
+          {/* Left side - Expanding checkmark section */}
           <motion.div
             initial={false}
-            animate={{ width: copied ? '100%' : '0%' }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className={`absolute left-0 top-0 h-full flex items-center justify-center ${color === 'bca' ? 'bg-blue-500/30' : 'bg-red-500/30'} backdrop-blur-sm border-r-2 ${color === 'bca' ? 'border-blue-400/50' : 'border-red-400/50'}`}
+            animate={{ width: copied ? '100%' : '0px' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className={`absolute left-0 top-0 h-full flex items-center justify-center backdrop-blur-sm ${
+              color === 'bca' 
+                ? 'bg-gradient-to-r from-blue-500/30 to-blue-400/20 border-r border-blue-400/50' 
+                : 'bg-gradient-to-r from-red-500/30 to-red-400/20 border-r border-red-400/50'
+            }`}
           >
             <motion.div
-              animate={{ scale: copied ? [1, 1.2, 1] : 1, rotate: copied ? 360 : 0 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
+              animate={{ scale: copied ? [0.8, 1.2, 1] : 1, rotate: copied ? 360 : 0 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="flex-shrink-0"
             >
-              <svg viewBox="0 0 24 24" className={`w-7 h-7 ${color === 'bca' ? 'text-blue-300' : 'text-red-300'}`} fill="currentColor">
+              <svg viewBox="0 0 24 24" className={`w-6 h-6 sm:w-7 sm:h-7 ${colorScheme.text}`} fill="currentColor">
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
               </svg>
             </motion.div>
           </motion.div>
 
           {/* Right side - Content */}
-          <motion.div
-            initial={false}
-            animate={{ paddingLeft: copied ? '120px' : '0px' }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="flex-1 p-6 cursor-pointer relative z-10"
-            onClick={onCopy}
-          >
+          <div className="flex-1 p-5 sm:p-6 relative z-10 h-full flex flex-col justify-center">
             <motion.div
               initial={false}
-              animate={{ opacity: copied ? 0 : 1 }}
-              transition={{ duration: 0.3 }}
+              animate={{ opacity: copied ? 0 : 1, y: copied ? -10 : 0 }}
+              transition={{ duration: 0.25 }}
+              className="absolute inset-0 p-5 sm:p-6 flex flex-col justify-center"
             >
-              <p className="text-[11px] text-cream/50 uppercase tracking-widest font-content mb-2">{bank}</p>
-              <p className={`text-lg sm:text-xl font-semibold tracking-wider ${color === 'bca' ? colorScheme.text : colorScheme.text} font-content transition-colors`}>
+              <p className="text-[10px] sm:text-xs text-cream/50 uppercase tracking-widest font-content mb-1.5">{bank}</p>
+              <p className={`text-sm sm:text-lg font-semibold tracking-wider ${colorScheme.text} font-content`}>
                 {number}
               </p>
-              <p className="text-xs text-cream/60 mt-2 font-content">a.n {holder}</p>
+              <p className="text-[10px] sm:text-xs text-cream/60 mt-1.5 font-content">a.n {holder}</p>
             </motion.div>
             
             <motion.div
               initial={false}
-              animate={{ opacity: copied ? 1 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 flex flex-col items-center justify-center"
+              animate={{ opacity: copied ? 1 : 0, y: copied ? 0 : 10 }}
+              transition={{ duration: 0.25 }}
+              className="absolute inset-0 p-5 sm:p-6 flex flex-col items-center justify-center pointer-events-none"
             >
-              <p className={`text-sm font-medium ${color === 'bca' ? 'text-blue-300' : 'text-red-300'}`}>Disalin!</p>
-              <p className="text-xs text-cream/50 mt-1">Nomor rekening berhasil disalin</p>
+              <svg viewBox="0 0 24 24" className={`w-5 h-5 sm:w-6 sm:h-6 ${colorScheme.text} mb-1`} fill="currentColor">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              </svg>
+              <p className={`text-xs sm:text-sm font-medium ${colorScheme.text}`}>Disalin!</p>
             </motion.div>
+          </div>
+
+          {/* Right hint button */}
+          <motion.div
+            animate={{ opacity: copied ? 0 : 1 }}
+            transition={{ duration: 0.2 }}
+            className={`absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg border-2 ${colorScheme.border} text-xs font-content text-cream/70 backdrop-blur-sm ${
+              color === 'bca' 
+                ? 'hover:bg-blue-500/20 hover:text-blue-200' 
+                : 'hover:bg-red-500/20 hover:text-red-200'
+            } transition-all duration-300 pointer-events-none`}
+          >
+            Salin
           </motion.div>
         </div>
 
-        {/* Interactive button hint */}
-        <motion.button
-          onClick={onCopy}
-          className={`absolute right-4 top-1/2 -translate-y-1/2 px-4 py-2 rounded-lg border-2 ${color === 'bca' ? 'border-blue-400/60 hover:border-blue-300' : 'border-red-400/60 hover:border-red-300'} text-xs font-content text-cream/70 hover:text-cream transition-all duration-300 backdrop-blur-sm ${color === 'bca' ? 'hover:bg-blue-500/20' : 'hover:bg-red-500/20'}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {copied ? 'Disalin' : 'Salin'}
-        </motion.button>
+        {/* Animated border glow */}
+        <motion.div
+          animate={copied ? { opacity: [1, 0.5, 1] } : { opacity: 0 }}
+          transition={{ duration: 0.6, repeat: copied ? 2 : 0 }}
+          className={`absolute inset-0 rounded-2xl pointer-events-none ${colorScheme.border} border-2`}
+        />
       </div>
     </motion.div>
   )
