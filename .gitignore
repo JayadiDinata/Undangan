@@ -6,12 +6,8 @@ node_modules/
 # Testing
 .coverage
 
-# Production - These should be committed for GitHub Pages
-# undangan/  <- Keep this folder in git
-# index.html <- Keep in git
-# 404.html <- Keep in git
-# _next/ <- Keep in git
-# CNAME <- Keep in git
+# Production (CI/CD — gh-pages branch via GitHub Actions)
+undangan/
 
 # Next.js development
 .next/

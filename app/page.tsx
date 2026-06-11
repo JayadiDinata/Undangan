@@ -13,12 +13,12 @@ const couples = {
 }
 
 const galleryImages = [
-  { src: '/Undangan/img/SR1.jpeg', alt: 'Prewedding 1' },
-  { src: '/Undangan/img/SR2.jpeg', alt: 'Prewedding 2' },
-  { src: '/Undangan/img/SR3.jpeg', alt: 'Prewedding 3' },
-  { src: '/Undangan/img/SR4.jpeg', alt: 'Prewedding 4' },
-  { src: '/Undangan/img/SR1-Photoroom (1).png', alt: 'Prewedding 5' },
-  { src: '/Undangan/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 6' },
+  { src: '/img/SR1.jpeg', alt: 'Prewedding 1' },
+  { src: '/img/SR2.jpeg', alt: 'Prewedding 2' },
+  { src: '/img/SR3.jpeg', alt: 'Prewedding 3' },
+  { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
+  { src: '/img/SR1-Photoroom (1).png', alt: 'Prewedding 5' },
+  { src: '/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 6' },
 ]
 
 const bankAccounts = [
@@ -174,7 +174,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ background: '#3E160C' }}
         >
-          <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR.jpeg')" }} />
+          <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.7) 40%, rgba(62,22,12,0.95) 100%)' }} />
           <Fireflies count={8} />
           <motion.div
@@ -376,7 +376,7 @@ function CoverSection() {
         <div className="relative w-full h-full rounded-2xl overflow-hidden">
           <div
             className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: "url('/Undangan/img/SR.jpeg')" }}
+            style={{ backgroundImage: "url('/img/SR.jpeg')" }}
           />
           <div
             className="absolute inset-0 z-10"
@@ -415,7 +415,7 @@ function QuoteSection() {
       id="quote"
       className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR2.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
       <Decorations />
       <motion.div
@@ -543,7 +543,7 @@ function CouplesSection() {
       id="bride"
       className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20"
     >
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.7) 100%)' }} />
       <Decorations />
       <div className="relative z-20 w-full max-w-4xl">
@@ -580,7 +580,7 @@ function CouplesSection() {
 function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR3.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.4) 0%, rgba(62,22,12,0.9) 100%)' }} />
       <Decorations />
       <motion.div className="relative z-20 w-full max-w-sm">
@@ -635,7 +635,7 @@ function ScheduleSection() {
 function LoveStorySection() {
   return (
     <section id="lovestory" className="relative w-full py-20 flex flex-col items-center justify-center overflow-hidden px-6">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR2.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'rgba(62,22,12,0.85)' }} />
       <Decorations />
       <motion.div className="relative z-20 w-full max-w-sm">
@@ -699,7 +699,7 @@ function AnimatedGallerySection() {
 
   return (
     <section id="gallery" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/SR4.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR4.jpeg')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.85) 100%)' }} />
       <Decorations />
 
@@ -1255,11 +1255,11 @@ function MainContent() {
 
   return (
     <main className="relative w-full min-h-screen">
-      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/Undangan/img/bg-floral.jpg')" }} />
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.6) 100%)' }} />
       <div className="flex max-md:flex-col md:flex-row relative z-[2]">
         <div className="hidden md:flex md:w-1/2 lg:w-2/3 h-screen sticky top-0 flex-col items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/Undangan/img/SR.jpeg')" }} />
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <Fireflies count={8} />
           <div className="relative z-10 text-center">
             <p className="text-cream/50 text-sm uppercase tracking-[0.3em] font-content mb-4">Undangan Pernikahan</p>

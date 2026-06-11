@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Undangan',
   distDir: 'undangan',
   images: {
     unoptimized: true,
