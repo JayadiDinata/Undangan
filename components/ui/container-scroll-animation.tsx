@@ -13,7 +13,9 @@ export const ContainerScroll = ({
   const { scrollYProgress } = useScroll({
     target: containerRef,
   });
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
+  );
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -26,12 +28,8 @@ export const ContainerScroll = ({
     };
   }, []);
 
-  const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
-  };
-
   const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1]);
   const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
@@ -45,8 +43,8 @@ export const ContainerScroll = ({
           perspective: "1000px",
         }}
       >
-        <Header translate={translate} titleComponent={titleComponent} />
-        <Card rotate={rotate} translate={translate} scale={scale}>
+        <Header translate={isMobile ? 0 : translate} titleComponent={titleComponent} />
+        <Card rotate={isMobile ? 0 : rotate} translate={isMobile ? 0 : translate} scale={isMobile ? 1 : scale}>
           {children}
         </Card>
       </div>
@@ -72,9 +70,9 @@ export const Card = ({
   scale,
   children,
 }: {
-  rotate: MotionValue<number>;
-  scale: MotionValue<number>;
-  translate: MotionValue<number>;
+  rotate: MotionValue<number> | number;
+  scale: MotionValue<number> | number;
+  translate: MotionValue<number> | number;
   children: React.ReactNode;
 }) => {
   return (

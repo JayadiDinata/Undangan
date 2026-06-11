@@ -162,7 +162,15 @@ function Decorations() {
 function CoverGate({ onOpen }: { onOpen: () => void }) {
   const [opened, setOpened] = useState(false)
   const [hovering, setHovering] = useState(false)
-  const handleOpen = () => { setOpened(true); setTimeout(onOpen, 1600) }
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  const exitDuration = isMobile ? 0.6 : 1.6
+  const handleOpen = () => { setOpened(true); setTimeout(onOpen, exitDuration * 1000) }
 
   return (
     <AnimatePresence>
@@ -170,7 +178,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
         <motion.div
           key="cover-gate"
           exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: 1.6, ease: easeSmooth }}
+          transition={{ duration: exitDuration, ease: easeSmooth }}
           className="fixed inset-0 z-50 flex items-center justify-center"
           style={{ background: '#3E160C' }}
         >
@@ -403,6 +411,13 @@ function CoverSection() {
 
 function QuoteSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'start start'],
@@ -419,7 +434,7 @@ function QuoteSection() {
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
       <Decorations />
       <motion.div
-        style={{ rotate: cardRotate, transformOrigin: 'bottom left' }}
+        style={{ rotate: isMobile ? 0 : cardRotate, transformOrigin: 'bottom left' }}
         className="relative z-20 w-full max-w-sm px-6"
       >
         <motion.div
@@ -751,8 +766,7 @@ function AnimatedGallerySection() {
                   {/* Outer pulsing border */}
                   <motion.div
                     animate={{
-                      width: ['88px', '100px', '88px'],
-                      height: ['88px', '100px', '88px'],
+                      scale: [1, 1.14, 1],
                       boxShadow: [
                         '0 0 0 2px rgba(232, 217, 196, 0.2)',
                         '0 0 0 6px rgba(232, 217, 196, 0.4)',
