@@ -461,84 +461,68 @@ function QuoteSection() {
 }
 
 function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride; delay: number; isGroom: boolean }) {
-  const [hovering, setHovering] = useState(false)
-  
+  const [flipped, setFlipped] = useState(false)
+
   return (
     <motion.div
       initial={{ opacity: 0, x: isGroom ? 40 : -40, scale: 0.95 }}
       whileInView={{ opacity: 1, x: 0, scale: 1 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={fadeUp(delay)}
-      onMouseEnter={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      className="group relative w-full"
+      className="flip-card w-full cursor-pointer"
+      onClick={() => setFlipped(f => !f)}
+      onMouseEnter={() => setFlipped(true)}
+      onMouseLeave={() => setFlipped(false)}
     >
-      <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border-2 border-cream/30 transition-all duration-500 bg-cream/5 backdrop-blur-sm cursor-pointer"
-        style={{
-          boxShadow: hovering ? '0 0 40px rgba(232, 217, 196, 0.3)' : '0 0 20px rgba(0,0,0,0.3)',
-          borderColor: hovering ? 'rgba(232, 217, 196, 0.6)' : 'rgba(232, 217, 196, 0.3)'
-        }}
-      >
-        {/* Main Image */}
-        <motion.img
-          src={person.img}
-          alt={person.name}
-          animate={{ scale: hovering ? 1.1 : 1 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="w-full h-full object-cover"
-        />
-        
-        {/* Gradient Overlay */}
-        <motion.div
-          animate={{ opacity: hovering ? 0.9 : 0.7 }}
-          transition={{ duration: 0.3 }}
-          className="absolute inset-0 bg-gradient-to-t from-brown-dark/90 via-brown-dark/40 to-transparent"
-        />
-        
-        {/* Name Overlay with UIVerse Animation */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-40">
-          {/* Expanding background on hover */}
-          <motion.div
-            animate={hovering ? { height: '100%', paddingTop: '2rem' } : { height: '6rem', paddingTop: 0 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="absolute inset-0 bg-gradient-to-t from-brown-dark via-brown-dark/80 to-brown-dark/0 overflow-hidden"
-          >
-            {/* Hidden content revealed on hover */}
-            <motion.div
-              animate={{ opacity: hovering ? 1 : 0 }}
-              transition={{ duration: 0.25, delay: hovering ? 0.1 : 0 }}
-              className="px-6 text-center text-cream/70 text-xs sm:text-sm font-content leading-relaxed"
-            >
-              <p className="mb-2">{person.title}</p>
-            </motion.div>
-          </motion.div>
+      <div className={`flip-card-inner ${flipped ? 'flipped' : ''}`}>
+        {/* ─── Front Face — Photo ─── */}
+        <div className="flip-card-front">
+          <img
+            src={person.img}
+            alt={person.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/80 via-brown-dark/20 to-transparent" />
 
-          {/* Name Section */}
-          <div className="relative z-10 p-6 sm:p-8 text-center h-full flex flex-col justify-end">
-            <motion.div
-              animate={{ y: hovering ? -8 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-cream text-2xl sm:text-3xl font-title leading-tight">
-                {person.name}
-              </p>
-              <motion.p
-                animate={{ opacity: hovering ? 0 : 1 }}
-                transition={{ duration: 0.2 }}
-                className="text-cream/70 text-sm font-content mt-2"
-              >
-                {person.title}
-              </motion.p>
-            </motion.div>
+          {/* Blurred circles decoration */}
+          <div className="flip-card-blur-circles">
+            <div className="flip-card-circle" />
+            <div className="flip-card-circle" />
+            <div className="flip-card-circle" />
+          </div>
+
+          {/* Name overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 text-center z-10">
+            <p className="text-cream text-2xl sm:text-3xl font-title leading-tight">
+              {person.name}
+            </p>
+            <p className="text-cream/70 text-xs sm:text-sm font-content mt-1">
+              {isGroom ? '♂' : '♀'} {person.title}
+            </p>
           </div>
         </div>
 
-        {/* Border glow on hover */}
-        <motion.div
-          animate={hovering ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          className="absolute inset-0 rounded-2xl border-2 border-cream/40 pointer-events-none"
-        />
+        {/* ─── Back Face — Info ─── */}
+        <div className="flip-card-back">
+          <div className="flip-card-back-content">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-cream/10 flex items-center justify-center mb-4 border border-cream/30">
+              <svg viewBox="0 0 24 24" className="w-7 h-7 sm:w-8 sm:h-8 text-cream" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            </div>
+
+            <p className="text-cream text-xl sm:text-2xl font-title leading-tight mb-2">
+              {person.name}
+            </p>
+            <p className="text-cream/80 text-xs sm:text-sm font-content mb-1">
+              {person.title}
+            </p>
+            <div className="w-8 h-px bg-cream/30 mx-auto my-2" />
+            <p className="text-cream/60 text-[10px] sm:text-xs font-content leading-relaxed max-w-[90%]">
+              {person.parents}
+            </p>
+          </div>
+        </div>
       </div>
     </motion.div>
   )

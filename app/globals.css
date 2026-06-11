@@ -222,6 +222,124 @@
   }
 }
 
+/* ─── 3D Flip Couples Card ────────────────────────────────────────── */
+.flip-card {
+  perspective: 1000px;
+  aspect-ratio: 3 / 4;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 16px;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  z-index: 2;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+/* Animated gradient border for back face */
+.flip-card-back::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    transparent,
+    rgba(232, 217, 196, 0.6),
+    rgba(212, 175, 55, 0.4),
+    rgba(232, 217, 196, 0.6),
+    transparent 70%
+  );
+  animation: flip-border-rotate 4s linear infinite;
+}
+
+@keyframes flip-border-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.flip-card-back-content {
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2a0f08 0%, #3E160C 100%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Floating circles on front face */
+.flip-card-blur-circles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.flip-card-circle {
+  border-radius: 50%;
+  position: absolute;
+  filter: blur(20px);
+  animation: flip-circle-float 4s ease-in-out infinite;
+}
+
+.flip-card-circle:nth-child(1) {
+  width: 120px;
+  height: 120px;
+  background: rgba(232, 217, 196, 0.15);
+  top: -20px;
+  right: -30px;
+}
+
+.flip-card-circle:nth-child(2) {
+  width: 80px;
+  height: 80px;
+  background: rgba(212, 175, 55, 0.1);
+  bottom: 10%;
+  left: -20px;
+  animation-delay: -1.5s;
+}
+
+.flip-card-circle:nth-child(3) {
+  width: 60px;
+  height: 60px;
+  background: rgba(232, 217, 196, 0.08);
+  bottom: -10px;
+  right: 20%;
+  animation-delay: -3s;
+}
+
+@keyframes flip-circle-float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-15px) scale(1.1); }
+}
+
 /* ─── Slide‑Rotate Profile Cards (Bride / Groom) ─────────────────── */
 @keyframes slide-rotate-hor-b-bck {
   0%   { transform: translateY(0)    rotateX(0deg)   scale(1);   transform-origin: bottom center; }
