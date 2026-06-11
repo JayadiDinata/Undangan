@@ -162,25 +162,17 @@ function Decorations() {
 function CoverGate({ onOpen }: { onOpen: () => void }) {
   const [opened, setOpened] = useState(false)
   const [hovering, setHovering] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-  const exitDuration = isMobile ? 0.6 : 1.6
-  const handleOpen = () => { setOpened(true); setTimeout(onOpen, exitDuration * 1000) }
+  const handleOpen = () => { setOpened(true); setTimeout(onOpen, 400) }
 
   return (
     <AnimatePresence>
       {!opened && (
         <motion.div
           key="cover-gate"
-          exit={{ opacity: 0, scale: 0.95 }}
-          transition={{ duration: exitDuration, ease: easeSmooth }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4, ease: easeSmooth }}
           className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ background: '#3E160C' }}
+          style={{ background: '#3E160C', willChange: 'transform, opacity', transform: 'translateZ(0)' }}
         >
           <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
           <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.7) 40%, rgba(62,22,12,0.95) 100%)' }} />
@@ -393,7 +385,7 @@ function CoverSection() {
           <Decorations />
         </div>
       </ContainerScroll>
-      <div className="relative w-full max-w-sm mx-auto px-6 py-16 text-center">
+      <div className="relative w-full max-w-sm mx-auto px-6 py-6 text-center">
         <motion.p
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -611,6 +603,7 @@ function ScheduleSection() {
                 viewport={{ once: true }}
                 transition={fadeUp(0.08 + i * 0.08)}
                 className="text-center"
+                style={{ willChange: 'transform' }}
               >
                 <motion.div {...vw({ initial: { opacity: 0, scale: 0.5 }, animate: { opacity: 1, scale: 1 } })}
                   transition={fadeUp(0.12 + i * 0.08)}
@@ -668,6 +661,7 @@ function LoveStorySection() {
               viewport={{ once: true }}
               transition={fadeUp(0.08 + i * 0.08)}
               className="relative mb-8 last:mb-0"
+              style={{ willChange: 'transform' }}
             >
               <div className="cover-blur border border-cream/15 rounded-xl overflow-hidden max-w-xs mx-auto">
                 <motion.div
@@ -702,15 +696,7 @@ function LoveStorySection() {
 
 function AnimatedGallerySection() {
   const [selected, setSelected] = useState<number | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  // Create circular positions for animated cards around main photo
-  const positions = [
-    { top: '-40px', left: '50%', transform: 'translateX(-50%)' },      // top
-    { top: '50%', right: '-40px', transform: 'translateY(-50%)' },     // right
-    { bottom: '-40px', left: '50%', transform: 'translateX(-50%)' },   // bottom
-    { top: '50%', left: '-40px', transform: 'translateY(-50%)' },      // left
-  ]
+  const count = galleryImages.length
 
   return (
     <section id="gallery" className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 py-20">
@@ -728,156 +714,31 @@ function AnimatedGallerySection() {
         Galeri Foto
       </motion.p>
 
-      <div className="relative z-20 w-full max-w-xl flex items-center justify-center">
-        <div ref={containerRef} className="relative w-80 h-96 md:w-96 md:h-[28rem]">
-          {/* Main Center Photo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={fadeUp(0.2)}
-            className="absolute inset-0 rounded-3xl overflow-hidden border-4 border-cream/30 shadow-2xl"
-          >
-            <img
-              src="/img/SR1-Photoroom (1).png"
-              alt="Couple Photo"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/20 to-transparent" />
-          </motion.div>
-
-          {/* Animated Cards Around */}
-          {positions.map((pos, i) => {
-            const photoIndex = i % galleryImages.length
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={fadeUp(0.3 + i * 0.1)}
-                className="absolute"
-                style={pos as React.CSSProperties}
-              >
-                <motion.button
-                  onClick={() => setSelected(photoIndex)}
-                  className="relative group"
-                >
-                  {/* Outer pulsing border */}
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.14, 1],
-                      boxShadow: [
-                        '0 0 0 2px rgba(232, 217, 196, 0.2)',
-                        '0 0 0 6px rgba(232, 217, 196, 0.4)',
-                        '0 0 0 2px rgba(232, 217, 196, 0.2)'
-                      ]
-                    }}
-                    transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute inset-0 rounded-lg -m-1 flex items-center justify-center"
-                  >
-                    {/* Inner glow */}
-                    <motion.div
-                      animate={{ opacity: [0.2, 0.5, 0.2] }}
-                      transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute inset-2 rounded-lg bg-cream/10"
-                    />
-                  </motion.div>
-
-                  {/* Photo card with expand on hover */}
-                  <motion.div
-                    whileHover={{ scale: 1.15, boxShadow: '0 0 30px rgba(232, 217, 196, 0.4)' }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 border-cream/50 bg-brown-dark/90 cursor-pointer transition-all duration-300 shadow-lg"
-                  >
-                    <motion.img
-                      src={galleryImages[photoIndex].src}
-                      alt={galleryImages[photoIndex].alt}
-                      whileHover={{ scale: 1.2 }}
-                      transition={{ duration: 0.4 }}
-                      className="w-full h-full object-cover"
-                    />
-                    <motion.div
-                      animate={{ opacity: 1 }}
-                      whileHover={{ opacity: 0.8 }}
-                      className="absolute inset-0 bg-gradient-to-t from-brown-dark/50 to-transparent"
-                    />
-
-                    {/* Shine effect on hover */}
-                    <motion.div
-                      initial={{ opacity: 0, x: '-100%' }}
-                      whileHover={{ opacity: 1, x: '100%' }}
-                      transition={{ duration: 0.5 }}
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none"
-                    />
-                  </motion.div>
-                </motion.button>
-              </motion.div>
-            )
-          })}
-
-          {/* Decorative center circle */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0 rounded-3xl border border-dashed border-cream/20"
-          />
+      <div className="relative z-20 w-full max-w-xl flex items-center justify-center" style={{ minHeight: '300px' }}>
+        <div
+          className="gallery-carousel"
+          style={{ '--count': count } as React.CSSProperties}
+        >
+          {galleryImages.map((img, i) => (
+            <div
+              key={i}
+              className="gallery-carousel-card"
+              onClick={() => setSelected(i)}
+              style={{
+                transform: `rotateY(${(360 / count) * i}deg) translateZ(var(--translateZ))`,
+              }}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/30 to-transparent pointer-events-none" />
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* Grid Gallery Below */}
-      <motion.div
-        initial={{ opacity: 0, y: 60 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={fadeUp(0.5)}
-        className="relative z-20 w-full max-w-3xl mt-16 grid grid-cols-2 md:grid-cols-3 gap-6"
-      >
-        {galleryImages.map((img, i) => (
-          <motion.button
-            key={i}
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={fadeUp(0.6 + i * 0.05)}
-            onClick={() => setSelected(i)}
-            className="relative overflow-hidden rounded-xl group cursor-pointer aspect-[3/4] border-2 border-cream/30 transition-all duration-300"
-            whileHover={{ scale: 1.08 }}
-            style={{
-              boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-            }}
-          >
-            <motion.div
-              animate={{ opacity: 1 }}
-              whileHover={{ opacity: 0.95 }}
-              className="absolute inset-0 bg-gradient-to-br from-brown-dark/10 to-brown-dark/30 pointer-events-none"
-            />
-            <motion.img
-              src={img.src}
-              alt={img.alt}
-              animate={{ scale: 1 }}
-              whileHover={{ scale: 1.15 }}
-              transition={{ duration: 0.5 }}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-            <motion.div
-              animate={{ opacity: 0 }}
-              whileHover={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 bg-gradient-to-t from-brown-dark/70 via-brown-dark/20 to-transparent"
-            />
-
-            {/* Border highlight on hover */}
-            <motion.div
-              animate={{ opacity: 0, borderColor: 'rgba(232, 217, 196, 0.3)' }}
-              whileHover={{ opacity: 1, borderColor: 'rgba(232, 217, 196, 0.8)' }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 rounded-xl border-2 pointer-events-none"
-            />
-          </motion.button>
-        ))}
-      </motion.div>
 
       {/* Modal */}
       <AnimatePresence>

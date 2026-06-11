@@ -176,6 +176,52 @@
   100% { transform: translateX(-15vw) translateY(-10vh) scale(0.7); }
 }
 
+/* ─── 3D Rotating Gallery Carousel ─────────────────────────────────── */
+.gallery-carousel {
+  --w: 100px;
+  --h: 150px;
+  --translateZ: calc((var(--w) + var(--h)) + 0px);
+  --rotateX: -10deg;
+  --perspective: 1000px;
+  width: var(--w);
+  height: var(--h);
+  transform-style: preserve-3d;
+  transform: perspective(var(--perspective));
+  animation: gallery-rotate 25s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@keyframes gallery-rotate {
+  from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg); }
+  to   { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(360deg); }
+}
+
+.gallery-carousel-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(232, 217, 196, 0.4);
+  cursor: pointer;
+  backface-visibility: hidden;
+}
+
+.gallery-carousel-card:hover {
+  border-color: rgba(232, 217, 196, 0.8);
+  box-shadow: 0 0 20px rgba(232, 217, 196, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Desktop overrides */
+@media (min-width: 768px) {
+  .gallery-carousel {
+    --w: 140px;
+    --h: 200px;
+    --translateZ: calc((var(--w) + var(--h)) + 10px);
+  }
+}
+
 /* ─── Slide‑Rotate Profile Cards (Bride / Groom) ─────────────────── */
 @keyframes slide-rotate-hor-b-bck {
   0%   { transform: translateY(0)    rotateX(0deg)   scale(1);   transform-origin: bottom center; }
