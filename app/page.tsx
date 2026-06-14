@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Easing } from 'framer-motion'
 import { ZoomParallaxSection } from '@/components/ui/zoom-parallax'
+import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 // ─── EASING ─────────────────────────────────────────────────────────
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -308,95 +309,36 @@ function Countdown() {
 // ─── COVER HERO SECTION ─────────────────────────────────────────────
 function CoverSection() {
   return (
-    <section id="cover" className="relative w-full min-h-screen">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
-      <Decorations />
-
-      <div className="relative z-20 h-full flex flex-col items-center justify-center px-5 text-center">
-        <motion.p
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: easeOut }}
-          className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-5"
-        >
-          Undangan Pernikahan
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: easeOut }}
-          className="font-title text-5xl sm:text-7xl text-cream leading-tight"
-        >
-          Sarah
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: easeOut }}
-          className="font-serif text-cream/60 text-2xl italic my-2"
-        >
-          &amp;
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8, ease: easeOut }}
-          className="font-title text-5xl sm:text-7xl text-cream leading-tight mb-5"
-        >
-          Ryan
-        </motion.h1>
-
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 1.0, ease: easeOut }}
-          className="w-12 h-px bg-cream/30 mx-auto mb-5"
-        />
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.2, ease: easeOut }}
-          className="text-cream/50 text-xs font-content mb-1"
-        >
-          Sabtu, 11 Juli 2026
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.3, ease: easeOut }}
-          className="text-cream/40 text-[10px] font-content mb-6"
-        >
-          Grand Sulanjana, Bandung
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.5, ease: easeOut }}
-          className="flex flex-col items-center gap-2"
-        >
-          <Countdown />
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.8, ease: easeOut }}
-            className="text-cream/30 text-[9px] font-content mt-4 animate-bounce"
-          >
-            Scroll ke bawah
-          </motion.p>
-        </motion.div>
-      </div>
+    <section id="cover" className="relative w-full">
+      <ContainerScroll
+        titleComponent={
+          <div className="text-center">
+            <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
+              Undangan Pernikahan
+            </p>
+            <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
+            <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
+            <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
+          </div>
+        }
+      >
+        <div className="relative w-full h-full">
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
+          <Decorations />
+          <div className="relative z-10 h-full flex flex-col items-center justify-end pb-16 px-5 text-center">
+            <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
+            <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
+            <Countdown />
+            <p className="text-cream/30 text-[9px] font-content mt-6 animate-bounce">Scroll ke bawah</p>
+          </div>
+        </div>
+      </ContainerScroll>
     </section>
   )
 }
 
-// ─── QUOTE SECTION ──────────────────────────────────────────────────
+// ─── QUOTE SECTION (Uiverse logo card adapted) ─────────────────────
 function QuoteSection() {
   return (
     <section className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -409,18 +351,40 @@ function QuoteSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: '-40px' }}
           transition={{ duration: 0.6, ease: easeOut }}
-          className="bg-cream/5 backdrop-blur-xl border border-cream/15 rounded-3xl p-6 md:p-8 text-center"
+          className="quran-card"
         >
-          <motion.p {...fadeIn(0.1)} className="font-serif text-cream/60 text-xs italic mb-4">
-            QS. Ar-Rum Ayat 21
-          </motion.p>
-          <motion.p {...fadeUp(0.15)} className="text-lg text-cream leading-[2] mb-4 font-arabic">
-            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
-          </motion.p>
-          <motion.div {...scaleIn(0.2)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
-          <motion.p {...fadeIn(0.25)} className="text-cream/60 text-xs leading-relaxed italic">
-            &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
-          </motion.p>
+          <div className="quran-card-border" />
+          <div className="quran-card-content">
+            <div className="quran-card-header">
+              <p className="font-serif text-[#bd9f67] text-xs italic tracking-wider mb-3">QS. Ar-Rum Ayat 21</p>
+            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ margin: '-40px' }}
+              transition={{ duration: 0.8, delay: 0.2, ease: easeOut }}
+              className="text-lg text-cream leading-[2.2] mb-4 font-arabic quran-verse"
+            >
+              وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+            </motion.p>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ margin: '-40px' }}
+              transition={{ duration: 0.8, delay: 0.4, ease: easeOut }}
+              className="w-8 h-px bg-[#bd9f67]/40 mx-auto mb-4"
+            />
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ margin: '-40px' }}
+              transition={{ duration: 0.6, delay: 0.6, ease: easeOut }}
+              className="text-cream/60 text-xs leading-relaxed italic"
+            >
+              &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
+            </motion.p>
+          </div>
+          <span className="quran-card-bottom">Ar-Rum · 21</span>
         </motion.div>
       </div>
     </section>
@@ -578,15 +542,16 @@ function LoveStorySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ margin: '-40px' }}
               transition={{ duration: 0.6, delay: i * 0.1, ease: easeOut }}
-              className="relative mb-5 last:mb-0"
+              className="relative mb-5 last:mb-0 love-story-item"
+              style={{ animationDelay: `${i * 0.15}s` }}
             >
-              <div className="bg-cream/5 backdrop-blur-md border border-cream/10 rounded-2xl overflow-hidden max-w-xs mx-auto">
+              <div className="bg-cream/5 backdrop-blur-md border border-cream/10 overflow-hidden max-w-xs mx-auto love-story-card">
                 <motion.div
                   initial={{ scale: 1.05 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ margin: '-40px' }}
                   transition={{ duration: 1.2, ease: easeOut }}
-                  className="w-full h-36 sm:h-44 bg-cover bg-center"
+                  className="w-full h-36 sm:h-44 bg-cover bg-center love-story-img"
                   style={{ backgroundImage: `url('${story.img}')` }}
                 />
                 <div className="p-4">
@@ -742,7 +707,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
               <svg viewBox="0 0 24 24" className={`w-5 h-5 ${scheme.text}`} fill="currentColor">
                 <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
               </svg>
-              <p className={`text-sm font-medium ${scheme.text}`}>Disalin!</p>
+              <p className={`text-sm font-medium ${scheme.text}`}>Terima Kasih!</p>
             </motion.div>
           </div>
 
@@ -752,7 +717,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
             className="pr-4"
           >
             <span className="text-[10px] text-cream/50 font-content border border-cream/20 rounded-lg px-3 py-1.5">
-              Salin
+              Terima Kasih
             </span>
           </motion.div>
         </div>
@@ -926,6 +891,16 @@ function WishesSection() {
 
 // ─── CLOSING SECTION ─────────────────────────────────────────────────
 function ClosingSection() {
+  const [attending, setAttending] = useState<'yes' | 'no' | null>(null)
+  const guestName = useRef<HTMLInputElement>(null)
+  const [guestSubmitted, setGuestSubmitted] = useState(false)
+
+  const submitAttendance = (e: FormEvent) => {
+    e.preventDefault()
+    if (!guestName.current?.value.trim()) return
+    setGuestSubmitted(true)
+  }
+
   return (
     <section id="closing" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       <div className="absolute inset-0 z-0 bg-brown-dark/60" />
@@ -943,9 +918,60 @@ function ClosingSection() {
             Sarah &amp; Ryan
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
-          <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-5 leading-relaxed">
+          <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
             Merupakan suatu kehormatan dan kebahagiaan apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ margin: '-40px' }}
+            transition={{ duration: 0.5, delay: 0.3, ease: easeOut }}
+            className="bg-cream/5 backdrop-blur-md border border-cream/15 rounded-2xl p-5 mb-6"
+          >
+            <p className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content mb-3">Konfirmasi Kehadiran</p>
+
+            {!guestSubmitted ? (
+              <form onSubmit={submitAttendance} className="space-y-3">
+                <input
+                  ref={guestName}
+                  type="text"
+                  required
+                  placeholder="Nama tamu"
+                  className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors"
+                />
+                <div className="flex gap-2">
+                  <button
+                    type="submit"
+                    onClick={() => setAttending('yes')}
+                    className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer ${
+                      attending === 'yes' ? 'bg-green-600/40 border border-green-400/40 text-green-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
+                    }`}
+                  >
+                    Hadir
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => setAttending('no')}
+                    className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer ${
+                      attending === 'no' ? 'bg-red-600/40 border border-red-400/40 text-red-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
+                    }`}
+                  >
+                    Tidak Hadir
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <motion.p
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="text-cream/70 text-sm font-content"
+              >
+                Terima kasih atas konfirmasinya 🙏
+              </motion.p>
+            )}
+          </motion.div>
+
           <motion.p {...fadeIn(0.35)} className="text-cream/40 text-xs font-content italic">
             Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh
           </motion.p>
@@ -1056,14 +1082,18 @@ function MainContent() {
 function EnvelopeGate({ onOpen }: { onOpen: () => void }) {
   const [revealed, setRevealed] = useState(false)
 
+  useEffect(() => {
+    if (revealed) {
+      const t = setTimeout(onOpen, 1200)
+      return () => clearTimeout(t)
+    }
+  }, [revealed, onOpen])
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center" style={{ background: '#3E160C' }}>
       <div
         className={`envelope-card ${revealed ? 'revealed' : ''}`}
-        onClick={() => {
-          if (revealed) onOpen()
-          else setRevealed(true)
-        }}
+        onClick={() => setRevealed(true)}
       >
         <div className="envelope-first">
           <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
@@ -1071,7 +1101,7 @@ function EnvelopeGate({ onOpen }: { onOpen: () => void }) {
         <div className="envelope-second">
           <p className="font-title text-2xl text-cream mb-2">Sarah &amp; Ryan</p>
           <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain px-6 pb-6" />
-          <p className="font-content text-[10px] text-cream/50 tracking-wider uppercase">Klik untuk masuk</p>
+          <p className="font-content text-[9px] text-cream/40 tracking-widest uppercase mt-2">Klik untuk membuka</p>
         </div>
       </div>
     </div>
@@ -1080,15 +1110,7 @@ function EnvelopeGate({ onOpen }: { onOpen: () => void }) {
 
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
-  const [phase, setPhase] = useState<'parallax' | 'envelope' | 'invitation'>('parallax')
-
-  if (phase === 'parallax') {
-    return (
-      <div className="w-full bg-brown-dark">
-        <ZoomParallaxSection onOpen={() => setPhase('envelope')} />
-      </div>
-    )
-  }
+  const [phase, setPhase] = useState<'envelope' | 'invitation'>('envelope')
 
   if (phase === 'envelope') {
     return <EnvelopeGate onOpen={() => setPhase('invitation')} />

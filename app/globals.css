@@ -196,49 +196,108 @@
 .firefly:nth-child(8)::before { animation-duration: 10s; }
 .firefly:nth-child(8)::after { animation-duration: 10s, 3.8s; }
 
-/* ─── 3D Rotating Gallery Carousel ─────────────────────────────────── */
-.gallery-carousel {
-  --w: 100px;
-  --h: 150px;
-  --translateZ: calc((var(--w) + var(--h)) * 0.35);
-  --rotateX: -10deg;
-  --perspective: 1000px;
-  width: var(--w);
-  height: var(--h);
-  transform-style: preserve-3d;
-  transform: perspective(var(--perspective));
-  animation: gallery-rotate 25s linear infinite;
-  will-change: transform;
-  backface-visibility: hidden;
+/* ─── Quran Card (Uiverse logo card adapted) ──────────────────────── */
+.quran-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  background: #243137;
+  position: relative;
+  display: grid;
+  place-content: center;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  padding: 2rem;
 }
 
-@keyframes gallery-rotate {
-  from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg); }
-  to   { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(360deg); }
+.quran-card:hover {
+  border-radius: 0;
+  transform: scale(1.03);
 }
 
-.gallery-carousel-card {
+.quran-card-border {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid rgba(232, 217, 196, 0.4);
-  cursor: pointer;
-  backface-visibility: hidden;
+  border: 2px solid #bd9f67;
+  opacity: 0;
+  transform: rotate(10deg);
+  transition: all 0.5s ease-in-out;
+  pointer-events: none;
 }
 
-.gallery-carousel-card:hover {
-  border-color: rgba(232, 217, 196, 0.8);
-  box-shadow: 0 0 20px rgba(232, 217, 196, 0.3);
-  transition: all 0.3s ease;
+.quran-card:hover .quran-card-border {
+  inset: 12px;
+  opacity: 1;
+  transform: rotate(0);
 }
 
-@media (min-width: 768px) {
-  .gallery-carousel {
-    --w: 140px;
-    --h: 200px;
-    --translateZ: calc((var(--w) + var(--h)) * 0.35);
-  }
+.quran-card-bottom {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  font-size: 7px;
+  text-transform: uppercase;
+  padding: 0 5px;
+  color: #bd9f67;
+  background: #243137;
+  opacity: 0;
+  letter-spacing: 7px;
+  transition: all 0.5s ease-in-out;
+}
+
+.quran-card:hover .quran-card-bottom {
+  letter-spacing: 3px;
+  opacity: 1;
+  transform: translateX(-50%);
+}
+
+.quran-card-content {
+  transition: all 0.5s ease-in-out;
+  text-align: center;
+}
+
+/* ─── Love Story CSS Animations ──────────────────────────────────── */
+@keyframes loveCardFadeIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes loveImgZoom {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1); }
+}
+
+.love-story-item {
+  animation: loveCardFadeIn 0.7s ease-out both;
+}
+
+.love-story-item:nth-child(odd) .love-story-card {
+  animation: loveCardSlideLeft 0.6s ease-out both;
+}
+
+.love-story-card {
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.love-story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.love-story-img {
+  transition: transform 0.6s ease-out;
+}
+
+.love-story-card:hover .love-story-img {
+  transform: scale(1.08);
+}
+
+@keyframes loveCardSlideLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 /* ─── Couples Card (Uiverse-style) ────────────────────────────────── */
