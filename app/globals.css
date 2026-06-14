@@ -302,6 +302,30 @@
   to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ─── Gallery Auto Carousel ──────────────────────────────────────── */
+.gallery-track {
+  animation: galleryScroll 20s linear infinite;
+  width: max-content;
+}
+
+.gallery-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes galleryScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.gallery-card {
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.gallery-card:hover {
+  transform: scale(1.03);
+  filter: brightness(1.1);
+}
+
 /* ─── Couples Card (Uiverse-style) ────────────────────────────────── */
 .uiverse-card {
   position: relative;
@@ -369,14 +393,22 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  animation: envelopeFloat 3s ease-in-out infinite;
 }
 
 .envelope-card:hover {
+  animation: none;
   transform: scale(1.05);
+}
+
+@keyframes envelopeFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
 .envelope-card.revealed {
   background: transparent;
+  animation: none;
 }
 
 .envelope-first {

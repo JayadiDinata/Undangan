@@ -571,6 +571,7 @@ function LoveStorySection() {
 // ─── GALLERY SECTION ─────────────────────────────────────────────────
 function GallerySection() {
   const [selected, setSelected] = useState<number | null>(null)
+  const doubled = [...galleryImages, ...galleryImages]
 
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -582,27 +583,15 @@ function GallerySection() {
         Galeri Foto
       </motion.p>
 
-      <div className="relative z-20 w-full">
-        <div
-          className="flex overflow-x-auto snap-x snap-mandatory gap-1 md:gap-2 lg:gap-3 px-5 md:px-6 pb-2"
-          style={{
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            WebkitOverflowScrolling: 'touch',
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {galleryImages.map((img, i) => (
-            <motion.div
+      <div className="relative z-20 w-full overflow-hidden">
+        <div className="gallery-track flex gap-3 px-5 md:px-6 pb-2">
+          {doubled.map((img, i) => (
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: '-40px' }}
-              transition={{ duration: 0.5, delay: i * 0.06, ease: easeOut }}
-              className="snap-start shrink-0 w-[90vw] md:w-[calc(50vw-2rem)] lg:w-[calc(50vw-2rem)] max-w-md"
-              onClick={() => setSelected(i)}
+              className="shrink-0 w-[80vw] md:w-[45vw] lg:w-[35vw] max-w-md cursor-pointer gallery-card"
+              onClick={() => setSelected(i % galleryImages.length)}
             >
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-cream/15 shadow-lg cursor-pointer group">
+              <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-cream/15 shadow-lg group">
                 <img
                   src={img.src}
                   alt={img.alt}
@@ -611,7 +600,7 @@ function GallerySection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/20 to-transparent pointer-events-none" />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
@@ -1065,7 +1054,14 @@ function MainContent() {
 
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
+  const [guestName, setGuestName] = useState('Tamu Undangan')
   const [revealed, setRevealed] = useState(false)
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const to = params.get('to')
+    if (to) setGuestName(to)
+  }, [])
 
   return (
     <>
@@ -1074,8 +1070,7 @@ export default function InvitationPage() {
         <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
         <div className="relative z-[2] flex flex-col items-center gap-3 mb-6 text-center">
-          <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content">Selamat Datang</p>
-          <h2 className="font-title text-3xl md:text-4xl text-cream">Sarah &amp; Ryan</h2>
+          <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content">Selamat Datang, {guestName}</p>
           <div className="flex items-center gap-3">
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-cream/40 hover:text-cream transition-colors">
               <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor">
