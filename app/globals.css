@@ -201,7 +201,9 @@
   width: 100%;
   max-width: 420px;
   margin: 0 auto;
-  background: #243137;
+  background: rgba(36, 49, 55, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   position: relative;
   display: grid;
   place-content: center;
@@ -241,7 +243,7 @@
   text-transform: uppercase;
   padding: 0 5px;
   color: #bd9f67;
-  background: #243137;
+  background: rgba(36, 49, 55, 0.25);
   opacity: 0;
   letter-spacing: 7px;
   transition: all 0.5s ease-in-out;
