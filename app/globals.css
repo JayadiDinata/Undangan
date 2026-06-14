@@ -54,63 +54,14 @@
 }
 
 @layer components {
-  .cover-blur {
-    background: rgba(0, 0, 0, 0.2);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-  }
-
   .timeline-line {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: 40px;
     bottom: 30px;
-    border-left: 5px dotted rgba(232, 217, 196, 0.5);
+    border-left: 4px dotted rgba(232, 217, 196, 0.4);
     background-color: transparent;
-  }
-}
-
-@layer utilities {
-  .text-shadow-glow {
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 0, 0, 0.3);
-  }
-
-  /* ─── UIVerse Checkout Button Animation ───────────────────────────── */
-  @keyframes expand-left {
-    0% { width: 0%; }
-    100% { width: 100%; }
-  }
-
-  @keyframes expand-right {
-    0% { width: 100%; }
-    100% { width: 0%; }
-  }
-
-  @keyframes pulse-border {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
-    50% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
-  }
-
-  @keyframes slide-in-top {
-    0% { opacity: 0; transform: translateY(-30px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate-expand-checkout {
-    animation: expand-left 0.5s ease-out forwards;
-  }
-
-  .animate-shrink-checkout {
-    animation: expand-right 0.5s ease-out forwards;
-  }
-
-  .animate-pulse-border {
-    animation: pulse-border 2s infinite;
-  }
-
-  .animate-slide-in-top {
-    animation: slide-in-top 0.6s ease-out forwards;
   }
 }
 
@@ -175,185 +126,6 @@
   66% { transform: translateX(25vw) translateY(5vh) scale(1.3); }
   100% { transform: translateX(-15vw) translateY(-10vh) scale(0.7); }
 }
-
-/* ─── 3D Rotating Gallery Carousel ─────────────────────────────────── */
-.gallery-carousel {
-  --w: 100px;
-  --h: 150px;
-  --translateZ: calc((var(--w) + var(--h)) + 0px);
-  --rotateX: -10deg;
-  --perspective: 1000px;
-  width: var(--w);
-  height: var(--h);
-  transform-style: preserve-3d;
-  transform: perspective(var(--perspective));
-  animation: gallery-rotate 25s linear infinite;
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-@keyframes gallery-rotate {
-  from { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg); }
-  to   { transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(360deg); }
-}
-
-.gallery-carousel-card {
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 2px solid rgba(232, 217, 196, 0.4);
-  cursor: pointer;
-  backface-visibility: hidden;
-}
-
-.gallery-carousel-card:hover {
-  border-color: rgba(232, 217, 196, 0.8);
-  box-shadow: 0 0 20px rgba(232, 217, 196, 0.3);
-  transition: all 0.3s ease;
-}
-
-/* Desktop overrides */
-@media (min-width: 768px) {
-  .gallery-carousel {
-    --w: 140px;
-    --h: 200px;
-    --translateZ: calc((var(--w) + var(--h)) + 10px);
-  }
-}
-
-/* ─── 3D Flip Couples Card ────────────────────────────────────────── */
-.flip-card {
-  perspective: 1000px;
-  aspect-ratio: 3 / 4;
-}
-
-.flip-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 16px;
-}
-
-.flip-card-inner.flipped {
-  transform: rotateY(180deg);
-}
-
-.flip-card-front,
-.flip-card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.flip-card-front {
-  z-index: 2;
-}
-
-.flip-card-back {
-  transform: rotateY(180deg);
-  z-index: 1;
-}
-
-/* Animated gradient border for back face */
-.flip-card-back::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    transparent,
-    rgba(232, 217, 196, 0.6),
-    rgba(212, 175, 55, 0.4),
-    rgba(232, 217, 196, 0.6),
-    transparent 70%
-  );
-  animation: flip-border-rotate 4s linear infinite;
-}
-
-@keyframes flip-border-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.flip-card-back-content {
-  position: absolute;
-  inset: 2px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #2a0f08 0%, #3E160C 100%);
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  text-align: center;
-}
-
-/* Floating circles on front face */
-.flip-card-blur-circles {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.flip-card-circle {
-  border-radius: 50%;
-  position: absolute;
-  filter: blur(20px);
-  animation: flip-circle-float 4s ease-in-out infinite;
-}
-
-.flip-card-circle:nth-child(1) {
-  width: 120px;
-  height: 120px;
-  background: rgba(232, 217, 196, 0.15);
-  top: -20px;
-  right: -30px;
-}
-
-.flip-card-circle:nth-child(2) {
-  width: 80px;
-  height: 80px;
-  background: rgba(212, 175, 55, 0.1);
-  bottom: 10%;
-  left: -20px;
-  animation-delay: -1.5s;
-}
-
-.flip-card-circle:nth-child(3) {
-  width: 60px;
-  height: 60px;
-  background: rgba(232, 217, 196, 0.08);
-  bottom: -10px;
-  right: 20%;
-  animation-delay: -3s;
-}
-
-@keyframes flip-circle-float {
-  0%, 100% { transform: translateY(0px) scale(1); }
-  50% { transform: translateY(-15px) scale(1.1); }
-}
-
-/* ─── Slide‑Rotate Profile Cards (Bride / Groom) ─────────────────── */
-@keyframes slide-rotate-hor-b-bck {
-  0%   { transform: translateY(0)    rotateX(0deg)   scale(1);   transform-origin: bottom center; }
-  100% { transform: translateY(150px) rotateX(-90deg) scale(0.5); transform-origin: bottom center; }
-}
-@keyframes slide-rotate-hor-b-bck-alt {
-  0%   { transform: translateY(0)     rotateX(0deg)   scale(1);  transform-origin: top center; }
-  100% { transform: translateY(-150px) rotateX(90deg)  scale(0.5); transform-origin: top center; }
-}
-
-.sr-enter { animation: slide-rotate-hor-b-bck 1s cubic-bezier(0.455,0.030,0.515,0.955) reverse both; }
-.sr-exit  { animation: slide-rotate-hor-b-bck 1s cubic-bezier(0.455,0.030,0.515,0.955) forwards; }
-.sr-alt-enter { animation: slide-rotate-hor-b-bck-alt 1s cubic-bezier(0.455,0.030,0.515,0.955) reverse both; }
-.sr-alt-exit  { animation: slide-rotate-hor-b-bck-alt 1s cubic-bezier(0.455,0.030,0.515,0.955) forwards; }
 
 .firefly {
   position: fixed;
@@ -423,3 +195,74 @@
 .firefly:nth-child(8) { animation-name: move8; left: 9%; top: 35%; }
 .firefly:nth-child(8)::before { animation-duration: 10s; }
 .firefly:nth-child(8)::after { animation-duration: 10s, 3.8s; }
+
+/* ─── 3D Flip Couples Card ────────────────────────────────────────── */
+.flip-card {
+  perspective: 1000px;
+  aspect-ratio: 3 / 4;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 16px;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.flip-card-front {
+  z-index: 2;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  z-index: 1;
+}
+
+.flip-card-back::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(
+    transparent,
+    rgba(232, 217, 196, 0.6),
+    rgba(212, 175, 55, 0.4),
+    rgba(232, 217, 196, 0.6),
+    transparent 70%
+  );
+  animation: flip-border-rotate 4s linear infinite;
+}
+
+@keyframes flip-border-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.flip-card-back-content {
+  position: absolute;
+  inset: 2px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2a0f08 0%, #3E160C 100%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  text-align: center;
+}
