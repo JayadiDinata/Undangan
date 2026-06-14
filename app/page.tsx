@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Easing } from 'framer-motion'
-import { ZoomParallaxSection } from '@/components/ui/zoom-parallax'
+import { ZoomParallax } from '@/components/ui/zoom-parallax'
 import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 // ─── EASING ─────────────────────────────────────────────────────────
@@ -1040,7 +1040,7 @@ function MainContent() {
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
 
       <div className="relative z-[2]">
-        <ZoomParallaxSection />
+        <ZoomParallax images={galleryImages} />
         <CoverSection />
         <QuoteSection />
         <CouplesSection />
