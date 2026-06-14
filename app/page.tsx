@@ -1086,10 +1086,12 @@ export default function InvitationPage() {
   return (
     <>
       {/* ── Envelope Section (first, part of page flow) ── */}
-      <section className="relative z-[2] w-full min-h-screen flex items-center justify-center bg-[#3E160C]">
+      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
         <div
-          className={`envelope-card ${revealed ? 'revealed' : ''}`}
-          onClick={() => setRevealed(true)}
+          className={`relative z-[2] envelope-card ${revealed ? 'revealed' : ''}`}
+          onClick={() => setRevealed(prev => !prev)}
         >
           <div className="envelope-first">
             <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
