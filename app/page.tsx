@@ -1085,11 +1085,19 @@ function MainContent() {
 }
 
 // ─── PAGE ────────────────────────────────────────────────────────────
+function GuestName() {
+  const [name, setName] = useState('Tamu Undangan')
+  useEffect(() => {
+    const to = new URLSearchParams(window.location.search).get('to')
+    if (to) setName(decodeURIComponent(to))
+  }, [])
+  return <p className="text-cream/80 text-lg font-content leading-relaxed">{name}</p>
+}
+
 export default function InvitationPage() {
   const [revealed, setRevealed] = useState(false)
   const envelopeRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: envProgress } = useScroll({ target: envelopeRef })
-  const [guestName, setGuestName] = useState('Tamu Undangan')
 
   useEffect(() => {
     const unsubscribe = envProgress.on('change', (v: number) => {
@@ -1097,11 +1105,6 @@ export default function InvitationPage() {
     })
     return unsubscribe
   }, [envProgress])
-
-  useEffect(() => {
-    const to = new URLSearchParams(window.location.search).get('to')
-    if (to) setGuestName(decodeURIComponent(to))
-  }, [])
 
   return (
     <>
@@ -1111,7 +1114,7 @@ export default function InvitationPage() {
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-2">Selamat Datang</p>
-          <p className="text-cream/80 text-lg font-content leading-relaxed">{guestName}</p>
+          <GuestName />
         </div>
         <div
           className={`relative z-[2] envelope-card ${revealed ? 'revealed' : ''}`}
