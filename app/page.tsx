@@ -1110,13 +1110,9 @@ export default function InvitationPage() {
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
-        <div className="relative z-[2] flex flex-col items-center gap-2 mb-6 text-center">
-          <p className="text-cream/70 text-sm font-content leading-relaxed max-w-xs">
-            Kepada Yth. <span className="text-cream font-semibold">{guestName}</span>
-          </p>
-          <p className="text-cream/40 text-[10px] font-content">
-            Follow IG <span className="text-cream/60">@sarah.ryan</span> &bull; WA <span className="text-cream/60">+62xxx</span>
-          </p>
+        <div className="relative z-[2] mb-6 text-center">
+          <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-2">Selamat Datang</p>
+          <p className="text-cream/80 text-lg font-content leading-relaxed">{guestName}</p>
         </div>
         <div
           className={`relative z-[2] envelope-card ${revealed ? 'revealed' : ''}`}
