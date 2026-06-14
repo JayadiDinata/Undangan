@@ -1098,7 +1098,7 @@ export default function InvitationPage() {
 
   useEffect(() => {
     const unsubscribe = envProgress.on('change', (v: number) => {
-      if (v > 0.15) setRevealed(true)
+      setRevealed(v > 0.15)
     })
     return unsubscribe
   }, [envProgress])
