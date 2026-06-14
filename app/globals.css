@@ -382,8 +382,8 @@
 
 /* ─── Envelope Gate (Uiverse perfect-husky-88) ───────────────────── */
 .envelope-card {
-  width: 240px;
-  height: 300px;
+  width: 320px;
+  height: 400px;
   background: transparent;
   transition: all 0.4s;
   cursor: pointer;
@@ -429,7 +429,7 @@
 
 @media (min-width: 768px) {
   .envelope-card {
-    width: 280px;
-    height: 360px;
+    width: 400px;
+    height: 500px;
   }
 }
