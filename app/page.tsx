@@ -409,11 +409,6 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
         <img src={person.img} alt={person.name} className="uiverse-card-img" />
         <div className="uiverse-card-overlay" />
-        <div className="uiverse-dots">
-          <span className="uiverse-dot-red" />
-          <span className="uiverse-dot-yellow" />
-          <span className="uiverse-dot-green" />
-        </div>
         <div className="uiverse-card-bottom">
           <p className="text-cream text-xl sm:text-2xl font-title leading-tight mb-0.5">{person.name}</p>
           <p className="text-cream/70 text-xs font-content">{isGroom ? 'Laki-laki' : 'Perempuan'}</p>
@@ -677,49 +672,39 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
         onClick={onCopy}
       >
         <div className="flex items-center h-24 sm:h-28">
-          <motion.div
-            initial={false}
-            animate={{ width: copied ? '25%' : '0%' }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
-            className="h-full flex items-center justify-center overflow-hidden"
-          >
-            <motion.div
-              animate={{ scale: copied ? 1 : 0, rotate: copied ? 360 : 0 }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
-            >
-              <svg viewBox="0 0 24 24" className={`w-6 h-6 ${scheme.text}`} fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
-            </motion.div>
-          </motion.div>
-
           <div className="flex-1 px-4 py-4">
             <motion.div animate={{ opacity: copied ? 0 : 1 }} transition={{ duration: 0.2 }}>
               <p className="text-[9px] text-cream/40 uppercase tracking-widest font-content mb-1">{bank}</p>
               <p className={`text-sm sm:text-base font-semibold tracking-wider ${scheme.text} font-content`}>{number}</p>
               <p className="text-[9px] text-cream/50 mt-1 font-content">a.n {holder}</p>
             </motion.div>
-            <motion.div
-              animate={{ opacity: copied ? 1 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center gap-2"
-            >
-              <svg viewBox="0 0 24 24" className={`w-5 h-5 ${scheme.text}`} fill="currentColor">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
-              <p className={`text-sm font-medium ${scheme.text}`}>Terima Kasih!</p>
-            </motion.div>
           </div>
 
-          <motion.div
-            animate={{ opacity: copied ? 0 : 1 }}
-            transition={{ duration: 0.2 }}
-            className="pr-4"
-          >
-            <span className="text-[10px] text-cream/50 font-content border border-cream/20 rounded-lg px-3 py-1.5">
-              Terima Kasih
-            </span>
-          </motion.div>
+      <div className="pr-4">
+        <motion.div animate={{ opacity: copied ? 0 : 1, scale: copied ? 0.5 : 1 }} transition={{ duration: 0.2 }}>
+          {bank === 'Bank BCA' ? (
+            <svg viewBox="0 0 48 48" className="w-8 h-8 text-blue-400/60" fill="currentColor">
+              <rect x="6" y="18" width="36" height="24" rx="3" />
+              <rect x="10" y="8" width="28" height="12" rx="2" fill="currentColor" opacity="0.3" />
+              <text x="24" y="34" textAnchor="middle" fontSize="8" fontWeight="bold" fill="currentColor">BCA</text>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 48 48" className="w-8 h-8 text-red-400/60" fill="currentColor">
+              <rect x="6" y="18" width="36" height="24" rx="3" />
+              <text x="24" y="34" textAnchor="middle" fontSize="6" fontWeight="bold" fill="currentColor">MANDIRI</text>
+            </svg>
+          )}
+        </motion.div>
+        <motion.div
+          animate={{ opacity: copied ? 1 : 0, scale: copied ? 1 : 0.5 }}
+          transition={{ duration: 0.2 }}
+          className="absolute inset-0 flex items-center justify-center"
+        >
+          <svg viewBox="0 0 24 24" className={`w-6 h-6 ${scheme.text}`} fill="currentColor">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+          </svg>
+        </motion.div>
+      </div>
         </div>
       </div>
     </motion.div>

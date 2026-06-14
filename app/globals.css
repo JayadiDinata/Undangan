@@ -348,28 +348,6 @@
   z-index: 1;
 }
 
-.uiverse-dots {
-  position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  display: flex;
-  gap: 5px;
-  z-index: 3;
-}
-
-.uiverse-dot-red,
-.uiverse-dot-yellow,
-.uiverse-dot-green {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.28);
-}
-
-.uiverse-dot-red { background-color: #ff605c; }
-.uiverse-dot-yellow { background-color: #ffbd44; }
-.uiverse-dot-green { background-color: #00ca4e; }
-
 .uiverse-card-bottom {
   position: absolute;
   bottom: 0.75rem;
