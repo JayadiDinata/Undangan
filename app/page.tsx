@@ -293,10 +293,10 @@ function Countdown() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: '-40px' }}
           transition={{ duration: 0.5, delay: i * 0.05, ease: easeOut }}
-          className="flex flex-col items-center min-w-[56px]"
+          className="flex flex-col items-center min-w-[48px]"
         >
-          <div className="bg-cream/10 backdrop-blur-md border border-cream/15 rounded-2xl px-3 py-2.5 w-full text-center">
-            <span className="block font-serif text-xl sm:text-2xl font-bold text-cream">{tl[key]}</span>
+          <div className="bg-cream/10 backdrop-blur-md border border-cream/10 rounded-xl px-2 py-1.5 w-full text-center">
+            <span className="block font-serif text-lg sm:text-xl font-bold text-cream">{tl[key]}</span>
           </div>
           <span className="text-[9px] text-cream/50 uppercase tracking-wider mt-1 font-content">{label}</span>
         </motion.div>
@@ -308,7 +308,7 @@ function Countdown() {
 // ─── COVER HERO SECTION ─────────────────────────────────────────────
 function CoverSection() {
   return (
-    <section id="cover" className="relative w-full h-screen overflow-hidden">
+    <section id="cover" className="relative w-full min-h-screen">
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
       <Decorations />
@@ -427,9 +427,9 @@ function QuoteSection() {
   )
 }
 
-// ─── COUPLES CARD ────────────────────────────────────────────────────
+// ─── COUPLES CARD (Uiverse-style) ────────────────────────────────────
 function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride; delay: number; isGroom: boolean }) {
-  const [flipped, setFlipped] = useState(false)
+  const [expanded, setExpanded] = useState(false)
 
   return (
     <motion.div
@@ -437,31 +437,25 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ margin: '-60px' }}
       transition={{ duration: 0.6, delay, ease: easeOut }}
-      className="flip-card w-full cursor-pointer"
-      onClick={() => setFlipped(f => !f)}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
+      className="w-full flex justify-center cursor-pointer"
+      onClick={() => setExpanded(f => !f)}
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
     >
-      <div className={`flip-card-inner ${flipped ? 'flipped' : ''}`}>
-        <div className="flip-card-front">
-          <img src={person.img} alt={person.name} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brown-dark/80 via-brown-dark/20 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 p-5 text-center z-10">
-            <p className="text-cream text-xl sm:text-2xl font-title leading-tight">{person.name}</p>
-            <p className="text-cream/60 text-xs font-content mt-0.5">{isGroom ? '♂' : '♀'} {person.title}</p>
-          </div>
+      <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
+        <img src={person.img} alt={person.name} className="uiverse-card-img" />
+        <div className="uiverse-card-overlay" />
+        <div className="uiverse-dots">
+          <span className="uiverse-dot-red" />
+          <span className="uiverse-dot-yellow" />
+          <span className="uiverse-dot-green" />
         </div>
-        <div className="flip-card-back">
-          <div className="flip-card-back-content">
-            <div className="w-12 h-12 rounded-full bg-cream/10 flex items-center justify-center mb-3 border border-cream/20">
-              <svg viewBox="0 0 24 24" className="w-6 h-6 text-cream" fill="currentColor">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-              </svg>
-            </div>
-            <p className="text-cream text-lg sm:text-xl font-title leading-tight mb-1">{person.name}</p>
-            <p className="text-cream/70 text-xs font-content mb-1">{person.title}</p>
-            <div className="w-6 h-px bg-cream/20 mx-auto my-2" />
-            <p className="text-cream/50 text-[10px] font-content leading-relaxed max-w-[85%]">{person.parents}</p>
+        <div className="uiverse-card-bottom">
+          <p className="text-cream text-xl sm:text-2xl font-title leading-tight mb-0.5">{person.name}</p>
+          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Laki-laki' : 'Perempuan'}</p>
+          <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
+            <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
+            <p className="text-cream/50 text-[10px] font-content leading-relaxed">{person.parents}</p>
           </div>
         </div>
       </div>
@@ -631,7 +625,7 @@ function GallerySection() {
 
       <div className="relative z-20 w-full">
         <div
-          className="flex overflow-x-auto snap-x snap-mandatory gap-2 md:gap-3 lg:gap-4 px-5 md:px-6 pb-2"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-1 md:gap-2 lg:gap-3 px-5 md:px-6 pb-2"
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
@@ -646,7 +640,7 @@ function GallerySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ margin: '-40px' }}
               transition={{ duration: 0.5, delay: i * 0.06, ease: easeOut }}
-              className="snap-start shrink-0 w-[85vw] md:w-[calc(50vw-3rem)] lg:w-[calc(33.333vw-3rem)] max-w-sm"
+              className="snap-start shrink-0 w-[90vw] md:w-[calc(50vw-2rem)] lg:w-[calc(50vw-2rem)] max-w-md"
               onClick={() => setSelected(i)}
             >
               <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-cream/15 shadow-lg cursor-pointer group">
@@ -1021,7 +1015,6 @@ function MainContent() {
 
       <div className="relative z-[2]">
         <CoverSection />
-        <ZoomParallaxSection />
         <QuoteSection />
         <CouplesSection />
         <ScheduleSection />
@@ -1059,16 +1052,46 @@ function MainContent() {
   )
 }
 
+// ─── ENVELOPE GATE (Uiverse perfect-husky-88) ────────────────────────
+function EnvelopeGate({ onOpen }: { onOpen: () => void }) {
+  const [revealed, setRevealed] = useState(false)
+
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center" style={{ background: '#3E160C' }}>
+      <div
+        className={`envelope-card ${revealed ? 'revealed' : ''}`}
+        onClick={() => {
+          if (revealed) onOpen()
+          else setRevealed(true)
+        }}
+      >
+        <div className="envelope-first">
+          <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+        </div>
+        <div className="envelope-second">
+          <p className="font-title text-2xl text-cream mb-2">Sarah &amp; Ryan</p>
+          <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain px-6 pb-6" />
+          <p className="font-content text-[10px] text-cream/50 tracking-wider uppercase">Klik untuk masuk</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
-  const [invitationOpened, setInvitationOpened] = useState(false)
+  const [phase, setPhase] = useState<'parallax' | 'envelope' | 'invitation'>('parallax')
 
-  if (!invitationOpened) {
+  if (phase === 'parallax') {
     return (
-      <div className="fixed inset-0 w-full h-full bg-brown-dark">
-        <CoverGate onOpen={() => setInvitationOpened(true)} />
+      <div className="w-full bg-brown-dark">
+        <ZoomParallaxSection onOpen={() => setPhase('envelope')} />
       </div>
     )
+  }
+
+  if (phase === 'envelope') {
+    return <EnvelopeGate onOpen={() => setPhase('invitation')} />
   }
 
   return <MainContent />

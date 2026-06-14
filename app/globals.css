@@ -241,73 +241,144 @@
   }
 }
 
-/* ─── 3D Flip Couples Card ────────────────────────────────────────── */
-.flip-card {
-  perspective: 1000px;
-  aspect-ratio: 3 / 4;
-}
-
-.flip-card-inner {
+/* ─── Couples Card (Uiverse-style) ────────────────────────────────── */
+.uiverse-card {
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  border-radius: 16px;
+  width: 220px;
+  height: 200px;
+  border-radius: 8px;
+  background: rgba(198, 198, 198, 0.34);
+  backdrop-filter: blur(5px);
+  border-bottom: 3px solid rgba(255, 255, 255, 0.44);
+  border-left: 2px rgba(255, 255, 255, 0.545) outset;
+  box-shadow: -40px 50px 30px rgba(0, 0, 0, 0.28);
+  transform: skewX(10deg);
+  transition: all 0.4s ease;
+  overflow: hidden;
+  color: white;
 }
 
-.flip-card-inner.flipped {
-  transform: rotateY(180deg);
+.uiverse-card.expanded {
+  height: 380px;
+  transform: skew(0deg);
 }
 
-.flip-card-front,
-.flip-card-back {
+@media (min-width: 768px) {
+  .uiverse-card {
+    width: 280px;
+    height: 260px;
+  }
+  .uiverse-card.expanded {
+    height: 460px;
+  }
+}
+
+.uiverse-card-img {
   position: absolute;
   inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.uiverse-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(62,22,12,0.95) 0%, rgba(62,22,12,0.1) 60%, transparent 100%);
+  z-index: 1;
+}
+
+.uiverse-dots {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  display: flex;
+  gap: 5px;
+  z-index: 3;
+}
+
+.uiverse-dot-red,
+.uiverse-dot-yellow,
+.uiverse-dot-green {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.28);
+}
+
+.uiverse-dot-red { background-color: #ff605c; }
+.uiverse-dot-yellow { background-color: #ffbd44; }
+.uiverse-dot-green { background-color: #00ca4e; }
+
+.uiverse-card-bottom {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  padding: 0 0.75rem;
+}
+
+/* ─── Envelope Gate (Uiverse perfect-husky-88) ───────────────────── */
+.envelope-card {
+  width: 240px;
+  height: 300px;
+  background: rgba(103, 225, 255, 0.1);
+  transition: all 0.4s;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.envelope-card:hover {
+  border-radius: 15px;
+  transform: scale(1.05);
+  background: rgba(103, 151, 255, 0.15);
+}
+
+.envelope-card.revealed {
+  background: rgba(103, 151, 255, 0.15);
+}
+
+.envelope-first {
+  height: 100%;
+  width: 100%;
+  transition: all 0.4s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.envelope-card.revealed .envelope-first {
+  height: 0%;
+  opacity: 0;
   overflow: hidden;
 }
 
-.flip-card-front {
-  z-index: 2;
-}
-
-.flip-card-back {
-  transform: rotateY(180deg);
-  z-index: 1;
-}
-
-.flip-card-back::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  background: conic-gradient(
-    transparent,
-    rgba(232, 217, 196, 0.6),
-    rgba(212, 175, 55, 0.4),
-    rgba(232, 217, 196, 0.6),
-    transparent 70%
-  );
-  animation: flip-border-rotate 4s linear infinite;
-}
-
-@keyframes flip-border-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.flip-card-back-content {
-  position: absolute;
-  inset: 2px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #2a0f08 0%, #3E160C 100%);
-  z-index: 1;
+.envelope-second {
+  height: 0%;
+  width: 100%;
+  opacity: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 1.5rem;
-  text-align: center;
+  align-items: center;
+  transition: all 0.4s;
+}
+
+.envelope-card.revealed .envelope-second {
+  opacity: 1;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .envelope-card {
+    width: 280px;
+    height: 360px;
+  }
 }
