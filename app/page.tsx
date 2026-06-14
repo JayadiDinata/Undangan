@@ -1086,10 +1086,10 @@ function MainContent() {
 
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
-  const [guestName, setGuestName] = useState('Tamu Undangan')
   const [revealed, setRevealed] = useState(false)
   const envelopeRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: envProgress } = useScroll({ target: envelopeRef })
+  const [guestName, setGuestName] = useState('Tamu Undangan')
 
   useEffect(() => {
     const unsubscribe = envProgress.on('change', (v: number) => {
@@ -1099,9 +1099,8 @@ export default function InvitationPage() {
   }, [envProgress])
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    const to = params.get('to')
-    if (to) setGuestName(to)
+    const to = new URLSearchParams(window.location.search).get('to')
+    if (to) setGuestName(decodeURIComponent(to))
   }, [])
 
   return (
