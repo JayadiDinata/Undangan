@@ -304,7 +304,7 @@ function Countdown() {
   )
 }
 
-// ─── COVER HERO SECTION (with parallax zoom) ───────────────────────
+// ─── COVER HERO SECTION (with parallax zoom + scattered images) ───
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -314,6 +314,15 @@ function CoverSection() {
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 2.5])
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
+
+  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
+  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
+  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
+  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
+  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
+
+  const scatImages = galleryImages.slice(1)
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
@@ -326,7 +335,7 @@ function CoverSection() {
         <Decorations />
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
-          className="relative z-10 h-full flex flex-col items-center justify-center px-5 text-center"
+          className="absolute inset-0 z-20 flex flex-col items-center justify-center px-5 text-center"
         >
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
@@ -340,6 +349,34 @@ function CoverSection() {
             <Countdown />
           </div>
         </motion.div>
+
+        {scatImages.map((img, i) => {
+          const scale = scales[i % scales.length]
+          const idx = i + 1
+          return (
+            <motion.div
+              key={i}
+              style={{ scale }}
+              className={`absolute top-0 flex h-full w-full items-center justify-center ${
+                idx === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
+              } ${
+                idx === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
+              } ${
+                idx === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
+              } ${
+                idx === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
+              } ${
+                idx === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
+              } ${
+                idx === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
+              }`}
+            >
+              <div className="relative h-[25vh] w-[25vw]">
+                <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="lazy" />
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
     </section>
   )
