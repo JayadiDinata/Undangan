@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, type Easing } from 'framer-motion'
 import { ZoomParallax } from '@/components/ui/zoom-parallax'
-import { ContainerScroll } from '@/components/ui/container-scroll-animation'
 
 // ─── EASING ─────────────────────────────────────────────────────────
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -309,31 +308,24 @@ function Countdown() {
 // ─── COVER HERO SECTION ─────────────────────────────────────────────
 function CoverSection() {
   return (
-    <section id="cover" className="relative w-full">
-      <ContainerScroll
-        titleComponent={
-          <div className="text-center">
-            <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
-              Undangan Pernikahan
-            </p>
-            <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
-            <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-            <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
-          </div>
-        }
-      >
-        <div className="relative w-full h-full">
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
-          <Decorations />
-          <div className="relative z-10 h-full flex flex-col items-center justify-end pb-16 px-5 text-center">
-            <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
-            <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
-            <Countdown />
-            <p className="text-cream/30 text-[9px] font-content mt-6 animate-bounce">Scroll ke bawah</p>
-          </div>
+    <section id="cover" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
+      <Decorations />
+      <div className="relative z-10 flex flex-col items-center justify-center px-5 text-center">
+        <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
+          Undangan Pernikahan
+        </p>
+        <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
+        <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
+        <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
+        <div className="mt-8">
+          <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
+          <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
+          <Countdown />
         </div>
-      </ContainerScroll>
+        <p className="text-cream/30 text-[9px] font-content mt-6 animate-bounce">Scroll ke bawah</p>
+      </div>
     </section>
   )
 }
