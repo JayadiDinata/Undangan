@@ -1040,6 +1040,7 @@ function MainContent() {
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
 
       <div className="relative z-[2]">
+        <ZoomParallaxSection />
         <CoverSection />
         <QuoteSection />
         <CouplesSection />
@@ -1078,43 +1079,30 @@ function MainContent() {
   )
 }
 
-// ─── ENVELOPE GATE (Uiverse perfect-husky-88) ────────────────────────
-function EnvelopeGate({ onOpen }: { onOpen: () => void }) {
-  const [revealed, setRevealed] = useState(false)
-
-  useEffect(() => {
-    if (revealed) {
-      const t = setTimeout(onOpen, 1200)
-      return () => clearTimeout(t)
-    }
-  }, [revealed, onOpen])
-
-  return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center" style={{ background: '#3E160C' }}>
-      <div
-        className={`envelope-card ${revealed ? 'revealed' : ''}`}
-        onClick={() => setRevealed(true)}
-      >
-        <div className="envelope-first">
-          <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-        </div>
-        <div className="envelope-second">
-          <p className="font-title text-2xl text-cream mb-2">Sarah &amp; Ryan</p>
-          <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain px-6 pb-6" />
-          <p className="font-content text-[9px] text-cream/40 tracking-widest uppercase mt-2">Klik untuk membuka</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 // ─── PAGE ────────────────────────────────────────────────────────────
 export default function InvitationPage() {
-  const [phase, setPhase] = useState<'envelope' | 'invitation'>('envelope')
+  const [revealed, setRevealed] = useState(false)
 
-  if (phase === 'envelope') {
-    return <EnvelopeGate onOpen={() => setPhase('invitation')} />
-  }
+  return (
+    <>
+      {/* ── Envelope Section (first, part of page flow) ── */}
+      <section className="relative z-[2] w-full min-h-screen flex items-center justify-center bg-[#3E160C]">
+        <div
+          className={`envelope-card ${revealed ? 'revealed' : ''}`}
+          onClick={() => setRevealed(true)}
+        >
+          <div className="envelope-first">
+            <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+          </div>
+          <div className="envelope-second relative">
+            <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+            <p className="absolute top-4 left-1/2 -translate-x-1/2 font-title text-lg md:text-xl text-cream text-center whitespace-nowrap">Sarah &amp; Ryan</p>
+          </div>
+        </div>
+      </section>
 
-  return <MainContent />
+      {/* ── Main Content (scrollable after envelope) ── */}
+      <MainContent />
+    </>
+  )
 }
