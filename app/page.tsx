@@ -1096,7 +1096,7 @@ export default function InvitationPage() {
           </div>
           <div className="envelope-second relative">
             <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-            <p className="absolute top-4 left-1/2 -translate-x-1/2 font-title text-lg md:text-xl text-cream text-center whitespace-nowrap">Sarah &amp; Ryan</p>
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-brown-dark text-center whitespace-nowrap">Sarah &amp; Ryan</p>
           </div>
         </div>
       </section>
