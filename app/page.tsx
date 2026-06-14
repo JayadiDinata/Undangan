@@ -304,14 +304,13 @@ function Countdown() {
   )
 }
 
-// ─── COVER HERO SECTION (with parallax zoom + scattered images) ───
+// ─── COVER HERO SECTION (parallax zoom scattered images) ──────────
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start start', 'end end'],
   })
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 2.5])
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
@@ -322,17 +321,13 @@ function CoverSection() {
   const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
   const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
 
-  const scatImages = galleryImages.slice(1)
-
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/img/SR.jpeg')", scale: bgScale }}
-        />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.8) 100%)' }} />
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.85) 100%)' }} />
         <Decorations />
+
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
           className="absolute inset-0 z-20 flex flex-col items-center justify-center px-5 text-center"
@@ -350,25 +345,24 @@ function CoverSection() {
           </div>
         </motion.div>
 
-        {scatImages.map((img, i) => {
+        {galleryImages.map((img, i) => {
           const scale = scales[i % scales.length]
-          const idx = i + 1
           return (
             <motion.div
               key={i}
               style={{ scale }}
               className={`absolute top-0 flex h-full w-full items-center justify-center ${
-                idx === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
+                i === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
               } ${
-                idx === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
+                i === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
               } ${
-                idx === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
+                i === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
               } ${
-                idx === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
+                i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
               } ${
-                idx === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
+                i === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
               } ${
-                idx === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
+                i === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
               }`}
             >
               <div className="relative h-[25vh] w-[25vw]">
