@@ -1093,6 +1093,15 @@ function MainContent() {
 export default function InvitationPage() {
   const [guestName, setGuestName] = useState('Tamu Undangan')
   const [revealed, setRevealed] = useState(false)
+  const envelopeRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: envProgress } = useScroll({ target: envelopeRef })
+
+  useEffect(() => {
+    const unsubscribe = envProgress.on('change', (v: number) => {
+      if (v > 0.15) setRevealed(true)
+    })
+    return unsubscribe
+  }, [envProgress])
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -1103,7 +1112,7 @@ export default function InvitationPage() {
   return (
     <>
       {/* ── Envelope Section (first, part of page flow) ── */}
-      <section className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
+      <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
         <div className="relative z-[2] flex flex-col items-center gap-3 mb-6 text-center">
@@ -1128,7 +1137,6 @@ export default function InvitationPage() {
         </div>
         <div
           className={`relative z-[2] envelope-card ${revealed ? 'revealed' : ''}`}
-          onClick={() => setRevealed(prev => !prev)}
         >
           <div className="envelope-first">
             <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
