@@ -1,8 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
-import { motion, AnimatePresence, type Easing } from 'framer-motion'
-import { ZoomParallax } from '@/components/ui/zoom-parallax'
+import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 
 // ─── EASING ─────────────────────────────────────────────────────────
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -305,26 +304,42 @@ function Countdown() {
   )
 }
 
-// ─── COVER HERO SECTION ─────────────────────────────────────────────
+// ─── COVER HERO SECTION (with parallax zoom) ───────────────────────
 function CoverSection() {
+  const container = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ['start start', 'end end'],
+  })
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 2.5])
+  const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
+  const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
+
   return (
-    <section id="cover" className="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.1) 0%, rgba(62,22,12,0.8) 100%)' }} />
-      <Decorations />
-      <div className="relative z-10 flex flex-col items-center justify-center px-5 text-center">
-        <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
-          Undangan Pernikahan
-        </p>
-        <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
-        <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-        <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
-        <div className="mt-8">
-          <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
-          <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
-          <Countdown />
-        </div>
-        <p className="text-cream/30 text-[9px] font-content mt-6 animate-bounce">Scroll ke bawah</p>
+    <section ref={container} id="cover" className="relative h-[200vh]">
+      <div className="sticky top-0 h-screen overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: "url('/img/SR.jpeg')", scale: bgScale }}
+        />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.2) 0%, rgba(62,22,12,0.8) 100%)' }} />
+        <Decorations />
+        <motion.div
+          style={{ opacity: contentOpacity, y: contentY }}
+          className="relative z-10 h-full flex flex-col items-center justify-center px-5 text-center"
+        >
+          <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
+            Undangan Pernikahan
+          </p>
+          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
+          <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
+          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
+          <div className="mt-8">
+            <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
+            <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
+            <Countdown />
+          </div>
+        </motion.div>
       </div>
     </section>
   )
@@ -1005,7 +1020,6 @@ function MainContent() {
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
 
       <div className="relative z-[2]">
-        <ZoomParallax images={galleryImages} />
         <CoverSection />
         <QuoteSection />
         <CouplesSection />
