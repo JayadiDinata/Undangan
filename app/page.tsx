@@ -64,8 +64,8 @@ const loveStory = [
 ]
 
 const events = [
-  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Kediaman Mempelai Wanita', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (Villa dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
-  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Kediaman Mempelai Wanita', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (Villa dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
+  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
+  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
 ]
 
 const navItems = [
