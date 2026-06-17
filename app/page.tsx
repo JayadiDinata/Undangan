@@ -64,8 +64,8 @@ const loveStory = [
 ]
 
 const events = [
-  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
-  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
+  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
+  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
 ]
 
 const navItems = [
@@ -523,6 +523,18 @@ function ScheduleSection() {
                 <p className="text-cream/50 text-xs font-content mb-2">{ev.time}</p>
                 <p className="text-cream text-sm font-content font-medium">{ev.location}</p>
                 <p className="text-cream/40 text-[10px] font-content mb-3">{ev.address}</p>
+                <div className="w-full h-44 rounded-xl overflow-hidden mb-3 border border-cream/20">
+                  <iframe
+                    src={ev.mapEmbedUrl}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Google Maps"
+                  />
+                </div>
                 <motion.a
                   href={ev.mapUrl} target="_blank" rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
