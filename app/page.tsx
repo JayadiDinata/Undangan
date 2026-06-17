@@ -1116,7 +1116,7 @@ export default function InvitationPage() {
         </div>
         <div className="relative z-[2] flex items-center justify-center">
           <div className="relative inline-flex">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 w-[calc(100%+24px)] md:w-[calc(100%+32px)] h-[calc(100%+24px)] md:h-[calc(100%+32px)] object-fill pointer-events-none z-10 opacity-70 animate-float" />
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-fill pointer-events-none z-10 opacity-70 animate-float" />
             <div
               className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
             >
