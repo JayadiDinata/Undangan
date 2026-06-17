@@ -34,11 +34,11 @@ function scaleIn(delay = 0) {
 }
 
 // ─── DATA ────────────────────────────────────────────────────────────
-const targetDate = new Date('2026-07-11T09:00:00+08:00')
+const targetDate = new Date('2026-07-11T09:00:00+07:00')
 
 const couples = {
-  bride: { name: 'Sarah Saraswati', title: 'S.Ds.', parents: 'Putri dari Bapak Alex Budiman & Ibu Dewi Lestari', img: '/img/SR4.jpeg' },
-  groom: { name: 'Ryan Malik Azhar', title: 'S.H.', parents: 'Putra dari Bapak Hendra Malik & Ibu Rina Fitriani', img: '/img/SR4.jpeg' },
+  bride: { name: 'Sarah Saraswati', title: '', parents: 'Putri dari Bapak Jaja & Ibu Kartini / Entin', img: '/img/SR2.jpeg' },
+  groom: { name: 'Riadussolihin S.Tp', title: '', parents: 'Putra dari Bapak Ujang & Ibu Kuraesin', img: '/img/SR3.jpeg' },
 }
 
 const galleryImages = [
@@ -51,8 +51,8 @@ const galleryImages = [
 ]
 
 const bankAccounts = [
-  { bank: 'Bank BCA', number: '1234567890', holder: 'Sarah Saraswati' },
-  { bank: 'Bank Mandiri', number: '9876543210', holder: 'Ryan Malik Azhar' },
+  { bank: 'BCA', number: '7361071097', holder: 'Sarah Saraswati' },
+  { bank: 'Hi', number: '6003175195', holder: 'Riadussolihin' },
 ]
 
 const loveStory = [
@@ -63,8 +63,8 @@ const loveStory = [
 ]
 
 const events = [
-  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WITA', location: 'Grand Sulanjana', address: 'Jl. Sulanjana No. 123, Kota Bandung, Jawa Barat', mapUrl: 'https://maps.google.com/?q=Grand+Sulanjana+Bandung' },
-  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Grand Sulanjana', address: 'Jl. Sulanjana No. 123, Kota Bandung, Jawa Barat', mapUrl: 'https://maps.google.com/?q=Grand+Sulanjana+Bandung' },
+  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Kediaman Mempelai Wanita', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (Villa dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
+  { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Kediaman Mempelai Wanita', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (Villa dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi' },
 ]
 
 const navItems = [
@@ -215,7 +215,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 1.2, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-4"
             >
-              Ryan
+              Riadussolihin
             </motion.h1>
 
             <motion.div
@@ -337,10 +337,10 @@ function CoverSection() {
           </p>
           <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Ryan</h1>
+          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Riadussolihin</h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
-            <p className="text-cream/40 text-[10px] font-content mb-6">Grand Sulanjana, Bandung</p>
+            <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
             <Countdown />
           </div>
         </motion.div>
@@ -681,7 +681,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
 }) {
   const bankColors: { [key: string]: { border: string; bg: string; text: string } } = {
     bca: { border: 'border-blue-400/40', bg: 'from-blue-500/10 to-blue-600/5', text: 'text-blue-300' },
-    mandiri: { border: 'border-red-400/40', bg: 'from-red-500/10 to-red-600/5', text: 'text-red-300' },
+    hi: { border: 'border-teal-400/40', bg: 'from-teal-500/10 to-teal-600/5', text: 'text-teal-300' },
   }
 
   const scheme = bankColors[color]
@@ -746,7 +746,7 @@ function GiftSection() {
     setTimeout(() => setCopiedIdx(null), 2500)
   }
 
-  const bankColorMap: { [key: string]: string } = { 'Bank BCA': 'bca', 'Bank Mandiri': 'mandiri' }
+  const bankColorMap: { [key: string]: string } = { 'BCA': 'bca', 'Hi': 'hi' }
 
   return (
     <section id="gift" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -921,7 +921,7 @@ function ClosingSection() {
           <motion.p {...fadeIn(0.1)} className="text-cream/60 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
           <motion.div {...scaleIn(0.15)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl text-cream leading-tight mb-3">
-            Sarah &amp; Ryan
+            Sarah &amp; Riadussolihin
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
@@ -1064,7 +1064,7 @@ function MainContent() {
             </svg>
             <span>11 Juli 2026</span>
           </div>
-          <p className="font-title text-sm text-cream/40 mt-1.5">Sarah &amp; Ryan</p>
+          <p className="font-title text-sm text-cream/40 mt-1.5">Sarah &amp; Riadussolihin</p>
         </footer>
       </div>
 
@@ -1124,7 +1124,7 @@ export default function InvitationPage() {
           </div>
           <div className="envelope-second relative">
             <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-brown-dark text-center whitespace-nowrap">Sarah &amp; Ryan</p>
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-brown-dark text-center whitespace-nowrap">Sarah &amp; Riadussolihin</p>
           </div>
         </div>
       </section>
