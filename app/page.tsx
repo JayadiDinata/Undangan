@@ -1077,19 +1077,27 @@ function MusicPlayer() {
   )
 }
 
-// ─── TOP OVERLAYS ────────────────────────────────────────────────────
-function TopOverlays() {
+// ─── SCROLL OVERLAYS ─────────────────────────────────────────────────
+function ScrollOverlays() {
   const { scrollY } = useScroll()
-  const leftX = useTransform(scrollY, [0, 500], [0, -40])
-  const rightX = useTransform(scrollY, [0, 500], [0, 40])
+  const topLeftX = useTransform(scrollY, [0, 500], [0, -40])
+  const topRightX = useTransform(scrollY, [0, 500], [0, 40])
+  const botLeftX = useTransform(scrollY, [0, 500], [0, -80])
+  const botRightX = useTransform(scrollY, [0, 500], [0, 80])
 
   return (
     <>
-      <motion.div style={{ x: leftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
         <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: rightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
         <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-right" />
+      </motion.div>
+      <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[3] pointer-events-none">
+        <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
+      </motion.div>
+      <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[3] pointer-events-none">
+        <img src="/img/ov-4.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-right" />
       </motion.div>
     </>
   )
@@ -1101,7 +1109,7 @@ function MainContent() {
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
-      <TopOverlays />
+      <ScrollOverlays />
 
       <div className="relative z-[2]">
         <CoverSection />
@@ -1113,9 +1121,6 @@ function MainContent() {
         <GiftSection />
         <WishesSection />
         <ClosingSection />
-
-        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1162,33 +1167,25 @@ export default function InvitationPage() {
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
-        <img src="/img/ov-2kiri.png" alt="" className="fixed top-0 left-0 z-[1] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
-        <img src="/img/ov-2kanan.png" alt="" className="fixed top-0 right-0 z-[1] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
         <div className="relative z-[2] flex items-center justify-center">
-          <div className="relative inline-flex">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-fill pointer-events-none z-10 opacity-70 animate-float" />
-            <div
-              className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
-            >
-              <div className="envelope-first">
-                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-              </div>
-              <div className="envelope-second relative">
-                <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                  <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
-                </div>
+          <div className={`relative envelope-card ${revealed ? 'revealed' : ''}`}>
+            <img src="/img/ov-1.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-70" />
+            <div className="envelope-first">
+              <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+            </div>
+            <div className="envelope-second relative">
+              <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
               </div>
             </div>
           </div>
         </div>
-        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
       </section>
 
       {/* ── Main Content (scrollable after envelope) ── */}
