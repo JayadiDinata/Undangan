@@ -441,7 +441,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       onMouseLeave={() => setExpanded(false)}
     >
         <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
-          <img src={person.img} alt={person.name} className="uiverse-card-img" />
+            <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
           <img src="/img/ov-3.png" alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60 transition-all duration-300" />
           <div className="uiverse-card-overlay" />
           <div className="uiverse-card-bottom">
@@ -1054,19 +1054,21 @@ function MusicPlayer() {
         </motion.div>
       ))}
       <motion.button
-        animate={{ rotate: playing ? [0, 360] : 0 }}
-        transition={{ repeat: playing ? Infinity : 0, duration: 4, ease: 'linear' }}
+        animate={{ rotate: playing ? [0, 360] : 0, scale: playing ? 1.15 : 1 }}
+        transition={{ rotate: { repeat: playing ? Infinity : 0, duration: 4, ease: 'linear' }, scale: { duration: 0.3 } }}
         onClick={toggle}
-        className="relative w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-sm border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300"
+        className="relative w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-sm border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300 overflow-hidden"
         aria-label={playing ? 'Pause musik' : 'Putar musik'}
       >
-        <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        {playing && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/20 to-transparent animate-shimmer pointer-events-none" />}
+        <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor">
           {playing ? (
             <path d="M9 18V5l12-2v13" />
           ) : (
             <>
               <path d="M9 18V5l12-2v13" />
-              <line x1="3" y1="3" x2="21" y2="21" />
+              <line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" strokeWidth="2" />
+              <line x1="21" y1="3" x2="3" y2="21" stroke="currentColor" strokeWidth="2" />
             </>
           )}
         </svg>

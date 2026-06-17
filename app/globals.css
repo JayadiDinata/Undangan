@@ -368,6 +368,10 @@
   clip-path: ellipse(46% 38% at 50% 38%);
 }
 
+.uiverse-card-img-bride {
+  object-position: center 55%;
+}
+
 .uiverse-card-overlay {
   position: absolute;
   inset: 0;
@@ -504,4 +508,13 @@
     width: 400px;
     height: 500px;
   }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
