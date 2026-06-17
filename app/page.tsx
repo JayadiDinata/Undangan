@@ -198,7 +198,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 0.8, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight"
             >
-              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
+              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.p
@@ -216,7 +216,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 1.2, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight mb-4"
             >
-              <ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
+              <ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.div
@@ -336,9 +336,9 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
             <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
@@ -922,7 +922,7 @@ function ClosingSection() {
           <motion.p {...fadeIn(0.1)} className="text-cream/60 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
           <motion.div {...scaleIn(0.15)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl leading-tight mb-3">
-            <ShinyText text="Sarah &amp; Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
+            <ShinyText text="Sarah &amp; Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
@@ -1065,7 +1065,7 @@ function MainContent() {
             </svg>
             <span>11 Juli 2026</span>
           </div>
-          <p className="font-title text-sm mt-1.5"><ShinyText text="Sarah &amp; Riadussolihin" color="#9e8a7a" shineColor="#d4c5a9" speed={3} spread={150} /></p>
+          <p className="font-title text-sm mt-1.5"><ShinyText text="Sarah &amp; Riadussolihin" color="#9e8a7a" shineColor="#ffd700" speed={3} spread={150} /></p>
         </footer>
       </div>
 
@@ -1092,7 +1092,7 @@ function GuestName() {
     const to = new URLSearchParams(window.location.search).get('to')
     if (to) setName(decodeURIComponent(to))
   }, [])
-  return <p className="font-content leading-relaxed"><ShinyText text={name} color="#d4c5a9" shineColor="#ffffff" speed={4} spread={150} className="text-lg" /></p>
+  return <p className="font-content leading-relaxed"><ShinyText text={name} color="#d4c5a9" shineColor="#ffd700" speed={4} spread={150} className="text-lg" /></p>
 }
 
 export default function InvitationPage() {
