@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
+import { useState, useEffect, useRef, FormEvent } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
 
@@ -70,14 +70,7 @@ const events = [
   { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
 ]
 
-const navItems = [
-  { id: 'cover', label: 'Cover' },
-  { id: 'bride', label: 'Pasangan' },
-  { id: 'schedule', label: 'Acara' },
-  { id: 'lovestory', label: 'Cerita' },
-  { id: 'gallery', label: 'Galeri' },
-  { id: 'wishes', label: 'Ucapan' },
-]
+
 
 const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
 
@@ -1053,11 +1046,6 @@ function MusicPlayer() {
 
 // ─── MAIN CONTENT ────────────────────────────────────────────────────
 function MainContent() {
-  const scrollTo = useCallback((id: string) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }, [])
-
   return (
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
@@ -1074,8 +1062,8 @@ function MainContent() {
         <WishesSection />
         <ClosingSection />
 
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up scale-x-[-1] pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up pointer-events-none" />
+        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-left pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-right pointer-events-none" />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1090,17 +1078,6 @@ function MainContent() {
       </div>
 
       <MusicPlayer />
-
-      <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-md bg-green-dark/60 backdrop-blur-xl border-t border-cream/10 px-2 py-1.5 pb-[calc(0.375rem+env(safe-area-inset-bottom,0px))]">
-        <div className="flex justify-around items-center">
-          {navItems.map(item => (
-            <button key={item.id} onClick={() => scrollTo(item.id)}
-              className="flex flex-col items-center gap-0.5 px-2 py-1 text-cream/40 hover:text-cream transition-colors duration-200 cursor-pointer group">
-              <span className="text-[9px] font-content tracking-wider whitespace-nowrap group-hover:text-cream transition-colors">{item.label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
     </main>
   )
 }
@@ -1141,7 +1118,7 @@ export default function InvitationPage() {
           <div
             className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
           >
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 w-[calc(100%+24px)] md:w-[calc(100%+32px)] h-[calc(100%+24px)] md:h-[calc(100%+32px)] object-contain pointer-events-none z-10 opacity-60 animate-float" />
+            <img src="/img/ov-1.png" alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10 opacity-60 animate-float" />
             <div className="envelope-first">
               <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
             </div>
@@ -1154,8 +1131,8 @@ export default function InvitationPage() {
             </div>
           </div>
         </div>
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up scale-x-[-1] pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up pointer-events-none" />
+        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-left pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-right pointer-events-none" />
       </section>
 
       {/* ── Main Content (scrollable after envelope) ── */}
