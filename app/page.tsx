@@ -447,9 +447,9 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <div className="relative">
         <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
           <img src={person.img} alt={person.name} className="uiverse-card-img" />
+          <img src="/img/ov-3.png" alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60 transition-all duration-300" />
           <div className="uiverse-card-overlay" />
           <div className="uiverse-card-bottom">
             <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
@@ -460,8 +460,6 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
             </div>
           </div>
         </div>
-        <img src="/img/ov-3.png" alt="" className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] object-contain pointer-events-none z-10 opacity-70 animate-pulse-slow" />
-      </div>
     </motion.div>
   )
 }
@@ -1076,8 +1074,8 @@ function MainContent() {
         <WishesSection />
         <ClosingSection />
 
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up scale-x-[-1] pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up scale-x-[-1] pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up pointer-events-none" />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1140,10 +1138,10 @@ export default function InvitationPage() {
           <GuestName />
         </div>
         <div className="relative z-[2]">
-          <img src="/img/ov-1.png" alt="" className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 md:w-40 opacity-60 animate-float" />
           <div
             className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
           >
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 w-[calc(100%+24px)] md:w-[calc(100%+32px)] h-[calc(100%+24px)] md:h-[calc(100%+32px)] object-contain pointer-events-none z-10 opacity-60 animate-float" />
             <div className="envelope-first">
               <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
             </div>
@@ -1156,8 +1154,8 @@ export default function InvitationPage() {
             </div>
           </div>
         </div>
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up scale-x-[-1] pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up scale-x-[-1] pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up pointer-events-none" />
       </section>
 
       {/* ── Main Content (scrollable after envelope) ── */}
