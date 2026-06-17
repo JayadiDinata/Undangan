@@ -369,7 +369,7 @@
 }
 
 .uiverse-card-img-bride {
-  object-position: center 55%;
+  object-position: center 65%;
 }
 
 .uiverse-card-overlay {
@@ -455,6 +455,10 @@
 @keyframes float {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50% { transform: translateX(-50%) translateY(-10px); }
+}
+
+.animate-envelope-float {
+  animation: envelopeFloat 3s ease-in-out infinite;
 }
 
 .animate-fade-in-up {
