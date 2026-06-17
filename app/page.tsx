@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, FormEvent } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
+import ShinyText from '@/components/ui/ShinyText'
 
 // ─── EASING ─────────────────────────────────────────────────────────
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -37,8 +38,8 @@ function scaleIn(delay = 0) {
 const targetDate = new Date('2026-07-11T09:00:00+07:00')
 
 const couples = {
-  bride: { name: 'Sarah Saraswati', title: '', parents: 'Putri dari Bapak Jaja & Ibu Kartini / Entin', img: '/img/SR2.jpeg' },
-  groom: { name: 'Riadussolihin S.Tp', title: '', parents: 'Putra dari Bapak Ujang & Ibu Kuraesin', img: '/img/SR3.jpeg' },
+  bride: { name: 'Sarah Saraswati', title: '', parents: 'Putri dari Bapak Jaja & Ibu Kartini / Entin', img: '/img/bride.jpeg' },
+  groom: { name: 'Riadussolihin S.Tp', title: '', parents: 'Putra dari Bapak Ujang & Ibu Kuraesin', img: '/img/groom.jpeg' },
 }
 
 const galleryImages = [
@@ -195,9 +196,9 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               initial={{ opacity: 0, y: 20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.8, ease: easeOut }}
-              className="font-title text-5xl sm:text-6xl text-cream leading-tight"
+              className="font-title text-5xl sm:text-6xl leading-tight"
             >
-              Sarah
+              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
             </motion.h1>
 
             <motion.p
@@ -213,9 +214,9 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.7, delay: 1.2, ease: easeOut }}
-              className="font-title text-5xl sm:text-6xl text-cream leading-tight mb-4"
+              className="font-title text-5xl sm:text-6xl leading-tight mb-4"
             >
-              Riadussolihin
+              <ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
             </motion.h1>
 
             <motion.div
@@ -335,9 +336,9 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Sarah</h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} /></h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl text-cream leading-tight">Riadussolihin</h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} /></h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
             <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
@@ -394,7 +395,7 @@ function QuoteSection() {
           <div className="quran-card-border" />
           <div className="quran-card-content">
             <div className="quran-card-header">
-              <p className="font-serif text-[#bd9f67] text-xs italic tracking-wider mb-3">QS. Ar-Rum Ayat 21</p>
+              <p className="mb-3"><ShinyText text="QS. Ar-Rum Ayat 21" color="#bd9f67" shineColor="#ffd700" speed={2} spread={150} className="font-serif text-xs italic tracking-wider" /></p>
             </div>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -449,7 +450,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
         <div className="uiverse-card-overlay" />
         <div className="uiverse-card-bottom">
           <p className="text-cream text-xl sm:text-2xl font-title leading-tight mb-0.5">{person.name}</p>
-          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Laki-laki' : 'Perempuan'}</p>
+          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
           <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
             <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
             <p className="text-cream/50 text-[10px] font-content leading-relaxed">{person.parents}</p>
@@ -920,8 +921,8 @@ function ClosingSection() {
         >
           <motion.p {...fadeIn(0.1)} className="text-cream/60 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
           <motion.div {...scaleIn(0.15)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
-          <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl text-cream leading-tight mb-3">
-            Sarah &amp; Riadussolihin
+          <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl leading-tight mb-3">
+            <ShinyText text="Sarah &amp; Riadussolihin" color="#f5e6d3" shineColor="#ffffff" speed={3} spread={150} />
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
@@ -1064,7 +1065,7 @@ function MainContent() {
             </svg>
             <span>11 Juli 2026</span>
           </div>
-          <p className="font-title text-sm text-cream/40 mt-1.5">Sarah &amp; Riadussolihin</p>
+          <p className="font-title text-sm mt-1.5"><ShinyText text="Sarah &amp; Riadussolihin" color="#9e8a7a" shineColor="#d4c5a9" speed={3} spread={150} /></p>
         </footer>
       </div>
 
@@ -1091,7 +1092,7 @@ function GuestName() {
     const to = new URLSearchParams(window.location.search).get('to')
     if (to) setName(decodeURIComponent(to))
   }, [])
-  return <p className="text-cream/80 text-lg font-content leading-relaxed">{name}</p>
+  return <p className="font-content leading-relaxed"><ShinyText text={name} color="#d4c5a9" shineColor="#ffffff" speed={4} spread={150} className="text-lg" /></p>
 }
 
 export default function InvitationPage() {
@@ -1113,7 +1114,7 @@ export default function InvitationPage() {
         <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(62,22,12,0.3) 0%, rgba(62,22,12,0.8) 100%)' }} />
         <div className="relative z-[2] mb-6 text-center">
-          <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-2">Selamat Datang</p>
+          <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
         <div
@@ -1124,7 +1125,7 @@ export default function InvitationPage() {
           </div>
           <div className="envelope-second relative">
             <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-brown-dark text-center whitespace-nowrap">Sarah &amp; Riadussolihin</p>
+            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-center whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#3E160C" shineColor="#ffd700" speed={2} spread={150} /></p>
           </div>
         </div>
       </section>

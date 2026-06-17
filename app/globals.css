@@ -440,6 +440,10 @@
   height: 100%;
 }
 
+.shiny-text {
+  display: inline-block;
+}
+
 @media (min-width: 768px) {
   .envelope-card {
     width: 400px;
