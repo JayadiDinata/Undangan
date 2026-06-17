@@ -523,18 +523,20 @@ function ScheduleSection() {
                 <p className="text-cream/50 text-xs font-content mb-2">{ev.time}</p>
                 <p className="text-cream text-sm font-content font-medium">{ev.location}</p>
                 <p className="text-cream/40 text-[10px] font-content mb-3">{ev.address}</p>
-                <div className="w-full h-44 rounded-xl overflow-hidden mb-3 border border-cream/20">
-                  <iframe
-                    src={ev.mapEmbedUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title="Google Maps"
-                  />
-                </div>
+                {i === 1 && (
+                  <div className="w-full h-44 rounded-xl overflow-hidden mb-3 border border-cream/20">
+                    <iframe
+                      src={ev.mapEmbedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Google Maps"
+                    />
+                  </div>
+                )}
                 <motion.a
                   href={ev.mapUrl} target="_blank" rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
