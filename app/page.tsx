@@ -1172,16 +1172,18 @@ export default function InvitationPage() {
           <GuestName />
         </div>
         <div className="relative z-[2] flex items-center justify-center">
-          <div className={`relative envelope-card ${revealed ? 'revealed' : ''}`}>
-            <img src="/img/ov-1.png" alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none z-0 opacity-70" />
-            <div className="envelope-first">
-              <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-            </div>
-            <div className="envelope-second relative">
-              <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+          <div className="relative">
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-fill pointer-events-none opacity-70" />
+            <div className={`relative envelope-card ${revealed ? 'revealed' : ''}`}>
+              <div className="envelope-first">
+                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+              </div>
+              <div className="envelope-second relative">
+                <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                  <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+                </div>
               </div>
             </div>
           </div>
