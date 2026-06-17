@@ -1062,8 +1062,8 @@ function MainContent() {
         <WishesSection />
         <ClosingSection />
 
-        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-left pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-right pointer-events-none" />
+        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1114,25 +1114,27 @@ export default function InvitationPage() {
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
-        <div className="relative z-[2]">
-          <div
-            className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
-          >
-            <img src="/img/ov-1.png" alt="" className="absolute inset-0 w-full h-full object-contain pointer-events-none z-10 opacity-60 animate-float" />
-            <div className="envelope-first">
-              <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-            </div>
-            <div className="envelope-second relative">
-              <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+        <div className="relative z-[2] flex items-center justify-center">
+          <div className="relative inline-flex">
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 w-[calc(100%+24px)] md:w-[calc(100%+32px)] h-[calc(100%+24px)] md:h-[calc(100%+32px)] object-fill pointer-events-none z-10 opacity-70 animate-float" />
+            <div
+              className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
+            >
+              <div className="envelope-first">
+                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+              </div>
+              <div className="envelope-second relative">
+                <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                  <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-left pointer-events-none" />
-        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-slide-right pointer-events-none" />
+        <img src="/img/ov-4kiri.png" alt="" className="fixed bottom-0 left-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="fixed bottom-0 right-0 z-[3] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
       </section>
 
       {/* ── Main Content (scrollable after envelope) ── */}
