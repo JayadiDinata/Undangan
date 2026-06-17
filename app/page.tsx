@@ -168,7 +168,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
           />
           <div
             className="absolute inset-0 z-10"
-            style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 40%, rgba(13,40,24,0.95) 100%)' }}
+            style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.05) 0%, rgba(13,40,24,0.3) 40%, rgba(13,40,24,0.7) 100%)' }}
           />
           <Fireflies count={8} />
 
@@ -176,7 +176,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.3, ease: easeOut }}
-            className="relative z-20 w-[85vw] max-w-sm mx-auto bg-cream/5 backdrop-blur-xl border border-cream/20 rounded-3xl px-6 py-8 text-center shadow-2xl"
+            className="relative z-20 w-[85vw] max-w-sm mx-auto bg-cream/5 backdrop-blur-lg border border-cream/20 rounded-3xl px-6 py-8 text-center shadow-2xl"
           >
             <motion.p
               initial={{ opacity: 0, y: -10 }}
@@ -290,7 +290,7 @@ function Countdown() {
           transition={{ duration: 0.5, delay: i * 0.05, ease: easeOut }}
           className="flex flex-col items-center min-w-[48px]"
         >
-          <div className="bg-cream/10 backdrop-blur-md border border-cream/10 rounded-xl px-2 py-1.5 w-full text-center">
+          <div className="bg-cream/10 backdrop-blur-sm border border-cream/10 rounded-xl px-2 py-1.5 w-full text-center">
             <span className="block font-serif text-lg sm:text-xl font-bold text-cream">{tl[key]}</span>
           </div>
           <span className="text-[9px] text-cream/50 uppercase tracking-wider mt-1 font-content">{label}</span>
@@ -321,7 +321,7 @@ function CoverSection() {
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         
-        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
+        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
 
         <motion.div
@@ -377,7 +377,7 @@ function QuoteSection() {
   return (
     <section className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.85) 100%)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.15) 0%, rgba(13,40,24,0.6) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
         <motion.div
@@ -462,7 +462,7 @@ function CouplesSection() {
   return (
     <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-5xl px-5 md:px-6">
         <motion.p {...fadeIn(0)} className="text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-8">
@@ -486,7 +486,7 @@ function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.9) 100%)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
         <motion.p {...fadeIn(0)} className="text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-5">
@@ -498,7 +498,7 @@ function ScheduleSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: '-40px' }}
           transition={{ duration: 0.6, ease: easeOut }}
-          className="bg-cream/5 backdrop-blur-xl border border-cream/15 rounded-3xl p-5 md:p-6 space-y-5"
+          className="bg-cream/5 backdrop-blur-lg border border-cream/15 rounded-3xl p-5 md:p-6 space-y-5"
         >
           {events.map((ev, i) => (
             <div key={i}>
@@ -568,7 +568,7 @@ function LoveStorySection() {
   return (
     <section id="lovestory" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'rgba(13,40,24,0.85)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'rgba(13,40,24,0.5)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
         <motion.h2 {...fadeIn(0)} className="font-title text-3xl text-cream text-center mb-1">Kisah Cinta</motion.h2>
@@ -588,7 +588,7 @@ function LoveStorySection() {
               className="relative mb-5 last:mb-0 love-story-item"
               style={{ animationDelay: `${i * 0.15}s` }}
             >
-              <div className="bg-cream/5 backdrop-blur-md border border-cream/10 overflow-hidden max-w-xs mx-auto love-story-card">
+              <div className="bg-cream/5 backdrop-blur-sm border border-cream/10 overflow-hidden max-w-xs mx-auto love-story-card">
                 <motion.div
                   initial={{ scale: 1.05 }}
                   whileInView={{ scale: 1 }}
@@ -625,7 +625,7 @@ function GallerySection() {
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
       <Decorations />
 
       <motion.p {...fadeIn(0)} className="relative z-20 text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-6">
@@ -661,7 +661,7 @@ function GallerySection() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
-            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 cursor-pointer"
+            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer"
           >
             <motion.div
               initial={{ scale: 0.85, opacity: 0 }}
@@ -674,7 +674,7 @@ function GallerySection() {
               <img src={galleryImages[selected].src} alt={galleryImages[selected].alt} className="w-full h-full object-contain" />
               <motion.button
                 onClick={() => setSelected(null)}
-                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream/15 backdrop-blur-md border border-cream/30 flex items-center justify-center text-cream cursor-pointer"
+                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream/15 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream cursor-pointer"
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
               </motion.button>
@@ -705,7 +705,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
       transition={{ duration: 0.5, delay: idx * 0.1, ease: easeOut }}
     >
       <div
-        className={`relative overflow-hidden bg-gradient-to-br ${scheme.bg} backdrop-blur-md rounded-2xl border ${scheme.border} cursor-pointer transition-all duration-300 hover:shadow-lg`}
+        className={`relative overflow-hidden bg-gradient-to-br ${scheme.bg} backdrop-blur-sm rounded-2xl border ${scheme.border} cursor-pointer transition-all duration-300 hover:shadow-lg`}
         onClick={onCopy}
       >
         <div className="flex items-center h-24 sm:h-28">
@@ -836,7 +836,7 @@ function WishesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ margin: '-40px' }}
           transition={{ duration: 0.5, ease: easeOut }}
-          className="bg-cream/5 backdrop-blur-md border border-cream/15 rounded-2xl p-4 md:p-5 space-y-3 mb-5"
+          className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-4 md:p-5 space-y-3 mb-5"
         >
           <div>
             <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Nama Anda</label>
@@ -920,7 +920,7 @@ function ClosingSection() {
 
   return (
     <section id="closing" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-green-dark/60" />
+      <div className="absolute inset-0 z-0 bg-green-dark/30" />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6 text-center">
         <motion.div
@@ -944,7 +944,7 @@ function ClosingSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ margin: '-40px' }}
             transition={{ duration: 0.5, delay: 0.3, ease: easeOut }}
-            className="bg-cream/5 backdrop-blur-md border border-cream/15 rounded-2xl p-5 mb-6"
+            className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-5 mb-6"
           >
             <p className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content mb-3">Konfirmasi Kehadiran</p>
 
@@ -1030,7 +1030,7 @@ function MusicPlayer() {
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.8, delay: 1, ease: easeOut }}
       onClick={toggle}
-      className="fixed bottom-20 right-4 z-50 w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-md border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300"
+      className="fixed bottom-20 right-4 z-50 w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-sm border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300"
       aria-label={playing ? 'Pause musik' : 'Putar musik'}
     >
       <motion.svg
@@ -1049,7 +1049,7 @@ function MainContent() {
   return (
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-      <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.8) 100%)' }} />
+      <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
 
       <div className="relative z-[2]">
         <CoverSection />
@@ -1109,7 +1109,7 @@ export default function InvitationPage() {
       {/* ── Envelope Section (first, part of page flow) ── */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.8) 100%)' }} />
+        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
