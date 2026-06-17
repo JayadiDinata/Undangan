@@ -327,7 +327,7 @@ function CoverSection() {
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+        
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
         <Decorations />
 
@@ -383,7 +383,7 @@ function CoverSection() {
 function QuoteSection() {
   return (
     <section className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+      
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -468,7 +468,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
 function CouplesSection() {
   return (
     <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+      
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-5xl px-5 md:px-6">
@@ -492,7 +492,7 @@ function CouplesSection() {
 function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+      
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.9) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -574,7 +574,7 @@ function ScheduleSection() {
 function LoveStorySection() {
   return (
     <section id="lovestory" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+      
       <div className="absolute inset-0 z-10" style={{ background: 'rgba(13,40,24,0.85)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -631,7 +631,7 @@ function GallerySection() {
 
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+      
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
 
@@ -1131,7 +1131,7 @@ export default function InvitationPage() {
     <>
       {/* ── Envelope Section (first, part of page flow) ── */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+        <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.8) 100%)' }} />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
