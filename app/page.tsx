@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, FormEvent } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
+import { CircularTestimonials } from '@/components/ui/circular-testimonials'
 
 // ─── EASING ─────────────────────────────────────────────────────────
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -565,53 +566,18 @@ function ScheduleSection() {
 
 // ─── LOVE STORY SECTION ──────────────────────────────────────────────
 function LoveStorySection() {
+  const items = loveStory.map(s => ({ quote: s.desc, name: s.title, designation: s.date, src: s.img }))
+
   return (
     <section id="lovestory" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      
       <div className="absolute inset-0 z-10" style={{ background: 'rgba(13,40,24,0.5)' }} />
       <Decorations />
-      <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
+      <div className="relative z-20">
         <motion.h2 {...fadeIn(0)} className="font-title text-3xl text-cream text-center mb-1">Kisah Cinta</motion.h2>
-        <motion.p {...fadeIn(0.05)} className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content text-center mb-6">
+        <motion.p {...fadeIn(0.05)} className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content text-center mb-8">
           Love Story
         </motion.p>
-
-        <div className="relative">
-          <div className="timeline-line" />
-          {loveStory.map((story, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ margin: '-40px' }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: easeOut }}
-              className="relative mb-5 last:mb-0 love-story-item"
-              style={{ animationDelay: `${i * 0.15}s` }}
-            >
-              <div className="bg-cream/5 backdrop-blur-sm border border-cream/10 overflow-hidden max-w-xs mx-auto love-story-card">
-                <motion.div
-                  initial={{ scale: 1.05 }}
-                  whileInView={{ scale: 1 }}
-                  viewport={{ margin: '-40px' }}
-                  transition={{ duration: 1.2, ease: easeOut }}
-                  className="w-full h-36 sm:h-44 bg-cover bg-center love-story-img"
-                  style={{ backgroundImage: `url('${story.img}')` }}
-                />
-                <div className="p-4">
-                  <p className="text-cream/40 text-[9px] font-content uppercase tracking-wider mb-0.5">{story.date}</p>
-                  <p className="font-title text-lg text-cream mb-1.5">{story.title}</p>
-                  <p className="text-cream/60 text-xs font-content leading-relaxed">{story.desc}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div {...scaleIn(0.4)} className="flex justify-center mt-5">
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream/40" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-          </svg>
-        </motion.div>
+        <CircularTestimonials testimonials={items} autoplay={true} />
       </div>
     </section>
   )
