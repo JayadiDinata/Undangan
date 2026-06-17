@@ -449,11 +449,11 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
         <img src={person.img} alt={person.name} className="uiverse-card-img" />
         <div className="uiverse-card-overlay" />
         <div className="uiverse-card-bottom">
-          <p className="text-cream text-xl sm:text-2xl font-title leading-tight mb-0.5">{person.name}</p>
+          <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
           <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
           <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
             <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
-            <p className="text-cream/50 text-[10px] font-content leading-relaxed">{person.parents}</p>
+            <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
           </div>
         </div>
       </div>
