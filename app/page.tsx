@@ -1014,9 +1014,7 @@ function MusicPlayer() {
           transition={{ repeat: Infinity, duration: 2, delay: note.delay, ease: 'easeOut' }}
           style={{ marginLeft: note.x, fontSize: note.size }}
         >
-          <svg viewBox="0 0 24 24" className="text-cream/60" fill="currentColor" style={{ width: note.size, height: note.size }}>
-            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-          </svg>
+          <span className="material-symbols-outlined text-cream/60" style={{ fontSize: note.size }}>music_note</span>
         </motion.div>
       ))}
       <motion.button
@@ -1027,17 +1025,7 @@ function MusicPlayer() {
         aria-label={playing ? 'Pause musik' : 'Putar musik'}
       >
         {playing && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cream/20 to-transparent animate-shimmer pointer-events-none" />}
-        <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor">
-          {playing ? (
-            <path d="M9 18V5l12-2v13" />
-          ) : (
-            <>
-              <path d="M9 18V5l12-2v13" />
-              <line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" strokeWidth="2" />
-              <line x1="21" y1="3" x2="3" y2="21" stroke="currentColor" strokeWidth="2" />
-            </>
-          )}
-        </svg>
+        <span className="material-symbols-outlined text-cream text-lg">{playing ? 'music_note' : 'music_off'}</span>
       </motion.button>
     </motion.div>
   )
