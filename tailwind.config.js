@@ -9,9 +9,9 @@ module.exports = {
       colors: {
         champagne: '#D4AF37',
         cream: '#E8D9C4',
-        brown: {
-          dark: '#3E160C',
-          warm: '#785D32',
+        green: {
+          dark: '#0d2818',
+          warm: '#1a3c2a',
           light: '#E8D9C4',
         },
       },
