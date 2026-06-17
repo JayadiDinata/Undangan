@@ -999,6 +999,14 @@ function ClosingSection() {
 }
 
 // ─── MUSIC PLAYER ────────────────────────────────────────────────────
+const floatingNotes = [
+  { id: 1, x: -16, delay: 0, size: 10 },
+  { id: 2, x: 0, delay: 0.4, size: 12 },
+  { id: 3, x: 16, delay: 0.8, size: 9 },
+  { id: 4, x: -8, delay: 1.2, size: 11 },
+  { id: 5, x: 8, delay: 1.6, size: 8 },
+]
+
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false)
   const [show, setShow] = useState(false)
@@ -1025,22 +1033,45 @@ function MusicPlayer() {
   if (!show) return null
 
   return (
-    <motion.button
+    <motion.div
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.8, delay: 1, ease: easeOut }}
-      onClick={toggle}
-      className="fixed bottom-20 right-4 z-50 w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-sm border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300"
-      aria-label={playing ? 'Pause musik' : 'Putar musik'}
+      className="fixed bottom-20 right-4 z-50"
     >
-      <motion.svg
-        animate={{ rotate: playing ? 360 : 0 }}
+      {playing && floatingNotes.map(note => (
+        <motion.div
+          key={note.id}
+          className="absolute left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: [0, 1, 0], y: [-60, -120] }}
+          transition={{ repeat: Infinity, duration: 2, delay: note.delay, ease: 'easeOut' }}
+          style={{ marginLeft: note.x, fontSize: note.size }}
+        >
+          <svg viewBox="0 0 24 24" className="text-cream/60" fill="currentColor" style={{ width: note.size, height: note.size }}>
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+          </svg>
+        </motion.div>
+      ))}
+      <motion.button
+        animate={{ rotate: playing ? [0, 360] : 0 }}
         transition={{ repeat: playing ? Infinity : 0, duration: 4, ease: 'linear' }}
-        viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="currentColor"
+        onClick={toggle}
+        className="relative w-11 h-11 rounded-full bg-green-dark/60 backdrop-blur-sm border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-green-dark/80 transition-colors duration-300"
+        aria-label={playing ? 'Pause musik' : 'Putar musik'}
       >
-        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-      </motion.svg>
-    </motion.button>
+        <svg viewBox="0 0 24 24" className="w-5 h-5 text-cream" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          {playing ? (
+            <path d="M9 18V5l12-2v13" />
+          ) : (
+            <>
+              <path d="M9 18V5l12-2v13" />
+              <line x1="3" y1="3" x2="21" y2="21" />
+            </>
+          )}
+        </svg>
+      </motion.button>
+    </motion.div>
   )
 }
 
