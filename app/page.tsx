@@ -1173,7 +1173,7 @@ export default function InvitationPage() {
         </div>
         <div className="relative z-[2] flex items-center justify-center">
           <div className="relative">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-fill pointer-events-none opacity-70 animate-envelope-float" />
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-x-3 md:-inset-x-4 -top-5 md:-top-6 -bottom-2 md:-bottom-3 object-fill pointer-events-none opacity-70" />
             <div className={`relative envelope-card ${revealed ? 'revealed' : ''}`}>
               <div className="envelope-first">
                 <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
