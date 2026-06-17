@@ -1139,7 +1139,10 @@ export default function InvitationPage() {
           </div>
           <div className="envelope-second relative">
             <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-title text-lg md:text-xl text-center whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+              <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+              <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+            </div>
           </div>
         </div>
       </section>
