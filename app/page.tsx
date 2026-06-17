@@ -1075,12 +1075,31 @@ function MusicPlayer() {
   )
 }
 
+// ─── TOP OVERLAYS ────────────────────────────────────────────────────
+function TopOverlays() {
+  const { scrollY } = useScroll()
+  const leftX = useTransform(scrollY, [0, 500], [0, -40])
+  const rightX = useTransform(scrollY, [0, 500], [0, 40])
+
+  return (
+    <>
+      <motion.div style={{ x: leftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
+        <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
+      </motion.div>
+      <motion.div style={{ x: rightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
+        <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-right" />
+      </motion.div>
+    </>
+  )
+}
+
 // ─── MAIN CONTENT ────────────────────────────────────────────────────
 function MainContent() {
   return (
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
+      <TopOverlays />
 
       <div className="relative z-[2]">
         <CoverSection />
@@ -1141,6 +1160,8 @@ export default function InvitationPage() {
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
+        <img src="/img/ov-2kiri.png" alt="" className="fixed top-0 left-0 z-[1] w-32 md:w-48 opacity-50 animate-sway-left pointer-events-none" />
+        <img src="/img/ov-2kanan.png" alt="" className="fixed top-0 right-0 z-[1] w-32 md:w-48 opacity-50 animate-sway-right pointer-events-none" />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
