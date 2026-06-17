@@ -50,7 +50,7 @@ const galleryImages = [
   { src: '/img/SR5.jpeg', alt: 'Prewedding 5' },
   { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
   { src: '/img/SR1-Photoroom (1).png', alt: 'Prewedding 7' },
-  { src: '/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 8' },
+  { src: '/img/SR.jpeg', alt: 'Prewedding 8' },
 ]
 
 const bankAccounts = [
