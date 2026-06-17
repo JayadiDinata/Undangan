@@ -47,8 +47,10 @@ const galleryImages = [
   { src: '/img/SR2.jpeg', alt: 'Prewedding 2' },
   { src: '/img/SR3.jpeg', alt: 'Prewedding 3' },
   { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
-  { src: '/img/SR1-Photoroom (1).png', alt: 'Prewedding 5' },
-  { src: '/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 6' },
+  { src: '/img/SR5.jpeg', alt: 'Prewedding 5' },
+  { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
+  { src: '/img/SR1-Photoroom (1).png', alt: 'Prewedding 7' },
+  { src: '/img/Gemini_Generated_Image_swa8fzswa8fzswa8.png', alt: 'Prewedding 8' },
 ]
 
 const bankAccounts = [
@@ -325,7 +327,7 @@ function CoverSection() {
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
         <Decorations />
 
@@ -381,7 +383,7 @@ function CoverSection() {
 function QuoteSection() {
   return (
     <section className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -445,17 +447,20 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
-      <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
-        <img src={person.img} alt={person.name} className="uiverse-card-img" />
-        <div className="uiverse-card-overlay" />
-        <div className="uiverse-card-bottom">
-          <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
-          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
-          <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
-            <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
-            <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+      <div className="relative">
+        <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
+          <img src={person.img} alt={person.name} className="uiverse-card-img" />
+          <div className="uiverse-card-overlay" />
+          <div className="uiverse-card-bottom">
+            <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
+            <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
+            <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
+              <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
+              <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+            </div>
           </div>
         </div>
+        <img src="/img/ov-3.png" alt="" className="absolute -inset-4 w-[calc(100%+32px)] h-[calc(100%+32px)] object-contain pointer-events-none z-10 opacity-70 animate-pulse-slow" />
       </div>
     </motion.div>
   )
@@ -465,7 +470,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
 function CouplesSection() {
   return (
     <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-5xl px-5 md:px-6">
@@ -489,7 +494,7 @@ function CouplesSection() {
 function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR3.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.4) 0%, rgba(13,40,24,0.9) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -571,7 +576,7 @@ function ScheduleSection() {
 function LoveStorySection() {
   return (
     <section id="lovestory" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR2.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'rgba(13,40,24,0.85)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
@@ -628,7 +633,7 @@ function GallerySection() {
 
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/SR4.jpeg')" }} />
+      <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.85) 100%)' }} />
       <Decorations />
 
@@ -1057,7 +1062,7 @@ function MainContent() {
 
   return (
     <main className="relative w-full min-h-screen">
-      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+      <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.8) 100%)' }} />
 
       <div className="relative z-[2]">
@@ -1070,6 +1075,9 @@ function MainContent() {
         <GiftSection />
         <WishesSection />
         <ClosingSection />
+
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-30 animate-fade-in-up scale-x-[-1] pointer-events-none" />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1125,26 +1133,31 @@ export default function InvitationPage() {
     <>
       {/* ── Envelope Section (first, part of page flow) ── */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
-        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-floral.jpg')" }} />
+        <div className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.8) 100%)' }} />
         <div className="relative z-[2] mb-6 text-center">
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
-        <div
-          className={`relative z-[2] envelope-card ${revealed ? 'revealed' : ''}`}
-        >
-          <div className="envelope-first">
-            <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-          </div>
-          <div className="envelope-second relative">
-            <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-              <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-              <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+        <div className="relative z-[2]">
+          <img src="/img/ov-1.png" alt="" className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 md:w-40 opacity-60 animate-float" />
+          <div
+            className={`relative envelope-card ${revealed ? 'revealed' : ''}`}
+          >
+            <div className="envelope-first">
+              <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+            </div>
+            <div className="envelope-second relative">
+              <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+              </div>
             </div>
           </div>
         </div>
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 left-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up pointer-events-none" />
+        <img src="/img/ov-4.png" alt="" className="absolute bottom-0 right-0 z-[3] w-24 md:w-36 opacity-40 animate-fade-in-up scale-x-[-1] pointer-events-none" />
       </section>
 
       {/* ── Main Content (scrollable after envelope) ── */}
