@@ -4,21 +4,21 @@ import { Providers } from './providers'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://undangan.applab.my.id'),
-  title: 'Pernikahan Sarah & Ryan',
+  title: 'Pernikahan Srah & Riad',
   description:
-    'Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan Sarah & Ryan.',
+    'Tanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan Srah & Riad.',
   openGraph: {
-    title: 'Undangan Pernikahan: Sarah & Ryan',
+    title: 'Undangan Pernikahan: Srah & Riad',
     description:
       'Sabtu, 11 Juli 2026 - Klik untuk melihat detail acara dan memberikan doa restu.',
     url: 'https://undangan.applab.my.id',
-    siteName: 'Pernikahan Sarah & Ryan',
+    siteName: 'Pernikahan Srah & Riad',
     images: [
       {
         url: '/img/SR.jpeg',
         width: 1200,
         height: 630,
-        alt: 'Sarah & Ryan',
+        alt: 'Srah & Riad',
       },
     ],
     locale: 'id_ID',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Undangan Pernikahan: Sarah & Ryan',
+    title: 'Undangan Pernikahan: Srah & Riad',
     description:
       'Sabtu, 11 Juli 2026 - Klik untuk melihat detail acara dan memberikan doa restu.',
     images: ['/img/SR.jpeg'],

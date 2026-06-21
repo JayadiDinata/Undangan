@@ -1,11 +1,11 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect, useRef, FormEvent } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
 import { CircularTestimonials } from '@/components/ui/circular-testimonials'
 
-// ─── EASING ─────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ EASING ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const easeOut: Easing = [0.22, 1, 0.36, 1]
 
 function fadeUp(delay = 0) {
@@ -35,11 +35,11 @@ function scaleIn(delay = 0) {
   }
 }
 
-// ─── DATA ────────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ DATA ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const targetDate = new Date('2026-07-11T09:00:00+07:00')
 
 const couples = {
-  bride: { name: 'Sarah Saraswati', title: '', parents: 'Putri dari Bapak Jaja & Ibu Kartini / Entin', img: '/img/bride.jpeg' },
+  bride: { name: 'Sarah Saraswati (Ala)', title: '', parents: 'Putri dari Bapak Jaja & Ibu Kartini / Entin', img: '/img/bride.jpeg' },
   groom: { name: 'Riadussolihin S.Tp', title: '', parents: 'Putra dari Bapak Ujang & Ibu Kuraesin', img: '/img/groom.jpeg' },
 }
 
@@ -75,7 +75,7 @@ const events = [
 
 const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
 
-// ─── HELPERS ─────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ HELPERS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function esc(text: string): string {
   const d = document.createElement('div')
   d.appendChild(document.createTextNode(text))
@@ -102,7 +102,7 @@ const cdItems: { key: keyof TL; label: string }[] = [
   { key: 'seconds', label: 'Detik' },
 ]
 
-// ─── FIREFLIES ───────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ FIREFLIES ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function Fireflies({ count = 8 }: { count?: number }) {
   return (
     <ul className="m-0 p-0" style={{ listStyle: 'none' }}>
@@ -113,7 +113,7 @@ function Fireflies({ count = 8 }: { count?: number }) {
   )
 }
 
-// ─── DECORATIVE ELEMENTS ────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ DECORATIVE ELEMENTS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const decoConfig = [
   { src: '/img/sk-a.png', cls: 'top-0 left-0 w-16 sm:w-20', floatY: -6, dur: 3.5, x: '-30%', y: '-30%' },
   { src: '/img/sk-b.png', cls: 'top-0 right-0 w-14 sm:w-16', floatY: -8, dur: 4.2, x: '30%', y: '-30%' },
@@ -147,7 +147,7 @@ function Decorations() {
   )
 }
 
-// ─── HERO COVER GATE ────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ HERO COVER GATE ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function CoverGate({ onOpen }: { onOpen: () => void }) {
   const [opened, setOpened] = useState(false)
   const [hovering, setHovering] = useState(false)
@@ -194,7 +194,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 0.8, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight"
             >
-              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+              <ShinyText text="Srah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.p
@@ -212,7 +212,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 1.2, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight mb-4"
             >
-              <ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+              <ShinyText text="Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.div
@@ -266,7 +266,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
   )
 }
 
-// ─── COUNTDOWN ───────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ COUNTDOWN ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function Countdown() {
   const [tl, setTl] = useState<TL>({ days: '--', hours: '--', minutes: '--', seconds: '--' })
   const [mounted, setMounted] = useState(false)
@@ -301,7 +301,7 @@ function Countdown() {
   )
 }
 
-// ─── COVER HERO SECTION (parallax zoom scattered images) ──────────
+// ΓöÇΓöÇΓöÇ COVER HERO SECTION (parallax zoom scattered images) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -332,9 +332,9 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Srah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
             <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
@@ -373,7 +373,7 @@ function CoverSection() {
   )
 }
 
-// ─── QUOTE SECTION (Uiverse logo card adapted) ─────────────────────
+// ΓöÇΓöÇΓöÇ QUOTE SECTION (Uiverse logo card adapted) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function QuoteSection() {
   return (
     <section className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -400,7 +400,7 @@ function QuoteSection() {
               transition={{ duration: 0.8, delay: 0.2, ease: easeOut }}
               className="text-lg text-cream leading-[2.2] mb-4 font-arabic quran-verse"
             >
-              وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+              ┘ê┘Ä┘à┘É┘å┘Æ ╪ó┘è┘Ä╪º╪¬┘É┘ç┘É ╪ú┘Ä┘å┘Æ ╪«┘Ä┘ä┘Ä┘é┘Ä ┘ä┘Ä┘â┘Å┘à ┘à┘É┘æ┘å┘Æ ╪ú┘Ä┘å┘ü┘Å╪│┘É┘â┘Å┘à┘Æ ╪ú┘Ä╪▓┘Æ┘ê┘Ä╪º╪¼┘ï╪º ┘ä┘É┘æ╪¬┘Ä╪│┘Æ┘â┘Å┘å┘Å┘ê╪º ╪Ñ┘É┘ä┘Ä┘è┘Æ┘ç┘Ä╪º ┘ê┘Ä╪¼┘Ä╪╣┘Ä┘ä┘Ä ╪¿┘Ä┘è┘Æ┘å┘Ä┘â┘Å┘à ┘à┘Ä┘æ┘ê┘Ä╪»┘Ä┘æ╪⌐┘ï ┘ê┘Ä╪▒┘Ä╪¡┘Æ┘à┘Ä╪⌐┘ï
             </motion.p>
             <motion.div
               initial={{ scaleX: 0 }}
@@ -419,14 +419,14 @@ function QuoteSection() {
               &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.&rdquo;
             </motion.p>
           </div>
-          <span className="quran-card-bottom">Ar-Rum · 21</span>
+          <span className="quran-card-bottom">Ar-Rum ┬╖ 21</span>
         </motion.div>
       </div>
     </section>
   )
 }
 
-// ─── COUPLES CARD (Uiverse-style) ────────────────────────────────────
+// ΓöÇΓöÇΓöÇ COUPLES CARD (Uiverse-style) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride; delay: number; isGroom: boolean }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -458,7 +458,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
   )
 }
 
-// ─── COUPLES SECTION ─────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ COUPLES SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function CouplesSection() {
   return (
     <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -482,7 +482,7 @@ function CouplesSection() {
   )
 }
 
-// ─── SCHEDULE SECTION ────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ SCHEDULE SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function ScheduleSection() {
   return (
     <section id="schedule" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -564,7 +564,7 @@ function ScheduleSection() {
   )
 }
 
-// ─── LOVE STORY SECTION ──────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ LOVE STORY SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function LoveStorySection() {
   const items = loveStory.map(s => ({ quote: s.desc, name: s.title, designation: s.date, src: s.img }))
 
@@ -583,7 +583,7 @@ function LoveStorySection() {
   )
 }
 
-// ─── GALLERY SECTION ─────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ GALLERY SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function GallerySection() {
   const [selected, setSelected] = useState<number | null>(null)
   const doubled = [...galleryImages, ...galleryImages]
@@ -591,7 +591,7 @@ function GallerySection() {
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
+      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.05) 0%, rgba(13,40,24,0.3) 100%)' }} />
       <Decorations />
 
       <motion.p {...fadeIn(0)} className="relative z-20 text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-6">
@@ -652,7 +652,7 @@ function GallerySection() {
   )
 }
 
-// ─── BANK ACCOUNT CARD ───────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ BANK ACCOUNT CARD ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
   bank: string; number: string; holder: string; idx: number; copied: boolean; onCopy: () => void; color: string
 }) {
@@ -692,7 +692,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
           <svg viewBox="0 0 48 48" className={`w-8 h-8 ${scheme.text}`} fill="currentColor" opacity="0.6">
             <rect x="4" y="10" width="40" height="28" rx="3" />
             <rect x="4" y="18" width="40" height="4" opacity="0.3" />
-            <text x="24" y="33" textAnchor="middle" fontSize="7" fontWeight="bold" fill="currentColor">••••</text>
+            <text x="24" y="33" textAnchor="middle" fontSize="7" fontWeight="bold" fill="currentColor">ΓÇóΓÇóΓÇóΓÇó</text>
           </svg>
         </motion.div>
         <motion.div
@@ -709,7 +709,7 @@ function BankAccountCard({ bank, number, holder, idx, copied, onCopy, color }: {
   )
 }
 
-// ─── GIFT SECTION ────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ GIFT SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function GiftSection() {
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
 
@@ -755,7 +755,7 @@ function GiftSection() {
   )
 }
 
-// ─── WISHES SECTION ──────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ WISHES SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 interface Wish { name: string; status: string; message: string; timestamp: string }
 
 function WishesSection() {
@@ -856,7 +856,7 @@ function WishesSection() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-baseline gap-2 flex-wrap">
                         <p className="text-sm font-medium text-cream font-content">{w.name}</p>
-                        {w.status && <span className="text-[9px] text-cream/40 font-content">— {w.status}</span>}
+                        {w.status && <span className="text-[9px] text-cream/40 font-content">ΓÇö {w.status}</span>}
                       </div>
                       <p className="text-sm text-cream/70 mt-1 leading-relaxed font-content">{w.message}</p>
                       <p className="text-[9px] text-cream/30 mt-1 font-content">{w.timestamp}</p>
@@ -872,7 +872,7 @@ function WishesSection() {
   )
 }
 
-// ─── CLOSING SECTION ─────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ CLOSING SECTION ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function ClosingSection() {
   const [attending, setAttending] = useState<'yes' | 'no' | null>(null)
   const guestName = useRef<HTMLInputElement>(null)
@@ -898,7 +898,7 @@ function ClosingSection() {
           <motion.p {...fadeIn(0.1)} className="text-cream/60 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
           <motion.div {...scaleIn(0.15)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl leading-tight mb-3">
-            <ShinyText text="Sarah &amp; Riadussolihin" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+            <ShinyText text="Srah &amp; Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
@@ -950,7 +950,7 @@ function ClosingSection() {
                 animate={{ scale: 1, opacity: 1 }}
                 className="text-cream/70 text-sm font-content"
               >
-                Terima kasih atas konfirmasinya 🙏
+                Terima kasih atas konfirmasinya ≡ƒÖÅ
               </motion.p>
             )}
           </motion.div>
@@ -964,7 +964,7 @@ function ClosingSection() {
   )
 }
 
-// ─── MUSIC PLAYER ────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ MUSIC PLAYER ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 const floatingNotes = [
   { id: 1, x: -16, delay: 0, size: 10 },
   { id: 2, x: 0, delay: 0.4, size: 12 },
@@ -1031,7 +1031,7 @@ function MusicPlayer() {
   )
 }
 
-// ─── SCROLL OVERLAYS ─────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ SCROLL OVERLAYS ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function ScrollOverlays() {
   const { scrollY } = useScroll()
   const topLeftX = useTransform(scrollY, [0, 500], [0, -40])
@@ -1057,7 +1057,7 @@ function ScrollOverlays() {
   )
 }
 
-// ─── MAIN CONTENT ────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ MAIN CONTENT ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function MainContent() {
   return (
     <main className="relative w-full min-h-screen">
@@ -1084,7 +1084,7 @@ function MainContent() {
             </svg>
             <span>11 Juli 2026</span>
           </div>
-          <p className="font-title text-sm mt-1.5"><ShinyText text="Sarah &amp; Riadussolihin" color="#9e8a7a" shineColor="#ffd700" speed={3} spread={150} /></p>
+          <p className="font-title text-sm mt-1.5"><ShinyText text="Srah &amp; Riad" color="#9e8a7a" shineColor="#ffd700" speed={3} spread={150} /></p>
         </footer>
       </div>
 
@@ -1093,7 +1093,7 @@ function MainContent() {
   )
 }
 
-// ─── PAGE ────────────────────────────────────────────────────────────
+// ΓöÇΓöÇΓöÇ PAGE ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
 function GuestName() {
   const [name, setName] = useState('Tamu Undangan')
   useEffect(() => {
@@ -1117,7 +1117,7 @@ export default function InvitationPage() {
 
   return (
     <>
-      {/* ── Envelope Section (first, part of page flow) ── */}
+      {/* ΓöÇΓöÇ Envelope Section (first, part of page flow) ΓöÇΓöÇ */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
@@ -1135,7 +1135,7 @@ export default function InvitationPage() {
               <div className="envelope-second relative">
                 <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riadussolihin" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Srah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
                   <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
                 </div>
               </div>
@@ -1144,7 +1144,7 @@ export default function InvitationPage() {
         </div>
       </section>
 
-      {/* ── Main Content (scrollable after envelope) ── */}
+      {/* ΓöÇΓöÇ Main Content (scrollable after envelope) ΓöÇΓöÇ */}
       <MainContent />
     </>
   )
