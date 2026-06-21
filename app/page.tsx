@@ -75,7 +75,7 @@ const events = [
 
 
 const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://undangan-api.vercel.app'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 // --- HELPERS ---------------------------------------------------------
 function esc(text: string): string {
