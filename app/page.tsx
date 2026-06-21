@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, FormEvent } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
 import { CircularTestimonials } from '@/components/ui/circular-testimonials'
+import InfiniteMenu from '@/components/ui/InfiniteMenu'
 
 // --- EASING ---
 const easeOut: Easing = [0.22, 1, 0.36, 1]
@@ -590,8 +591,12 @@ function LoveStorySection() {
 
 // --- GALLERY SECTION -------------------------------------------------
 function GallerySection() {
-  const [selected, setSelected] = useState<number | null>(null)
-  const doubled = [...galleryImages, ...galleryImages]
+  const menuItems = galleryImages.map(img => ({
+    image: img.src,
+    link: '',
+    title: img.alt,
+    description: ''
+  }))
 
   return (
     <section id="gallery" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -599,60 +604,13 @@ function GallerySection() {
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.02) 0%, rgba(13,40,24,0.08) 100%)' }} />
       <Decorations />
 
-      <motion.p {...fadeIn(0)} className="relative z-20 text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-6">
+      <p className="relative z-20 text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-6 animate-fadeIn">
         Galeri Foto
-      </motion.p>
+      </p>
 
-      <div className="relative z-20 w-full overflow-hidden">
-        <div className="gallery-track flex gap-3 px-5 md:px-6 pb-2">
-          {doubled.map((img, i) => (
-            <div
-              key={i}
-              className="shrink-0 w-[80vw] md:w-[45vw] lg:w-[35vw] max-w-md cursor-pointer gallery-card"
-              onClick={() => setSelected(i % galleryImages.length)}
-            >
-              <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-cream/15 shadow-lg group">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-dark/5 to-transparent pointer-events-none" />
-              </div>
-            </div>
-          ))}
-        </div>
+      <div className="relative z-20 w-full h-[500px] md:h-[600px]">
+        <InfiniteMenu items={menuItems} scale={1.0} />
       </div>
-
-      <AnimatePresence>
-        {selected !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setSelected(null)}
-            className="fixed inset-0 z-[100] bg-black/85 backdrop-blur-lg flex items-center justify-center p-4 cursor-pointer"
-          >
-            <motion.div
-              initial={{ scale: 0.85, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ duration: 0.4, ease: easeOut }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full max-h-[85vh] rounded-2xl overflow-hidden border border-cream/15 shadow-2xl"
-            >
-              <img src={galleryImages[selected].src} alt={galleryImages[selected].alt} className="w-full h-full object-contain" />
-              <motion.button
-                onClick={() => setSelected(null)}
-                className="absolute top-3 right-3 w-9 h-9 rounded-full bg-cream/15 backdrop-blur-sm border border-cream/30 flex items-center justify-center text-cream cursor-pointer"
-              >
-                <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12" /></svg>
-              </motion.button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   )
 }
