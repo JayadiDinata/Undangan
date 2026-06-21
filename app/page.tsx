@@ -445,7 +445,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
     >
         <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
             <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
-          <img src="/img/ov-3.png" alt="" className="absolute inset-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60 transition-all duration-300" />
+          <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-[130%] object-cover object-[center_20%] pointer-events-none z-[1] opacity-60 transition-all duration-300" />
           <div className="uiverse-card-overlay" />
           <div className="uiverse-card-bottom">
             <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>

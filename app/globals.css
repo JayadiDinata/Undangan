@@ -331,11 +331,10 @@
   position: relative;
   width: 220px;
   height: 200px;
-  border-radius: 8px;
-  background: rgba(198, 198, 198, 0.34);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   transition: all 0.4s ease;
   overflow: hidden;
   color: white;
@@ -373,6 +372,7 @@
   inset: 0;
   background: linear-gradient(to top, rgba(13,40,24,0.95) 0%, rgba(13,40,24,0.1) 60%, transparent 100%);
   z-index: 2;
+  border-radius: 0;
 }
 
 .uiverse-card-bottom {
