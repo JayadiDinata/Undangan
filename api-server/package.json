@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node api/wishes.js"
+    "dev": "node index.js",
+    "start": "node index.js"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.0"
+    "@neondatabase/serverless": "^1.0.0",
+    "dotenv": "^16.4.0"
   }
 }

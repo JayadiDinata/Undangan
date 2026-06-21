@@ -313,32 +313,27 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 5])
   const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
   const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
   const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
   const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
   const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
-  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
+  const scales = [scale9, scale5, scale6, scale5, scale6, scale8, scale4]
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        <motion.div style={{ scale: bgScale }} className="absolute inset-0 z-0">
-          <img src="/img/SR.jpeg" alt="" className="h-full w-full object-cover" />
-        </motion.div>
-
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
 
-        {galleryImages.slice(1).map((img, i) => {
+        {galleryImages.map((img, i) => {
           const scale = scales[i % scales.length]
           return (
             <motion.div
               key={i}
               style={{ scale }}
-              className={`absolute top-0 flex h-full w-full items-center justify-center z-[3] ${
+              className={`absolute top-0 flex h-full w-full items-center justify-center ${
                 i === 0 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
               } ${
                 i === 1 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
@@ -349,7 +344,9 @@ function CoverSection() {
               } ${
                 i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
               } ${
-                i === 5 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
+                i === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
+              } ${
+                i === 6 ? '[&>div]:!-top-[30vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[20vh] [&>div]:!w-[20vw]' : ''
               }`}
             >
               <div className="relative h-[25vh] w-[25vw]">
@@ -724,11 +721,14 @@ function GiftSection() {
   )
 }
 
-// --- WISHES SECTION --------------------------------------------------
+// --- WISHES & RSVP SECTION --------------------------------------------
 interface Wish { name: string; status: string; message: string; timestamp: string }
+interface RsvpEntry { name: string; attending: string; timestamp: string }
 
 function WishesSection() {
+  const [tab, setTab] = useState<'wishes' | 'rsvp'>('wishes')
   const [wishes, setWishes] = useState<Wish[]>([])
+  const [rsvpList, setRsvpList] = useState<RsvpEntry[]>([])
   const [name, setName] = useState('')
   const [status, setStatus] = useState('')
   const [message, setMessage] = useState('')
@@ -739,9 +739,11 @@ function WishesSection() {
     fetch(`${API_URL}/api/wishes`)
       .then(r => r.json())
       .then(data => { if (Array.isArray(data)) setWishes(data) })
-      .catch(() => {
-        try { const s = localStorage.getItem('weddingWishes'); if (s) setWishes(JSON.parse(s)) } catch {}
-      })
+      .catch(() => { try { const s = localStorage.getItem('weddingWishes'); if (s) setWishes(JSON.parse(s)) } catch {} })
+    fetch(`${API_URL}/api/rsvp`)
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setRsvpList(data) })
+      .catch(() => {})
   }, [])
 
   const submit = async (e: FormEvent) => {
@@ -752,14 +754,9 @@ function WishesSection() {
       name: esc(name.trim()), status: esc(status.trim()), message: esc(message.trim()),
       timestamp: new Date().toLocaleString('id-ID'),
     }
-    try {
-      await fetch(`${API_URL}/api/wishes`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish),
-      })
-    } catch {}
-    const updated = [newWish, ...wishes]
-    setWishes(updated)
-    localStorage.setItem('weddingWishes', JSON.stringify(updated))
+    try { await fetch(`${API_URL}/api/wishes`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
+    setWishes([newWish, ...wishes])
+    localStorage.setItem('weddingWishes', JSON.stringify([newWish, ...wishes]))
     setName(''); setStatus(''); setMessage('')
     setSuccess(true); setTimeout(() => setSuccess(false), 3000)
     try { await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
@@ -771,81 +768,130 @@ function WishesSection() {
       <div className="absolute inset-0 z-0 bg-green-dark/60" />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-lg px-5 md:px-6">
-        <motion.p {...fadeIn(0)} className="text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-4">
-          Ucapan &amp; Doa
-        </motion.p>
 
-        <motion.form
-          onSubmit={submit}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ margin: '-40px' }}
-          transition={{ duration: 0.5, ease: easeOut }}
-          className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-4 md:p-5 space-y-3 mb-5"
-        >
-          <div>
-            <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Nama Anda</label>
-            <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="Masukkan nama Anda"
-              className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200" />
-          </div>
-          <div>
-            <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Status / Hubungan</label>
-            <input type="text" value={status} onChange={e => setStatus(e.target.value)} placeholder="Teman, Sahabat, Keluarga, dll."
-              className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200" />
-          </div>
-          <div>
-            <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Ucapan &amp; Doa</label>
-            <textarea value={message} onChange={e => setMessage(e.target.value)} required rows={3} placeholder="Tulis ucapan dan doa Anda..."
-              className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200 resize-none" />
-          </div>
-          <motion.button type="submit" disabled={submitting} whileTap={{ scale: 0.98 }}
-            className="w-full py-3 bg-cream/15 border border-cream/30 text-cream font-content text-sm font-medium rounded-xl hover:bg-cream/25 transition-colors duration-300 cursor-pointer disabled:opacity-50">
-            {submitting ? 'Mengirim...' : 'Kirim Ucapan'}
-          </motion.button>
-          <AnimatePresence>
-            {success && (
-              <motion.p key="s" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-                className="text-green-400 text-sm text-center font-content">
-                Berhasil dikirim! Terima kasih atas doa dan ucapannya
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.form>
-
-        <div className="max-h-[350px] overflow-y-auto space-y-3">
-          <AnimatePresence>
-            {wishes.length === 0 ? (
-              <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada ucapan. Jadilah yang pertama!</p>
-            ) : (
-              wishes.map((w, i) => (
-                <motion.div
-                  key={`${w.timestamp}-${i}`}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ margin: '-40px' }}
-                  transition={{ duration: 0.4, ease: easeOut }}
-                  className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
-                >
-                  <div className="flex items-start gap-3">
-                    <div className="w-7 h-7 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0">
-                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-cream" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                      </svg>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline gap-2 flex-wrap">
-                        <p className="text-sm font-medium text-cream font-content">{w.name}</p>
-                        {w.status && <span className="text-[9px] text-cream/40 font-content">ΓÇö {w.status}</span>}
-                      </div>
-                      <p className="text-sm text-cream/70 mt-1 leading-relaxed font-content">{w.message}</p>
-                      <p className="text-[9px] text-cream/30 mt-1 font-content">{w.timestamp}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            )}
-          </AnimatePresence>
+        {/* --- Tabs --- */}
+        <div className="flex bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-1 mb-5">
+          <button onClick={() => setTab('wishes')} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'wishes' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
+            Ucapan &amp; Doa
+          </button>
+          <button onClick={() => setTab('rsvp')} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'rsvp' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
+            Konfirmasi Kehadiran
+          </button>
         </div>
+
+        {/* --- Form (wishes) --- */}
+        {tab === 'wishes' && (
+          <motion.form
+            onSubmit={submit}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ margin: '-40px' }}
+            transition={{ duration: 0.5, ease: easeOut }}
+            className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-4 md:p-5 space-y-3 mb-5"
+          >
+            <p className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content mb-1">Kirim Ucapan &amp; Doa</p>
+            <div>
+              <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Nama Anda</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} required placeholder="Masukkan nama Anda"
+                className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200" />
+            </div>
+            <div>
+              <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Status / Hubungan</label>
+              <input type="text" value={status} onChange={e => setStatus(e.target.value)} placeholder="Teman, Sahabat, Keluarga, dll."
+                className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200" />
+            </div>
+            <div>
+              <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Ucapan &amp; Doa</label>
+              <textarea value={message} onChange={e => setMessage(e.target.value)} required rows={3} placeholder="Tulis ucapan dan doa Anda..."
+                className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200 resize-none" />
+            </div>
+            <motion.button type="submit" disabled={submitting} whileTap={{ scale: 0.98 }}
+              className="w-full py-3 bg-cream/15 border border-cream/30 text-cream font-content text-sm font-medium rounded-xl hover:bg-cream/25 transition-colors duration-300 cursor-pointer disabled:opacity-50">
+              {submitting ? 'Mengirim...' : 'Kirim Ucapan'}
+            </motion.button>
+            <AnimatePresence>
+              {success && (
+                <motion.p key="s" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                  className="text-green-400 text-sm text-center font-content">
+                  Berhasil dikirim! Terima kasih atas doa dan ucapannya
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </motion.form>
+        )}
+
+        {/* --- List: Wishes --- */}
+        {tab === 'wishes' && (
+          <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
+            <AnimatePresence>
+              {wishes.length === 0 ? (
+                <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada ucapan. Jadilah yang pertama!</p>
+              ) : (
+                wishes.map((w, i) => (
+                  <motion.div
+                    key={`${w.timestamp}-${i}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ margin: '-40px' }}
+                    transition={{ duration: 0.4, ease: easeOut }}
+                    className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
+                        {w.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-baseline gap-2 flex-wrap">
+                          <p className="text-sm font-medium text-cream font-content">{w.name}</p>
+                          {w.status && <span className="text-[9px] text-cream/50 font-content">— {w.status}</span>}
+                        </div>
+                        <p className="text-sm text-cream/80 mt-1 leading-relaxed font-content">{w.message}</p>
+                        <p className="text-[9px] text-cream/40 mt-1 font-content">{w.timestamp}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* --- List: RSVP --- */}
+        {tab === 'rsvp' && (
+          <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
+            <AnimatePresence>
+              {rsvpList.length === 0 ? (
+                <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada konfirmasi kehadiran.</p>
+              ) : (
+                rsvpList.map((r, i) => (
+                  <motion.div
+                    key={`${r.timestamp}-${i}`}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ margin: '-40px' }}
+                    transition={{ duration: 0.4, ease: easeOut }}
+                    className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
+                        {r.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-cream font-content">{r.name}</p>
+                        <p className="text-[9px] text-cream/40 mt-0.5 font-content">{r.timestamp}</p>
+                      </div>
+                      <span className={`shrink-0 text-[10px] font-content font-medium px-2.5 py-1 rounded-full border ${
+                        r.attending === 'yes' ? 'bg-green-600/30 border-green-400/30 text-green-300' : 'bg-red-600/30 border-red-400/30 text-red-300'
+                      }`}>
+                        {r.attending === 'yes' ? 'Hadir' : 'Tidak Hadir'}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </AnimatePresence>
+          </div>
+        )}
       </div>
     </section>
   )
@@ -862,9 +908,15 @@ function ClosingSection() {
     if (to) setDefaultName(decodeURIComponent(to))
   }, [])
 
-  const submitAttendance = (e: FormEvent) => {
+  const submitAttendance = async (e: FormEvent) => {
     e.preventDefault()
-    if (!guestName.current?.value.trim()) return
+    if (!guestName.current?.value.trim() || !attending) return
+    try {
+      await fetch(`${API_URL}/api/rsvp`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: esc(guestName.current.value.trim()), attending }),
+      })
+    } catch {}
     setGuestSubmitted(true)
   }
 
@@ -1056,8 +1108,8 @@ function MainContent() {
         <CouplesSection />
         <ScheduleSection />
         <LoveStorySection />
-        <GallerySection />
         <GiftSection />
+        <GallerySection />
         <WishesSection />
         <ClosingSection />
 
