@@ -63,11 +63,6 @@ in vec2 vUvs;
 in float vAlpha;
 flat in int vInstanceId;
 
-float roundedRectSDF(vec2 uv, vec2 halfSize, float radius) {
-    vec2 d = abs(uv) - halfSize + radius;
-    return length(max(d, 0.0)) - radius;
-}
-
 void main() {
     int itemIndex = vInstanceId % uItemCount;
     int cellsPerRow = uAtlasSize;
@@ -76,20 +71,20 @@ void main() {
     vec2 cellSize = vec2(1.0) / vec2(float(cellsPerRow));
     vec2 cellOffset = vec2(float(cellX), float(cellY)) * cellSize;
 
-    vec2 st = vec2(vUvs.x, 1.0 - vUvs.y);
-    st = clamp(st, 0.0, 1.0);
+    ivec2 texSize = textureSize(uTex, 0);
+    float imageAspect = float(texSize.x) / float(texSize.y);
+    float containerAspect = 1.0;
+    float scale = max(imageAspect / containerAspect, containerAspect / imageAspect);
 
-    vec2 uvCentered = vUvs - 0.5;
-    vec2 halfSize = vec2(0.45, 0.30);
-    float cornerRadius = 0.09;
-    float sdf = roundedRectSDF(uvCentered, halfSize, cornerRadius);
-    float rectAlpha = 1.0 - smoothstep(0.0, 0.015, sdf);
+    vec2 st = vec2(vUvs.x, 1.0 - vUvs.y);
+    st = (st - 0.5) * scale + 0.5;
+    st = clamp(st, 0.0, 1.0);
 
     st = st * cellSize + cellOffset;
 
     vec4 texColor = texture(uTex, st);
     outColor = texColor;
-    outColor.a *= vAlpha * rectAlpha;
+    outColor.a *= vAlpha;
 }
 `
 
