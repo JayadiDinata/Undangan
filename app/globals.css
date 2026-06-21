@@ -362,31 +362,8 @@
   height: 100%;
   width: 100%;
   position: relative;
-  transition: height 0.4s;
   overflow: hidden;
   border-radius: 25% 25% 0 0;
-}
-
-.envelope-couple.expanded .card-first {
-  height: 60%;
-  border-radius: 25% 25% 0 0;
-}
-
-.card-second {
-  height: 0%;
-  width: 100%;
-  opacity: 0;
-  transition: all 0.4s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0.75rem;
-}
-
-.envelope-couple.expanded .card-second {
-  height: 40%;
-  opacity: 1;
 }
 
 .uiverse-card-img {
@@ -397,10 +374,20 @@
   object-fit: cover;
   z-index: 0;
   border-radius: 25% 25% 0 0;
+  transition: object-position 0.4s;
+  object-position: center 20%;
+}
+
+.envelope-couple.expanded .uiverse-card-img {
+  object-position: center 40%;
 }
 
 .uiverse-card-img-bride {
-  object-position: center 25%;
+  object-position: center 20%;
+}
+
+.envelope-couple.expanded .uiverse-card-img-bride {
+  object-position: center 35%;
 }
 
 .uiverse-card-overlay {
@@ -413,12 +400,30 @@
 
 .uiverse-card-bottom {
   position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  padding: 0 0.75rem;
+}
+
+.card-parents {
+  position: absolute;
   bottom: 0.75rem;
   left: 0;
   right: 0;
   text-align: center;
   z-index: 3;
   padding: 0 0.75rem;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s;
+}
+
+.envelope-couple.expanded .card-parents {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ─── Envelope Gate (Uiverse perfect-husky-88) ───────────────────── */

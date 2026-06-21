@@ -53,7 +53,6 @@ const galleryImages = [
   { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
   { src: '/img/SR7.jpeg', alt: 'Prewedding 7' },
   { src: '/img/SR8.jpeg', alt: 'Prewedding 8' },
-  { src: '/img/SR1-nobg.png', alt: 'Prewedding 9' },
 ]
 
 const bankAccounts = [
@@ -435,16 +434,15 @@ function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bri
     <div className={`uiverse-card envelope-couple ${expanded ? 'expanded' : ''}`}>
       <div className="card-first">
         <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
-        <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60" />
         <div className="uiverse-card-overlay" />
         <div className="uiverse-card-bottom">
           <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
           <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
         </div>
-      </div>
-      <div className="card-second">
-        <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
-        <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+        <div className="card-parents">
+          <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
+          <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+        </div>
       </div>
     </div>
   )
