@@ -1201,23 +1201,68 @@ export default function InvitationPage() {
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
-        <div className="relative z-[2] flex items-center justify-center">
-          <div className="relative">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-5 md:-inset-4 object-cover object-[center_60%] pointer-events-none opacity-70 z-0" />
-            <div className={`relative z-10 envelope-card ${revealed ? 'revealed' : ''}`}>
-              <div className="envelope-first">
-                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-              </div>
-              <div className="envelope-second relative">
-                <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                  <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
-                </div>
-              </div>
-            </div>
-          </div>
+       <div className="relative z-[2] flex items-center justify-center">
+  <div className="relative flex items-center justify-center">
+
+    <img
+      src="/img/ov-1.png"
+      alt=""
+      className="
+        absolute
+        left-1/2
+        top-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+        w-[170%]
+        h-auto
+        max-w-none
+        object-contain
+        pointer-events-none
+        opacity-70
+        z-0
+      "
+    />
+
+    <div
+      className={`relative z-[1] envelope-card ${
+        revealed ? "revealed" : ""
+      }`}
+    >
+      <div className="envelope-first">
+        <img
+          src="/img/tutup.png"
+          alt="Buka Undangan"
+          className="w-full h-full object-contain p-6"
+        />
+      </div>
+
+      <div className="envelope-second relative">
+        <img
+          src="/img/buka.png"
+          alt="Undangan"
+          className="w-full h-full object-contain"
+        />
+
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+          <p className="font-title text-lg md:text-xl whitespace-nowrap">
+            <ShinyText
+              text="Sarah & Riad"
+              color="#0d2818"
+              shineColor="#ffd700"
+              speed={2}
+              spread={150}
+            />
+          </p>
+
+          <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">
+            11 Juli 2026
+          </p>
         </div>
+      </div>
+    </div>
+
+  </div>
+</div>
       </section>
 
       {/* -- Main Content (scrollable after envelope) -- */}
