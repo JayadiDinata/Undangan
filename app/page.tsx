@@ -312,16 +312,18 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
-  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
-  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
-  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
-  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
-  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 5])
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
+
+        <motion.div
+          style={{ scale }}
+          className="absolute inset-0 z-0"
+        >
+          <img src="/img/SR.jpeg" alt="Cover" className="h-full w-full object-cover" />
+        </motion.div>
         
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
@@ -338,37 +340,10 @@ function CoverSection() {
           <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin S.Tp" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
-            <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
+            <p className="text-cream/60 text-[10px] font-content mb-6">Ciawi, Bogor</p>
             <Countdown />
           </div>
         </motion.div>
-
-        {galleryImages.map((img, i) => {
-          const scale = scales[i % scales.length]
-          return (
-            <motion.div
-              key={i}
-              style={{ scale }}
-              className={`absolute top-0 flex h-full w-full items-center justify-center ${
-                i === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
-              } ${
-                i === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
-              } ${
-                i === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
-              } ${
-                i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
-              } ${
-                i === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
-              } ${
-                i === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
-              }`}
-            >
-              <div className="relative h-[25vh] w-[25vw]">
-                <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="lazy" />
-              </div>
-            </motion.div>
-          )
-        })}
       </div>
     </section>
   )
@@ -525,7 +500,7 @@ function ScheduleSection() {
                 <p className="text-cream/70 text-xs font-content mb-0.5">{ev.date}</p>
                 <p className="text-cream/50 text-xs font-content mb-2">{ev.time}</p>
                 <p className="text-cream text-sm font-content font-medium">{ev.location}</p>
-                <p className="text-cream/40 text-[10px] font-content mb-3">{ev.address}</p>
+                <p className="text-cream/60 text-[10px] font-content mb-3">{ev.address}</p>
                 {i === 1 && (
                   <div className="w-full h-44 rounded-xl overflow-hidden mb-3 border border-cream/20">
                     <iframe
@@ -1134,7 +1109,7 @@ export default function InvitationPage() {
                 <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                   <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                  <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
+                  <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
                 </div>
               </div>
             </div>

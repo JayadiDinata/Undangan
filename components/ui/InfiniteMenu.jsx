@@ -630,7 +630,12 @@ class InfiniteGridMenu {
       images.forEach((img, i) => {
         const x = (i % this.atlasSize) * cellSize
         const y = Math.floor(i / this.atlasSize) * cellSize
-        ctx.drawImage(img, x, y, cellSize, cellSize)
+        const imgAspect = img.naturalWidth / img.naturalHeight
+        let drawW = cellSize, drawH = cellSize
+        if (imgAspect > 1) { drawH = cellSize / imgAspect } else { drawW = cellSize * imgAspect }
+        const dx = x + (cellSize - drawW) / 2
+        const dy = y + (cellSize - drawH) / 2
+        ctx.drawImage(img, dx, dy, drawW, drawH)
       })
 
       gl.bindTexture(gl.TEXTURE_2D, this.tex)
