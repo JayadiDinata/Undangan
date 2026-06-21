@@ -61,9 +61,9 @@ const bankAccounts = [
 ]
 
 const loveStory = [
-  { title: 'Pertemuan Pertama', date: 'Januari 2020', desc: 'Berawal dari sebuah acara seminar, kami berdua dipertemukan. Tanpa sengaja duduk bersebelahan dan berbincang hingga akhir acara.', img: '/img/SR4.jpeg' },
-  { title: 'Mulai Serius', date: 'Maret 2022', desc: 'Setelah dua tahun saling mengenal, kami memutuskan untuk melangkah ke jenjang yang lebih serius. Restu kedua orang tua menjadi kekuatan kami.', img: '/img/SR5.jpeg' },
-  { title: 'Lamaran', date: 'Desember 2025', desc: 'Dengan penuh haru dan bahagia, proses lamaran berlangsung lancar dihadiri oleh keluarga besar kedua belah pihak.', img: '/img/SR3.jpeg' },
+  { title: 'Pertemuan Pertama', date: 'Juni 2024', desc: 'Berawal dari pekenalan yang tidak terduga, kami berdua dipertemukan. Tanpa sengaja berbincang hingga saat ini.', img: '/img/SR4.jpeg' },
+  { title: 'Mulai Serius', date: 'Juni 2025', desc: 'Setelah dua tahun saling mengenal, kami memutuskan untuk melangkah ke jenjang yang lebih serius. Restu kedua orang tua menjadi kekuatan kami.', img: '/img/SR5.jpeg' },
+  { title: 'Lamaran', date: 'Juni 2026', desc: 'Dengan penuh haru dan bahagia, proses lamaran berlangsung lancar dihadiri oleh keluarga besar kedua belah pihak.', img: '/img/SR3.jpeg' },
   { title: 'Pernikahan', date: 'Juli 2026', desc: 'Akhirnya tibalah hari yang dinanti. Dengan mengucap bismillah, kami berdua sah menjadi pasangan suami istri.', img: '/img/SR2.jpeg' },
 ]
 
