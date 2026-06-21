@@ -1059,8 +1059,20 @@ function LoadingScreen({ loaded, onEnter }: { loaded: boolean; onEnter: () => vo
 function GuestName() {
   const [name, setName] = useState('Tamu Undangan')
   useEffect(() => {
-    const to = new URLSearchParams(window.location.search).get('to')
-    if (to) setName(decodeURIComponent(to))
+    const params = new URLSearchParams(window.location.search)
+    let guestName = params.get('to')
+    // Fallback: if & in value was split, collect remaining param keys as continuation
+    if (guestName) {
+      const rest: string[] = []
+      params.forEach((v, k) => {
+        if (k !== 'to') rest.push(v ? k + '=' + v : k)
+      })
+      if (rest.length) guestName += ' ' + rest.join(' ').replace(/=$/g, '')
+    }
+    if (guestName) {
+      setName(guestName.replace(/\s+/g, ' ').trim())
+      document.title = 'Undangan Pernikahan - ' + guestName.replace(/\s+/g, ' ').trim()
+    }
   }, [])
   return <p className="font-content leading-relaxed"><ShinyText text={name} color="#d4c5a9" shineColor="#ffd700" speed={4} spread={150} className="text-lg" /></p>
 }
