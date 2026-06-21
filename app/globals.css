@@ -326,33 +326,67 @@
   filter: brightness(1.1);
 }
 
-/* ─── Couples Card (Uiverse-style) ────────────────────────────────── */
+/* ─── Couples Card (envelope-style) ───────────────────────────────── */
 .uiverse-card {
   position: relative;
   width: 220px;
-  height: 200px;
-  border-radius: 25% 25% 0 0;
   background: transparent;
   border: none;
   box-shadow: none;
-  transition: all 0.4s ease;
   overflow: hidden;
   color: white;
 }
 
-.uiverse-card.expanded {
+.envelope-couple {
+  height: 200px;
+  transition: height 0.4s;
+  border-radius: 25% 25% 0 0;
+}
+
+.envelope-couple.expanded {
   height: 380px;
   border-radius: 0;
 }
 
 @media (min-width: 768px) {
-  .uiverse-card {
+  .envelope-couple {
     width: 280px;
     height: 260px;
   }
-  .uiverse-card.expanded {
+  .envelope-couple.expanded {
     height: 460px;
   }
+}
+
+.card-first {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  transition: height 0.4s;
+  overflow: hidden;
+  border-radius: 25% 25% 0 0;
+}
+
+.envelope-couple.expanded .card-first {
+  height: 60%;
+  border-radius: 25% 25% 0 0;
+}
+
+.card-second {
+  height: 0%;
+  width: 100%;
+  opacity: 0;
+  transition: all 0.4s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.75rem;
+}
+
+.envelope-couple.expanded .card-second {
+  height: 40%;
+  opacity: 1;
 }
 
 .uiverse-card-img {
@@ -444,6 +478,15 @@
 
 .shiny-text {
   display: inline-block;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .animate-float {

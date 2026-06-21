@@ -428,60 +428,57 @@ function QuoteSection() {
   )
 }
 
-// --- COUPLES CARD (Uiverse-style) ------------------------------------
-function CouplesCard({ person, delay, isGroom, expanded }: { person: typeof couples.bride; delay: number; isGroom: boolean; expanded: boolean }) {
+// --- COUPLES CARD (envelope-style) -----------------------------------
+function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bride; isGroom: boolean; expanded: boolean }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ margin: '-60px' }}
-      transition={{ duration: 0.6, delay, ease: easeOut }}
-      className="w-full flex justify-center"
-    >
-        <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
-            <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
-          <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60 transition-all duration-300" />
-          <div className="uiverse-card-overlay" />
-          <div className="uiverse-card-bottom">
-            <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
-            <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
-            <div className={`overflow-hidden transition-all duration-500 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
-              <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
-              <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
-            </div>
-          </div>
+    <div className={`uiverse-card envelope-couple ${expanded ? 'expanded' : ''}`}>
+      <div className="card-first">
+        <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
+        <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60" />
+        <div className="uiverse-card-overlay" />
+        <div className="uiverse-card-bottom">
+          <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
+          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
         </div>
-    </motion.div>
+      </div>
+      <div className="card-second">
+        <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
+        <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+      </div>
+    </div>
   )
 }
 
 // --- COUPLES SECTION -------------------------------------------------
 function CouplesSection() {
   const [expanded, setExpanded] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: sectionProgress } = useScroll({ target: sectionRef })
+
+  useEffect(() => {
+    const unsubscribe = sectionProgress.on('change', (v: number) => {
+      setExpanded(v > 0.1)
+    })
+    return unsubscribe
+  }, [sectionProgress])
 
   return (
-    <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
+    <section ref={sectionRef} id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
       <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.03) 0%, rgba(13,40,24,0.12) 100%)' }} />
       <Decorations />
       <div className="relative z-20 mx-auto max-w-5xl px-5 md:px-6">
-        <motion.p {...fadeIn(0)} className="text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-8">
+        <p className="text-cream/50 text-xs uppercase tracking-[0.2em] font-content text-center mb-8 animate-fadeIn">
           Pasangan Pengantin
-        </motion.p>
+        </p>
 
-        <motion.div
-          drag="y"
-          dragConstraints={{ top: 0, bottom: 0 }}
-          dragElastic={0.2}
-          onDragEnd={(_, info) => { if (info.offset.y > 20) setExpanded(true) }}
-          className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none"
-        >
-          <CouplesCard person={couples.bride} delay={0.1} isGroom={false} expanded={expanded} />
-          <motion.div {...scaleIn(0.25)} className="flex-shrink-0">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none">
+          <CouplesCard person={couples.bride} isGroom={false} expanded={expanded} />
+          <div className="flex-shrink-0">
             <div className="text-cream/30 text-3xl font-serif italic">&amp;</div>
-          </motion.div>
-          <CouplesCard person={couples.groom} delay={0.3} isGroom={true} expanded={expanded} />
-        </motion.div>
+          </div>
+          <CouplesCard person={couples.groom} isGroom={true} expanded={expanded} />
+        </div>
       </div>
     </section>
   )
