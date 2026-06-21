@@ -195,7 +195,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 0.8, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight"
             >
-              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+              <ShinyText text="Sarah Saraswati (Ala)" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.p
@@ -213,7 +213,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 1.2, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight mb-4"
             >
-              <ShinyText text="Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+              <ShinyText text="Riadussolihin S.Tp" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.div
@@ -333,9 +333,9 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah Saraswati (Ala)" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin S.Tp" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <div className="mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
             <p className="text-cream/40 text-[10px] font-content mb-6">Ciawi, Bogor</p>
