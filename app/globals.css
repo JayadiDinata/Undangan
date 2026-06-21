@@ -426,6 +426,34 @@
   transform: translateY(0);
 }
 
+.envelope-couple {
+  transition: height 0.4s, transform 0.3s;
+}
+
+.envelope-couple:hover {
+  transform: scale(1.03);
+}
+
+.chevron-down {
+  width: 20px;
+  height: 20px;
+  margin: 6px auto 0;
+  color: rgba(245, 230, 211, 0.5);
+  animation: chevronBounce 2s ease-in-out infinite;
+  transition: all 0.4s;
+}
+
+.chevron-down.open {
+  opacity: 0;
+  transform: rotate(180deg) translateY(-4px);
+  animation: none;
+}
+
+@keyframes chevronBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(4px); opacity: 1; }
+}
+
 /* ─── Envelope Gate (Uiverse perfect-husky-88) ───────────────────── */
 .envelope-card {
   width: 320px;

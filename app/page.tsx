@@ -438,6 +438,9 @@ function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bri
         <div className="uiverse-card-bottom">
           <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
           <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
+          <svg className={`chevron-down ${expanded ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
         </div>
         <div className="card-parents">
           <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
