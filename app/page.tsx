@@ -439,9 +439,11 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
       viewport={{ margin: '-60px' }}
       transition={{ duration: 0.6, delay, ease: easeOut }}
       className="w-full flex justify-center cursor-pointer"
+      drag="y"
+      dragConstraints={{ top: 0, bottom: 0 }}
+      dragElastic={0.1}
+      onDragEnd={(_, info) => setExpanded(info.offset.y < -30)}
       onClick={() => setExpanded(f => !f)}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
     >
         <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
             <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
