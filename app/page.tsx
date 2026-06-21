@@ -75,6 +75,7 @@ const events = [
 
 
 const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://undangan-api.vercel.app'
 
 // --- HELPERS ---------------------------------------------------------
 function esc(text: string): string {
@@ -312,21 +313,51 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
+  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
+  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
+  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
+  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        <motion.div
-          style={{ scale }}
-          className="absolute inset-0 z-0"
-        >
-          <img src="/img/SR.jpeg" alt="Cover" className="h-full w-full object-cover" />
+        <motion.div style={{ scale: bgScale }} className="absolute inset-0 z-0">
+          <img src="/img/SR.jpeg" alt="" className="h-full w-full object-cover" />
         </motion.div>
-        
+
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
+
+        {galleryImages.slice(1).map((img, i) => {
+          const scale = scales[i % scales.length]
+          return (
+            <motion.div
+              key={i}
+              style={{ scale }}
+              className={`absolute top-0 flex h-full w-full items-center justify-center z-[3] ${
+                i === 0 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
+              } ${
+                i === 1 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
+              } ${
+                i === 2 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
+              } ${
+                i === 3 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
+              } ${
+                i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
+              } ${
+                i === 5 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
+              }`}
+            >
+              <div className="relative h-[25vh] w-[25vw]">
+                <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="lazy" />
+              </div>
+            </motion.div>
+          )
+        })}
 
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
@@ -705,7 +736,12 @@ function WishesSection() {
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
-    try { const s = localStorage.getItem('weddingWishes'); if (s) setWishes(JSON.parse(s)) } catch {}
+    fetch(`${API_URL}/api/wishes`)
+      .then(r => r.json())
+      .then(data => { if (Array.isArray(data)) setWishes(data) })
+      .catch(() => {
+        try { const s = localStorage.getItem('weddingWishes'); if (s) setWishes(JSON.parse(s)) } catch {}
+      })
   }, [])
 
   const submit = async (e: FormEvent) => {
@@ -716,6 +752,11 @@ function WishesSection() {
       name: esc(name.trim()), status: esc(status.trim()), message: esc(message.trim()),
       timestamp: new Date().toLocaleString('id-ID'),
     }
+    try {
+      await fetch(`${API_URL}/api/wishes`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish),
+      })
+    } catch {}
     const updated = [newWish, ...wishes]
     setWishes(updated)
     localStorage.setItem('weddingWishes', JSON.stringify(updated))

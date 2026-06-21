@@ -1,0 +1,11 @@
+{
+  "name": "undangan-api",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node api/wishes.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/wishes.js": {
+      "runtime": "@vercel/node@3"
+    }
+  }
+}
