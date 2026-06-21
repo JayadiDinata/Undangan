@@ -5,6 +5,7 @@
   overflow: hidden;
   position: relative;
   outline: none;
+  background: transparent;
 }
 
 #infinite-grid-menu-canvas:active {

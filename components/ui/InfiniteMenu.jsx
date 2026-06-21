@@ -76,21 +76,12 @@ void main() {
     vec2 cellSize = vec2(1.0) / vec2(float(cellsPerRow));
     vec2 cellOffset = vec2(float(cellX), float(cellY)) * cellSize;
 
-    ivec2 texSize = textureSize(uTex, 0);
-    float imageAspect = float(texSize.x) / float(texSize.y);
-    float containerAspect = 0.75;
-
-    float scale = max(imageAspect / containerAspect,
-                     containerAspect / imageAspect);
-
     vec2 st = vec2(vUvs.x, 1.0 - vUvs.y);
-    st = (st - 0.5) * scale + 0.5;
     st = clamp(st, 0.0, 1.0);
 
     vec2 uvCentered = vUvs - 0.5;
-    uvCentered.x *= containerAspect;
-    vec2 halfSize = vec2(0.38, 0.48);
-    float cornerRadius = 0.12;
+    vec2 halfSize = vec2(0.45, 0.30);
+    float cornerRadius = 0.09;
     float sdf = roundedRectSDF(uvCentered, halfSize, cornerRadius);
     float rectAlpha = 1.0 - smoothstep(0.0, 0.015, sdf);
 
@@ -556,7 +547,7 @@ class InfiniteGridMenu {
   }
 
   #init(onInit) {
-    this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: false })
+    this.gl = this.canvas.getContext('webgl2', { antialias: true, alpha: true })
     const gl = this.gl
     if (!gl) {
       throw new Error('No WebGL 2 context!')
