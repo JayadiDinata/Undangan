@@ -326,44 +326,37 @@
   filter: brightness(1.1);
 }
 
-/* ─── Couples Card (envelope-style) ───────────────────────────────── */
+/* ─── Couples Card ────────────────────────────────── */
 .uiverse-card {
   position: relative;
   width: 220px;
+  height: 200px;
+  border-radius: 25% 25% 0 0;
   background: transparent;
   border: none;
   box-shadow: none;
+  transition: height 0.4s, transform 0.3s;
   overflow: hidden;
   color: white;
 }
 
-.envelope-couple {
-  height: 200px;
-  transition: height 0.4s;
-  border-radius: 25% 25% 0 0;
+.uiverse-card:hover {
+  transform: scale(1.03);
 }
 
-.envelope-couple.expanded {
+.uiverse-card.expanded {
   height: 380px;
   border-radius: 0;
 }
 
 @media (min-width: 768px) {
-  .envelope-couple {
+  .uiverse-card {
     width: 280px;
     height: 260px;
   }
-  .envelope-couple.expanded {
+  .uiverse-card.expanded {
     height: 460px;
   }
-}
-
-.card-first {
-  height: 100%;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 25% 25% 0 0;
 }
 
 .uiverse-card-img {
@@ -374,20 +367,10 @@
   object-fit: cover;
   z-index: 0;
   border-radius: 25% 25% 0 0;
-  transition: object-position 0.4s;
-  object-position: center 20%;
-}
-
-.envelope-couple.expanded .uiverse-card-img {
-  object-position: center 40%;
 }
 
 .uiverse-card-img-bride {
-  object-position: center 20%;
-}
-
-.envelope-couple.expanded .uiverse-card-img-bride {
-  object-position: center 35%;
+  object-position: center 25%;
 }
 
 .uiverse-card-overlay {
@@ -400,38 +383,12 @@
 
 .uiverse-card-bottom {
   position: absolute;
-  bottom: 2.5rem;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 3;
-  padding: 0 0.75rem;
-}
-
-.card-parents {
-  position: absolute;
   bottom: 0.75rem;
   left: 0;
   right: 0;
   text-align: center;
   z-index: 3;
   padding: 0 0.75rem;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: all 0.4s;
-}
-
-.envelope-couple.expanded .card-parents {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.envelope-couple {
-  transition: height 0.4s, transform 0.3s;
-}
-
-.envelope-couple:hover {
-  transform: scale(1.03);
 }
 
 .chevron-down {
