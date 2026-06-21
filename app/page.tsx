@@ -453,14 +453,17 @@ function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bri
 function CouplesSection() {
   const [expanded, setExpanded] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress: sectionProgress } = useScroll({ target: sectionRef })
 
   useEffect(() => {
-    const unsubscribe = sectionProgress.on('change', (v: number) => {
-      setExpanded(v > 0.1)
-    })
-    return unsubscribe
-  }, [sectionProgress])
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setExpanded(true) },
+      { threshold: 0.15 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section ref={sectionRef} id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
