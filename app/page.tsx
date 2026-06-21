@@ -68,7 +68,7 @@ const loveStory = [
 ]
 
 const events = [
-  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '09:00 - 10:00 WIB', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
+  { title: 'Akad Nikah', date: 'Sabtu, 11 Juli 2026', time: '08:00 - 10:00 WIB', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
   { title: 'Resepsi', date: 'Sabtu, 11 Juli 2026', time: '11:00 - Selesai', location: 'Villa', address: 'Jl. Mayjen H.R. Edi Sukma, RT.02/RW.01, Bitung Sari, Kec. Ciawi (dekat Smpn 2 Ciawi)', mapUrl: 'https://maps.google.com/?q=SMPN+2+Ciawi', mapEmbedUrl: 'https://maps.google.com/maps?q=SMPN+2+Ciawi&output=embed' },
 ]
 
@@ -1128,8 +1128,8 @@ export default function InvitationPage() {
         </div>
         <div className="relative z-[2] flex items-center justify-center">
           <div className="relative">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-cover object-[center_15%] pointer-events-none opacity-70" />
-            <div className={`relative envelope-card ${revealed ? 'revealed' : ''}`}>
+            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-cover object-[center_60%] pointer-events-none opacity-70 z-0" />
+            <div className={`relative z-10 envelope-card ${revealed ? 'revealed' : ''}`}>
               <div className="envelope-first">
                 <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
               </div>
