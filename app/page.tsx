@@ -194,7 +194,7 @@ function CoverGate({ onOpen }: { onOpen: () => void }) {
               transition={{ duration: 0.7, delay: 0.8, ease: easeOut }}
               className="font-title text-5xl sm:text-6xl leading-tight"
             >
-              <ShinyText text="Srah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+              <ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
             </motion.h1>
 
             <motion.p
@@ -332,7 +332,7 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Srah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
           <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
           <div className="mt-8">
@@ -898,7 +898,7 @@ function ClosingSection() {
           <motion.p {...fadeIn(0.1)} className="text-cream/60 text-sm font-content mb-3">Kami yang berbahagia</motion.p>
           <motion.div {...scaleIn(0.15)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.h2 {...fadeUp(0.2)} className="font-title text-4xl sm:text-5xl leading-tight mb-3">
-            <ShinyText text="Srah &amp; Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
+            <ShinyText text="Sarah &amp; Riad" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} />
           </motion.h2>
           <motion.div {...scaleIn(0.25)} className="w-8 h-px bg-cream/30 mx-auto mb-4" />
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
@@ -1084,7 +1084,7 @@ function MainContent() {
             </svg>
             <span>11 Juli 2026</span>
           </div>
-          <p className="font-title text-sm mt-1.5"><ShinyText text="Srah &amp; Riad" color="#9e8a7a" shineColor="#ffd700" speed={3} spread={150} /></p>
+          <p className="font-title text-sm mt-1.5"><ShinyText text="Sarah &amp; Riad" color="#9e8a7a" shineColor="#ffd700" speed={3} spread={150} /></p>
         </footer>
       </div>
 
@@ -1135,7 +1135,7 @@ export default function InvitationPage() {
               <div className="envelope-second relative">
                 <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Srah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
                   <p className="font-content text-[9px] md:text-[10px] text-green-dark/60 tracking-wider mt-1">11 Juli 2026</p>
                 </div>
               </div>
