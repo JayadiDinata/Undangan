@@ -334,10 +334,8 @@
   border-radius: 8px;
   background: rgba(198, 198, 198, 0.34);
   backdrop-filter: blur(5px);
-  border-bottom: 3px solid rgba(255, 255, 255, 0.44);
-  border-left: 2px rgba(255, 255, 255, 0.545) outset;
-  box-shadow: -40px 50px 30px rgba(0, 0, 0, 0.28);
-  transform: skewX(10deg);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   transition: all 0.4s ease;
   overflow: hidden;
   color: white;
@@ -345,7 +343,6 @@
 
 .uiverse-card.expanded {
   height: 380px;
-  transform: skew(0deg);
 }
 
 @media (min-width: 768px) {
@@ -365,7 +362,6 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  clip-path: ellipse(46% 38% at 50% 38%);
 }
 
 .uiverse-card-img-bride {
