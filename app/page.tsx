@@ -429,21 +429,14 @@ function QuoteSection() {
 }
 
 // --- COUPLES CARD (Uiverse-style) ------------------------------------
-function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride; delay: number; isGroom: boolean }) {
-  const [expanded, setExpanded] = useState(false)
-
+function CouplesCard({ person, delay, isGroom, expanded }: { person: typeof couples.bride; delay: number; isGroom: boolean; expanded: boolean }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ margin: '-60px' }}
       transition={{ duration: 0.6, delay, ease: easeOut }}
-      className="w-full flex justify-center cursor-pointer"
-      drag="y"
-      dragConstraints={{ top: 0, bottom: 0 }}
-      dragElastic={0.3}
-      onDragEnd={(_, info) => setExpanded(info.offset.y < -10)}
-      onClick={() => setExpanded(f => !f)}
+      className="w-full flex justify-center"
     >
         <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
             <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
@@ -452,7 +445,7 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
           <div className="uiverse-card-bottom">
             <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
             <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
-            <div className={`overflow-hidden transition-all duration-300 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
+            <div className={`overflow-hidden transition-all duration-500 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
               <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
               <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
             </div>
@@ -464,6 +457,8 @@ function CouplesCard({ person, delay, isGroom }: { person: typeof couples.bride;
 
 // --- COUPLES SECTION -------------------------------------------------
 function CouplesSection() {
+  const [expanded, setExpanded] = useState(false)
+
   return (
     <section id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       
@@ -474,13 +469,19 @@ function CouplesSection() {
           Pasangan Pengantin
         </motion.p>
 
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none">
-          <CouplesCard person={couples.bride} delay={0.1} isGroom={false} />
+        <motion.div
+          drag="y"
+          dragConstraints={{ top: 0, bottom: 0 }}
+          dragElastic={0.2}
+          onDragEnd={(_, info) => { if (info.offset.y > 20) setExpanded(true) }}
+          className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none"
+        >
+          <CouplesCard person={couples.bride} delay={0.1} isGroom={false} expanded={expanded} />
           <motion.div {...scaleIn(0.25)} className="flex-shrink-0">
             <div className="text-cream/30 text-3xl font-serif italic">&amp;</div>
           </motion.div>
-          <CouplesCard person={couples.groom} delay={0.3} isGroom={true} />
-        </div>
+          <CouplesCard person={couples.groom} delay={0.3} isGroom={true} expanded={expanded} />
+        </motion.div>
       </div>
     </section>
   )
