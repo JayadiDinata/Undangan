@@ -420,8 +420,7 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  overflow: visible;
-  animation: envelopeFloat 3s ease-in-out infinite;
+ animation: envelopeFloat 3s ease-in-out infinite;
 }
 
 .envelope-card:hover {
