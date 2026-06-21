@@ -313,12 +313,10 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
-  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
-  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
-  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
-  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
-  const scales = [scale9, scale5, scale6, scale5, scale6, scale8, scale4]
+  const scale2 = useTransform(scrollYProgress, [0, 0.7], [1, 2])
+  const scale25 = useTransform(scrollYProgress, [0, 0.7], [1, 2.5])
+  const scale3 = useTransform(scrollYProgress, [0, 0.7], [1, 3])
+  const scales = [scale3, scale25, scale2, scale25, scale2, scale25, scale2]
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
@@ -1203,13 +1201,45 @@ export default function InvitationPage() {
           <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
           <GuestName />
         </div>
-        <div className="relative z-[2] flex items-center justify-center">
-          <div className="relative">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-3 md:-inset-4 object-cover object-[center_60%] pointer-events-none opacity-70 z-0" />
-            <div className={`relative z-10 envelope-card ${revealed ? 'revealed' : ''}`}>
-              <div className="envelope-first">
-                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-              </div>
+       <div className="relative z-[2] flex items-center justify-center">
+  <div className="relative">
+
+    {/* Ornamen di belakang amplop */}
+    <img
+      src="/img/ov-1.png"
+      alt=""
+      className="
+        absolute
+        top-1/2
+        left-1/2
+        -translate-x-1/2
+        -translate-y-1/2
+        w-[115%]
+        h-[115%]
+        object-contain
+        pointer-events-none
+        opacity-70
+        z-0
+      "
+    />
+
+    {/* Amplop */}
+    <div
+      className={`relative z-[1] envelope-card ${
+        revealed ? 'revealed' : ''
+      }`}
+    >
+      <div className="envelope-first">
+        <img
+          src="/img/tutup.png"
+          alt="Buka Undangan"
+          className="w-full h-full object-contain p-6"
+        />
+      </div>
+    </div>
+
+  </div>
+</div>
               <div className="envelope-second relative">
                 <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
