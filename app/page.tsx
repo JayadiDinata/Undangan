@@ -51,7 +51,7 @@ const galleryImages = [
   { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
   { src: '/img/SR5.jpeg', alt: 'Prewedding 5' },
   { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
-  { src: '/img/SR.jpeg', alt: 'Prewedding 7' },
+  { src: '/img/SR7.jpeg', alt: 'Prewedding 7' },
   { src: '/img/SR8.jpeg', alt: 'Prewedding 8' },
 ]
 
