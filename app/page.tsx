@@ -303,34 +303,56 @@ function Countdown() {
   )
 }
 
-// --- COVER HERO SECTION (single SR background zoom) ----------
+// --- COVER HERO SECTION (scattered grid, SR zoom) ----------
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start start', 'end end'],
   })
-  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.7], [0, 1])
-  const contentY = useTransform(scrollYProgress, [0.3, 0.7], [40, 0])
-  const bgScale = useTransform(scrollYProgress, [0, 0.8], [1, 15])
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.3, 0.7])
+  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.8], [0, 1])
+  const contentY = useTransform(scrollYProgress, [0.4, 0.8], [40, 0])
+
+  const scaleZ = useTransform(scrollYProgress, [0, 0.7], [1, 12])
+  const scaleN = useTransform(scrollYProgress, [0, 0.7], [1, 7])
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        <motion.div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/img/SR.jpeg')",
-            scale: bgScale,
-          }}
-        />
-        <motion.div
-          className="absolute inset-0 z-[1]"
-          style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)', opacity: overlayOpacity }}
-        />
+        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
+
+        {galleryImages.map((img, i) => {
+          const scale = i === 0 ? scaleZ : scaleN
+          return (
+            <motion.div
+              key={i}
+              style={{ scale }}
+              className={`absolute top-0 flex h-full w-full items-center justify-center ${
+                i === 0 ? '[&>div]:!top-1/2 [&>div]:!left-1/2 [&>div]:!-translate-x-1/2 [&>div]:!-translate-y-1/2 [&>div]:!h-[35vh] [&>div]:!w-[50vw] sm:[&>div]:!h-[45vh] sm:[&>div]:!w-[35vw]' : ''
+              } ${
+                i === 1 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[35vh] [&>div]:!w-[22vw]' : ''
+              } ${
+                i === 2 ? '[&>div]:!left-[30vw] [&>div]:!h-[20vh] [&>div]:!w-[22vw]' : ''
+              } ${
+                i === 3 ? '[&>div]:!top-[30vh] [&>div]:!left-[3vw] [&>div]:!h-[20vh] [&>div]:!w-[18vw]' : ''
+              } ${
+                i === 4 ? '[&>div]:!top-[30vh] [&>div]:!-left-[20vw] [&>div]:!h-[22vh] [&>div]:!w-[28vw]' : ''
+              } ${
+                i === 5 ? '[&>div]:!top-[30vh] [&>div]:!left-[27vw] [&>div]:!h-[15vh] [&>div]:!w-[14vw]' : ''
+              } ${
+                i === 6 ? '[&>div]:!-top-[30vh] [&>div]:!-left-[20vw] [&>div]:!h-[18vh] [&>div]:!w-[18vw]' : ''
+              } ${
+                i === 7 ? '[&>div]:!top-1/2 [&>div]:!left-[35vw] [&>div]:!h-[12vh] [&>div]:!w-[12vw]' : ''
+              }`}
+            >
+              <div className="relative h-[25vh] w-[25vw]">
+                <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="lazy" />
+              </div>
+            </motion.div>
+          )
+        })}
 
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
