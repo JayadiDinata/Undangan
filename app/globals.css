@@ -334,7 +334,7 @@
   border-radius: 25% 25% 0 0;
   background: transparent;
   border: none;
-  box-shadow: none;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
   transition: height 0.4s, transform 0.3s;
   overflow: hidden;
   color: white;
@@ -348,6 +348,7 @@
   translate: -50% -50%;
   width: 80%;
   height: 300%;
+  border-radius: inherit;
   background: linear-gradient(90deg, transparent, #D4AF37 20%, #ffd700 45%, #D4AF37 70%, transparent);
   animation: rotateBorder 4s linear infinite;
   z-index: 5;
