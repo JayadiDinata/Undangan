@@ -1157,49 +1157,45 @@ function GuestName() {
 
 export default function InvitationPage() {
   const [revealed, setRevealed] = useState(false)
-  const [exited, setExited] = useState(false)
-  const { scrollY } = useScroll()
-  const vh = typeof window !== 'undefined' ? window.innerHeight : 1000
+  const envelopeRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: envProgress } = useScroll({
+    target: envelopeRef,
+    offset: ['start start', 'end end'],
+  })
 
   useEffect(() => {
-    const unsubscribe = scrollY.on('change', (v: number) => {
-      const progress = v / vh
-      if (progress > 0.1 && !revealed) setRevealed(true)
-      if (progress > 0.35 && !exited) setExited(true)
+    const unsubscribe = envProgress.on('change', (v: number) => {
+      setRevealed(v > 0.3)
     })
     return unsubscribe
-  }, [scrollY, revealed, exited, vh])
+  }, [envProgress])
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-50"
-        style={{
-          pointerEvents: exited ? 'none' : 'auto',
-          opacity: exited ? 0 : 1,
-          transition: 'opacity 0.6s ease-out',
-        }}
-      >
-        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
-        <div className="absolute inset-0 flex flex-col items-center justify-center pt-12 md:pt-20">
-          <div className="mb-6 text-center relative z-10">
-            <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
-            <GuestName />
-          </div>
-          <div className="flex items-center justify-center relative z-10">
-            <div className="relative">
-              <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
-              <div className="absolute inset-0 z-10 flex items-center justify-center">
-                <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
-                  <div className="envelope-first">
-                    <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-                  </div>
-                  <div className="envelope-second relative">
-                    <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                      <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                      <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+      {/* -- Envelope Section (sticky — scrolls open) -- */}
+      <section ref={envelopeRef} className="relative h-[200vh]">
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
+          <div className="relative z-10 h-full flex flex-col items-center justify-center pt-12 md:pt-20">
+            <div className="mb-6 text-center">
+              <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
+              <GuestName />
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="relative">
+                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
+                <div className="absolute inset-0 z-10 flex items-center justify-center">
+                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
+                    <div className="envelope-first">
+                      <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+                    </div>
+                    <div className="envelope-second relative">
+                      <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                        <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                        <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1207,12 +1203,9 @@ export default function InvitationPage() {
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* -- Spacer so envelope is scroll-past -- */}
-      <div className="relative w-full h-screen" />
-
-      {/* -- Main Content -- */}
+      {/* -- Main Content (scrollable after envelope) -- */}
       <MainContent />
     </>
   )
