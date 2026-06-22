@@ -331,7 +331,7 @@
   position: relative;
   width: 220px;
   height: 200px;
-  border-radius: 5% 5% 0 0;
+  border-radius: 5%;
   background: transparent;
   border: none;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
@@ -397,7 +397,6 @@
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  border-radius: 25% 25% 0 0;
 }
 
 .uiverse-card-img-bride {
@@ -409,7 +408,6 @@
   inset: 0;
   background: linear-gradient(to top, rgba(13,40,24,0.95) 0%, rgba(13,40,24,0.1) 60%, transparent 100%);
   z-index: 2;
-  border-radius: 25% 25% 0 0;
 }
 
 .uiverse-card-bottom {
