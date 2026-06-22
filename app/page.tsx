@@ -1133,24 +1133,6 @@ function MainContent() {
   )
 }
 
-// --- LOADING SPLASH --------------------------------------------------
-function LoadingScreen({ loaded, onEnter }: { loaded: boolean; onEnter: () => void }) {
-  return (
-    <div
-      onClick={onEnter}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-700 cursor-pointer ${loaded ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-      style={{ background: '#0d2818' }}
-    >
-      <div className="text-center">
-        <div className="w-12 h-12 border-2 border-cream/20 border-t-cream rounded-full animate-spin mx-auto mb-6" />
-        <p className="font-title text-cream text-lg">The Wedding of</p>
-        <p className="font-title text-cream/70 text-xs mt-1.5 tracking-[0.15em]">Sarah &amp; Riad</p>
-        <p className="font-content text-cream/40 text-[10px] mt-6 tracking-[0.2em] uppercase animate-pulse">Ketuk untuk membuka</p>
-      </div>
-    </div>
-  )
-}
-
 // --- PAGE ------------------------------------------------------------
 function GuestName() {
   const [name, setName] = useState('Tamu Undangan')
@@ -1197,20 +1179,25 @@ export default function InvitationPage() {
 
   return (
     <>
-      {!loaded && (
-        <div
-          onClick={handleEnter}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
-          style={{ background: '#0d2818' }}
-        >
-          <div className="text-center">
-            <div className="w-12 h-12 border-2 border-cream/20 border-t-cream rounded-full animate-spin mx-auto mb-6" />
-            <p className="font-title text-cream text-lg">The Wedding of</p>
-            <p className="font-title text-cream/70 text-xs mt-1.5 tracking-[0.15em]">Sarah &amp; Riad</p>
-            <p className="font-content text-cream/40 text-[10px] mt-6 tracking-[0.2em] uppercase animate-pulse">Ketuk untuk membuka</p>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {!loaded && (
+          <motion.div
+            onClick={handleEnter}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
+            style={{ background: '#0d2818' }}
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: easeOut }}
+          >
+            <div className="text-center">
+              <div className="w-12 h-12 border-2 border-cream/20 border-t-cream rounded-full animate-spin mx-auto mb-6" />
+              <p className="font-title text-cream text-lg">The Wedding of</p>
+              <p className="font-title text-cream/70 text-xs mt-1.5 tracking-[0.15em]">Sarah &amp; Riad</p>
+              <p className="font-content text-cream/40 text-[10px] mt-6 tracking-[0.2em] uppercase animate-pulse">Ketuk untuk membuka</p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {/* -- Envelope Section (first, part of page flow) -- */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
