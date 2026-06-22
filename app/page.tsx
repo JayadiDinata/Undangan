@@ -303,55 +303,34 @@ function Countdown() {
   )
 }
 
-// --- COVER HERO SECTION (parallax zoom scattered images) ----------
+// --- COVER HERO SECTION (single SR background zoom) ----------
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start start', 'end end'],
   })
-  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.8], [0, 1])
-  const contentY = useTransform(scrollYProgress, [0.4, 0.8], [40, 0])
-
-  const scaleBig = useTransform(scrollYProgress, [0, 0.7], [1, 12])
-  const scaleMid = useTransform(scrollYProgress, [0, 0.7], [1, 8])
-  const scales = [scaleBig, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid]
+  const contentOpacity = useTransform(scrollYProgress, [0.3, 0.7], [0, 1])
+  const contentY = useTransform(scrollYProgress, [0.3, 0.7], [40, 0])
+  const bgScale = useTransform(scrollYProgress, [0, 0.8], [1, 15])
+  const overlayOpacity = useTransform(scrollYProgress, [0, 0.6], [0.3, 0.7])
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
+        <motion.div
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('/img/SR.jpeg')",
+            scale: bgScale,
+          }}
+        />
+        <motion.div
+          className="absolute inset-0 z-[1]"
+          style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)', opacity: overlayOpacity }}
+        />
         <Decorations />
-
-        {galleryImages.map((img, i) => {
-          const scale = scales[i % scales.length]
-          return (
-            <motion.div
-              key={i}
-              style={{ scale }}
-              className={`absolute top-0 flex h-full w-full items-center justify-center ${
-                i === 0 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
-              } ${
-                i === 1 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
-              } ${
-                i === 2 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
-              } ${
-                i === 3 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
-              } ${
-                i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
-              } ${
-                i === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
-              } ${
-                i === 6 ? '[&>div]:!-top-[30vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[20vh] [&>div]:!w-[20vw]' : ''
-              }`}
-            >
-              <div className="relative h-[25vh] w-[25vw]">
-                <img src={img.src} alt={img.alt} className="h-full w-full object-cover" loading="lazy" />
-              </div>
-            </motion.div>
-          )
-        })}
 
         <motion.div
           style={{ opacity: contentOpacity, y: contentY }}
@@ -360,12 +339,12 @@ function CoverSection() {
           <p className="text-cream/60 text-xs uppercase tracking-[0.2em] font-content mb-4">
             Undangan Pernikahan
           </p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Sarah Saraswati (Ala)" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
-          <p className="font-serif text-cream/60 text-2xl italic my-2">&amp;</p>
-          <h1 className="font-title text-5xl sm:text-7xl leading-tight"><ShinyText text="Riadussolihin S.Tp" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
-          <div className="mt-8">
+          <h1 className="font-title text-4xl sm:text-5xl md:text-7xl leading-tight px-2"><ShinyText text="Sarah Saraswati (Ala)" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <p className="font-serif text-cream/60 text-xl sm:text-2xl italic my-2">&amp;</p>
+          <h1 className="font-title text-4xl sm:text-5xl md:text-7xl leading-tight px-2"><ShinyText text="Riadussolihin S.Tp" color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} /></h1>
+          <div className="mt-6 sm:mt-8">
             <p className="text-cream/50 text-xs font-content mb-1">Sabtu, 11 Juli 2026</p>
-            <p className="text-cream/60 text-[10px] font-content mb-6">Ciawi, Bogor</p>
+            <p className="text-cream/60 text-[10px] font-content mb-4 sm:mb-6">Ciawi, Bogor</p>
             <Countdown />
           </div>
         </motion.div>
@@ -1108,7 +1087,7 @@ function MainContent() {
 
   useEffect(() => {
     const unsubscribe = envProgress.on('change', (v: number) => {
-      setRevealed(v > 0.3)
+      setRevealed(v > 0.05)
     })
     return unsubscribe
   }, [envProgress])
@@ -1120,7 +1099,7 @@ function MainContent() {
       <ScrollOverlays />
 
       {/* -- Envelope Section (sticky — scrolls open) -- */}
-      <section ref={envelopeRef} className="relative h-[200vh]">
+      <section ref={envelopeRef} className="relative h-[120vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
