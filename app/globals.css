@@ -331,10 +331,10 @@
   position: relative;
   width: 220px;
   height: 200px;
-  border-radius: 25% 25% 0 0;
+  border-radius: 5% 5% 0 0;
   background: transparent;
   border: none;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
   transition: height 0.4s, transform 0.3s;
   overflow: hidden;
   color: white;
