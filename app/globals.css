@@ -359,7 +359,6 @@
   position: absolute;
   inset: 3px;
   z-index: 6;
-  border-radius: inherit;
   overflow: hidden;
 }
 
