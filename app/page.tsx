@@ -1104,19 +1104,17 @@ function ScrollOverlays() {
 
 // --- MAIN CONTENT ----------------------------------------------------
 function MainContent() {
-  const [revealed, setRevealed] = useState(false)
   const envelopeRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: envProgress } = useScroll({
     target: envelopeRef,
     offset: ['start start', 'end end'],
   })
 
-  useEffect(() => {
-    const unsubscribe = envProgress.on('change', (v: number) => {
-      setRevealed(v > 0.05)
-    })
-    return unsubscribe
-  }, [envProgress])
+  const lidH = useTransform(envProgress, [0, 0.15], [100, 0])
+  const lidO = useTransform(envProgress, [0, 0.15], [1, 0])
+  const innerH = useTransform(envProgress, [0, 0.15], [0, 100])
+  const innerO = useTransform(envProgress, [0, 0.15], [0, 1])
+  const floatY = useTransform(envProgress, [0, 0.05, 0.15], [0, -15, 0])
 
   return (
     <main className="relative w-full min-h-screen">
@@ -1124,7 +1122,7 @@ function MainContent() {
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
       <ScrollOverlays />
 
-      {/* -- Envelope Section (sticky — scrolls open) -- */}
+      {/* -- Envelope Section (sticky — scrolls open/close) -- */}
       <section ref={envelopeRef} className="relative h-[120vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
@@ -1138,18 +1136,18 @@ function MainContent() {
               <div className="relative">
                 <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
                 <div className="absolute inset-0 z-10 flex items-center justify-center">
-                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
-                    <div className="envelope-first">
+                  <motion.div className="envelope-card shadow-envelope" style={{ y: floatY }}>
+                    <motion.div className="envelope-first" style={{ height: lidH, opacity: lidO }}>
                       <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-                    </div>
-                    <div className="envelope-second relative">
+                    </motion.div>
+                    <motion.div className="envelope-second relative" style={{ height: innerH, opacity: innerO }}>
                       <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                         <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
                         <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 </div>
               </div>
             </div>

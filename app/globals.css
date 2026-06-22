@@ -445,57 +445,30 @@
   width: 320px;
   height: 400px;
   background: transparent;
-  transition: all 0.4s;
-  cursor: pointer;
   overflow: hidden;
-  animation: envelopeFloat 3s ease-in-out infinite;
 }
 
 .shadow-envelope {
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
 }
 
-.envelope-card:hover {
-  animation: none;
-  transform: scale(1.05);
-}
-
-@keyframes envelopeFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-15px); }
-}
-
-.envelope-card.revealed {
-  background: transparent;
-  animation: none;
-}
-
 .envelope-first {
-  height: 100%;
   width: 100%;
-  transition: all 0.4s;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 1;
-}
-
-.envelope-card.revealed .envelope-first {
-  height: 0%;
-  opacity: 0;
-  overflow: hidden;
 }
 
 .envelope-second {
-  height: 0%;
   width: 100%;
-  opacity: 0;
-  transition: all 0.4s;
 }
 
-.envelope-card.revealed .envelope-second {
-  opacity: 1;
-  height: 100%;
+.envelope-card .envelope-second .inner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  text-align: center;
 }
 
 .shiny-text {
