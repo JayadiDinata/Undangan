@@ -19,7 +19,7 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build
+      - run: npm run build:static
 
       - uses: peaceiris/actions-gh-pages@v4
         with:
