@@ -303,7 +303,7 @@ function Countdown() {
   )
 }
 
-// --- COVER HERO SECTION (scattered grid, SR zoom) ----------
+// --- COVER HERO SECTION (ZoomParallax style, SR zoom) ----------
 function CoverSection() {
   const container = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -313,38 +313,40 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.4, 0.8], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.4, 0.8], [40, 0])
 
-  const scaleZ = useTransform(scrollYProgress, [0, 0.7], [1, 12])
-  const scaleN = useTransform(scrollYProgress, [0, 0.7], [1, 7])
+  const scale4 = useTransform(scrollYProgress, [0, 1], [1, 4])
+  const scale5 = useTransform(scrollYProgress, [0, 1], [1, 5])
+  const scale6 = useTransform(scrollYProgress, [0, 1], [1, 6])
+  const scale8 = useTransform(scrollYProgress, [0, 1], [1, 8])
+  const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9])
+
+  const scales = [scale4, scale5, scale6, scale5, scale6, scale8, scale9]
+  const imgs = galleryImages.slice(0, 7)
 
   return (
-    <section ref={container} id="cover" className="relative h-[200vh]">
+    <section ref={container} id="cover" className="relative h-[300vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
 
-        {galleryImages.map((img, i) => {
-          const scale = i === 0 ? scaleZ : scaleN
+        {imgs.map((img, i) => {
+          const scale = scales[i]
           return (
             <motion.div
               key={i}
               style={{ scale }}
               className={`absolute top-0 flex h-full w-full items-center justify-center ${
-                i === 0 ? '[&>div]:!top-1/2 [&>div]:!left-1/2 [&>div]:!-translate-x-1/2 [&>div]:!-translate-y-1/2 [&>div]:!h-[35vh] [&>div]:!w-[50vw] sm:[&>div]:!h-[45vh] sm:[&>div]:!w-[35vw]' : ''
+                i === 1 ? '[&>div]:!-top-[30vh] [&>div]:!left-[5vw] [&>div]:!h-[30vh] [&>div]:!w-[35vw]' : ''
               } ${
-                i === 1 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[35vh] [&>div]:!w-[22vw]' : ''
+                i === 2 ? '[&>div]:!-top-[10vh] [&>div]:!-left-[25vw] [&>div]:!h-[45vh] [&>div]:!w-[20vw]' : ''
               } ${
-                i === 2 ? '[&>div]:!left-[30vw] [&>div]:!h-[20vh] [&>div]:!w-[22vw]' : ''
+                i === 3 ? '[&>div]:!left-[27.5vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''
               } ${
-                i === 3 ? '[&>div]:!top-[30vh] [&>div]:!left-[3vw] [&>div]:!h-[20vh] [&>div]:!w-[18vw]' : ''
+                i === 4 ? '[&>div]:!top-[27.5vh] [&>div]:!left-[5vw] [&>div]:!h-[25vh] [&>div]:!w-[20vw]' : ''
               } ${
-                i === 4 ? '[&>div]:!top-[30vh] [&>div]:!-left-[20vw] [&>div]:!h-[22vh] [&>div]:!w-[28vw]' : ''
+                i === 5 ? '[&>div]:!top-[27.5vh] [&>div]:!-left-[22.5vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''
               } ${
-                i === 5 ? '[&>div]:!top-[30vh] [&>div]:!left-[27vw] [&>div]:!h-[15vh] [&>div]:!w-[14vw]' : ''
-              } ${
-                i === 6 ? '[&>div]:!-top-[30vh] [&>div]:!-left-[20vw] [&>div]:!h-[18vh] [&>div]:!w-[18vw]' : ''
-              } ${
-                i === 7 ? '[&>div]:!top-1/2 [&>div]:!left-[35vw] [&>div]:!h-[12vh] [&>div]:!w-[12vw]' : ''
+                i === 6 ? '[&>div]:!top-[22.5vh] [&>div]:!left-[25vw] [&>div]:!h-[15vh] [&>div]:!w-[15vw]' : ''
               }`}
             >
               <div className="relative h-[25vh] w-[25vw]">
