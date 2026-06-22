@@ -320,13 +320,6 @@ function CoverSection() {
     <section ref={container} id="cover" className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        <motion.div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/img/SR.jpeg')",
-            scale: scaleZ,
-          }}
-        />
         <div className="absolute inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.6) 100%)' }} />
         <Decorations />
 
