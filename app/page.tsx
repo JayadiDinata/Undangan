@@ -1153,6 +1153,7 @@ function MainContent() {
       </section>
 
       <div className="relative z-[2]">
+        <CoverSection />
         <QuoteSection />
         <CouplesSection />
         <ScheduleSection />
@@ -1161,7 +1162,6 @@ function MainContent() {
         <GallerySection />
         <WishesSection />
         <ClosingSection />
-        <CoverSection />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
