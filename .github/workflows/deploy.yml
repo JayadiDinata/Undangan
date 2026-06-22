@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build & Deploy (root)
 
 on:
   push:
@@ -21,8 +21,18 @@ jobs:
 
       - run: npm run build:static
 
-      - uses: peaceiris/actions-gh-pages@v4
+      - name: Copy build to root for GH Pages
+        run: |
+          cp -r undangan/index.html index.html
+          cp -r undangan/index.txt index.txt
+          cp -r undangan/404.html 404.html
+          cp -r undangan/404 404
+          cp -r undangan/_next _next
+          cp -r undangan/img img
+          cp -r undangan/CNAME CNAME
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./undangan
-          force_orphan: true
+          commit_message: 'chore: deploy static build to root [skip ci]'
+          commit_options: '--no-verify'
+          skip_dirty_check: false
