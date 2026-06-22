@@ -735,11 +735,11 @@ function WishesSection() {
     fetch(`${API_URL}/api/wishes`)
       .then(r => r.json())
       .then(data => { if (Array.isArray(data)) setWishes(data) })
-      .catch(() => { try { const s = localStorage.getItem('weddingWishes'); if (s) setWishes(JSON.parse(s)) } catch {} })
+      .catch(() => {})
     fetch(`${API_URL}/api/rsvp`)
       .then(r => r.json())
       .then(data => { if (Array.isArray(data)) setRsvpList(data) })
-      .catch(() => { try { const s = localStorage.getItem('weddingRsvp'); if (s) setRsvpList(JSON.parse(s)) } catch {} })
+      .catch(() => {})
   }, [])
 
   const submit = async (e: FormEvent) => {
@@ -752,7 +752,6 @@ function WishesSection() {
     }
     try { await fetch(`${API_URL}/api/wishes`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
     setWishes([newWish, ...wishes])
-    localStorage.setItem('weddingWishes', JSON.stringify([newWish, ...wishes]))
     setName(''); setStatus(''); setMessage('')
     setSuccess(true); setTimeout(() => setSuccess(false), 3000)
     setSubmitting(false)
@@ -773,7 +772,6 @@ function WishesSection() {
       })
     } catch {}
     setRsvpList([entry, ...rsvpList])
-    localStorage.setItem('weddingRsvp', JSON.stringify([entry, ...rsvpList]))
     setRsvpSuccess(true)
     setRsvpSubmitting(false)
   }
