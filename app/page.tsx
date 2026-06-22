@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useState, useEffect, useRef, FormEvent } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, useInView, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
 import { CircularTestimonials } from '@/components/ui/circular-testimonials'
 import InfiniteMenu from '@/components/ui/InfiniteMenu'
@@ -457,19 +457,8 @@ function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bri
 
 // --- COUPLES SECTION -------------------------------------------------
 function CouplesSection() {
-  const [expanded, setExpanded] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setExpanded(true) },
-      { threshold: 0.15 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+  const isInView = useInView(sectionRef, { amount: 0.15, once: false })
 
   return (
     <section ref={sectionRef} id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -482,11 +471,11 @@ function CouplesSection() {
         </p>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none">
-          <CouplesCard person={couples.bride} isGroom={false} expanded={expanded} />
+          <CouplesCard person={couples.bride} isGroom={false} expanded={isInView} />
           <div className="flex-shrink-0">
             <div className="text-cream/30 text-3xl font-serif italic">&amp;</div>
           </div>
-          <CouplesCard person={couples.groom} isGroom={true} expanded={expanded} />
+          <CouplesCard person={couples.groom} isGroom={true} expanded={isInView} />
         </div>
       </div>
     </section>
@@ -1104,17 +1093,19 @@ function ScrollOverlays() {
 
 // --- MAIN CONTENT ----------------------------------------------------
 function MainContent() {
+  const [revealed, setRevealed] = useState(false)
   const envelopeRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: envProgress } = useScroll({
     target: envelopeRef,
     offset: ['start start', 'end end'],
   })
 
-  const lidH = useTransform(envProgress, [0, 0.15], [100, 0])
-  const lidO = useTransform(envProgress, [0, 0.15], [1, 0])
-  const innerH = useTransform(envProgress, [0, 0.15], [0, 100])
-  const innerO = useTransform(envProgress, [0, 0.15], [0, 1])
-  const floatY = useTransform(envProgress, [0, 0.05, 0.15], [0, -15, 0])
+  useEffect(() => {
+    const unsubscribe = envProgress.on('change', (v: number) => {
+      setRevealed(v > 0.05)
+    })
+    return unsubscribe
+  }, [envProgress])
 
   return (
     <main className="relative w-full min-h-screen">
@@ -1122,7 +1113,7 @@ function MainContent() {
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
       <ScrollOverlays />
 
-      {/* -- Envelope Section (sticky — scrolls open/close) -- */}
+      {/* -- Envelope Section (sticky — scrolls open) -- */}
       <section ref={envelopeRef} className="relative h-[120vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
@@ -1136,18 +1127,18 @@ function MainContent() {
               <div className="relative">
                 <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
                 <div className="absolute inset-0 z-10 flex items-center justify-center">
-                  <motion.div className="envelope-card shadow-envelope" style={{ y: floatY }}>
-                    <motion.div className="envelope-first" style={{ height: lidH, opacity: lidO }}>
+                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
+                    <div className="envelope-first">
                       <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-                    </motion.div>
-                    <motion.div className="envelope-second relative" style={{ height: innerH, opacity: innerO }}>
+                    </div>
+                    <div className="envelope-second relative">
                       <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
                         <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
                         <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
                       </div>
-                    </motion.div>
-                  </motion.div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
