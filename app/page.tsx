@@ -45,12 +45,13 @@ const couples = {
 }
 
 const galleryImages = [
-  { src: '/img/SR7.jpeg', alt: 'Prewedding 1' },
+  { src: '/img/SR.jpeg', alt: 'Prewedding 1' },
   { src: '/img/SR2.jpeg', alt: 'Prewedding 2' },
   { src: '/img/SR3.jpeg', alt: 'Prewedding 3' },
   { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
   { src: '/img/SR5.jpeg', alt: 'Prewedding 5' },
   { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
+  { src: '/img/SR7.jpeg', alt: 'Prewedding 7' },
   { src: '/img/SR8.jpeg', alt: 'Prewedding 8' },
 ]
 
@@ -312,9 +313,9 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const scale15 = useTransform(scrollYProgress, [0, 0.35], [1, 1.5])
-  const scale2 = useTransform(scrollYProgress, [0, 0.35], [1, 2])
-  const scales = [scale2, scale15, scale15, scale15, scale15, scale15, scale15]
+  const scaleBig = useTransform(scrollYProgress, [0, 0.35], [1, 4])
+  const scaleMid = useTransform(scrollYProgress, [0, 0.35], [1, 2.5])
+  const scales = [scaleBig, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid]
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
