@@ -6,7 +6,7 @@ node_modules/
 # Testing
 .coverage
 
-# Production (CI/CD — gh-pages branch via GitHub Actions)
+# Production (static export build directory)
 undangan/
 
 # Next.js development
