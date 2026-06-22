@@ -419,8 +419,11 @@
   transition: all 0.4s;
   cursor: pointer;
   overflow: hidden;
-  position: relative;
- animation: envelopeFloat 3s ease-in-out infinite;
+  animation: envelopeFloat 3s ease-in-out infinite;
+}
+
+.shadow-envelope {
+  filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
 }
 
 .envelope-card:hover {

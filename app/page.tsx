@@ -1192,7 +1192,20 @@ export default function InvitationPage() {
 
   return (
     <>
-      <LoadingScreen loaded={loaded} onEnter={handleEnter} />
+      {!loaded && (
+        <div
+          onClick={handleEnter}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center cursor-pointer"
+          style={{ background: '#0d2818' }}
+        >
+          <div className="text-center">
+            <div className="w-12 h-12 border-2 border-cream/20 border-t-cream rounded-full animate-spin mx-auto mb-6" />
+            <p className="font-title text-cream text-lg">The Wedding of</p>
+            <p className="font-title text-cream/70 text-xs mt-1.5 tracking-[0.15em]">Sarah &amp; Riad</p>
+            <p className="font-content text-cream/40 text-[10px] mt-6 tracking-[0.2em] uppercase animate-pulse">Ketuk untuk membuka</p>
+          </div>
+        </div>
+      )}
       {/* -- Envelope Section (first, part of page flow) -- */}
       <section ref={envelopeRef} className="relative w-full min-h-screen flex flex-col items-center overflow-hidden pt-12 md:pt-20">
         <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
@@ -1203,16 +1216,18 @@ export default function InvitationPage() {
         </div>
         <div className="relative z-[2] flex items-center justify-center">
           <div className="relative">
-            <img src="/img/ov-1.png" alt="" className="absolute -inset-5 md:-inset-4 object-cover object-[center_60%] pointer-events-none opacity-70 z-0" />
-            <div className={`relative z-10 envelope-card ${revealed ? 'revealed' : ''}`}>
-              <div className="envelope-first">
-                <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-              </div>
-              <div className="envelope-second relative">
-                <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                  <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                  <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+            <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
+            <div className="absolute inset-0 z-10 flex items-center justify-center">
+              <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
+                <div className="envelope-first">
+                  <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+                </div>
+                <div className="envelope-second relative">
+                  <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                    <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                    <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+                  </div>
                 </div>
               </div>
             </div>
