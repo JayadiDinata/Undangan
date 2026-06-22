@@ -21,15 +21,16 @@ jobs:
 
       - run: npm run build:static
 
-      - name: Copy build to root for GH Pages
+      - name: Sync build to root for GH Pages
         run: |
+          rm -rf _next img 404 index.html index.txt 404.html
           cp -r undangan/index.html index.html
           cp -r undangan/index.txt index.txt
           cp -r undangan/404.html 404.html
           cp -r undangan/404 404
           cp -r undangan/_next _next
           cp -r undangan/img img
-          cp -r undangan/CNAME CNAME
+          cp undangan/CNAME CNAME 2>/dev/null || true
 
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
