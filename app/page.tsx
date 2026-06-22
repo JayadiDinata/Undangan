@@ -435,18 +435,20 @@ function QuoteSection() {
 function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bride; isGroom: boolean; expanded: boolean }) {
   return (
     <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
-      <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
-      <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60" />
-      <div className="uiverse-card-overlay" />
-      <div className="uiverse-card-bottom">
-        <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
-        <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
-        <svg className={`chevron-down ${expanded ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-        <div className={`overflow-hidden transition-all duration-400 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
-          <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
-          <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+      <div className="uiverse-card-inner">
+        <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
+        <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60" />
+        <div className="uiverse-card-overlay" />
+        <div className="uiverse-card-bottom">
+          <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
+          <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
+          <svg className={`chevron-down ${expanded ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+          <div className={`overflow-hidden transition-all duration-400 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
+            <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
+            <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
+          </div>
         </div>
       </div>
     </div>

@@ -340,6 +340,28 @@
   color: white;
 }
 
+.uiverse-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 80%;
+  height: 300%;
+  background: linear-gradient(90deg, transparent, #D4AF37 20%, #ffd700 45%, #D4AF37 70%, transparent);
+  animation: rotateBorder 4s linear infinite;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.uiverse-card-inner {
+  position: absolute;
+  inset: 3px;
+  z-index: 6;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
 .uiverse-card:hover {
   transform: scale(1.03);
 }
@@ -347,6 +369,15 @@
 .uiverse-card.expanded {
   height: 380px;
   border-radius: 0;
+}
+
+.uiverse-card.expanded .uiverse-card-inner {
+  border-radius: 0;
+}
+
+@keyframes rotateBorder {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 @media (min-width: 768px) {
