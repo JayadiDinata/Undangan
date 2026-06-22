@@ -51,7 +51,7 @@ const galleryImages = [
   { src: '/img/SR4.jpeg', alt: 'Prewedding 4' },
   { src: '/img/SR5.jpeg', alt: 'Prewedding 5' },
   { src: '/img/SR6.jpeg', alt: 'Prewedding 6' },
-  { src: '/img/SR7.jpeg', alt: 'Prewedding 7' },
+  { src: '/img/SR.jpeg', alt: 'Prewedding 7' },
   { src: '/img/SR8.jpeg', alt: 'Prewedding 8' },
 ]
 
@@ -310,11 +310,11 @@ function CoverSection() {
     target: container,
     offset: ['start start', 'end end'],
   })
-  const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
-  const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
+  const contentOpacity = useTransform(scrollYProgress, [0.4, 0.8], [0, 1])
+  const contentY = useTransform(scrollYProgress, [0.4, 0.8], [40, 0])
 
-  const scaleBig = useTransform(scrollYProgress, [0, 0.35], [1, 4])
-  const scaleMid = useTransform(scrollYProgress, [0, 0.35], [1, 2.5])
+  const scaleBig = useTransform(scrollYProgress, [0, 0.7], [1, 12])
+  const scaleMid = useTransform(scrollYProgress, [0, 0.7], [1, 8])
   const scales = [scaleBig, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid, scaleMid]
 
   return (
@@ -1099,14 +1099,60 @@ function ScrollOverlays() {
 
 // --- MAIN CONTENT ----------------------------------------------------
 function MainContent() {
+  const [revealed, setRevealed] = useState(false)
+  const envelopeRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress: envProgress } = useScroll({
+    target: envelopeRef,
+    offset: ['start start', 'end end'],
+  })
+
+  useEffect(() => {
+    const unsubscribe = envProgress.on('change', (v: number) => {
+      setRevealed(v > 0.3)
+    })
+    return unsubscribe
+  }, [envProgress])
+
   return (
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
       <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
       <ScrollOverlays />
 
+      {/* -- Envelope Section (sticky — scrolls open) -- */}
+      <section ref={envelopeRef} className="relative h-[200vh]">
+        <div className="sticky top-0 h-screen overflow-hidden">
+          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
+          <div className="relative z-10 h-full flex flex-col items-center justify-center pt-12 md:pt-20">
+            <div className="mb-6 text-center">
+              <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
+              <GuestName />
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="relative">
+                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
+                <div className="absolute inset-0 z-10 flex items-center justify-center">
+                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
+                    <div className="envelope-first">
+                      <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+                    </div>
+                    <div className="envelope-second relative">
+                      <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                        <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                        <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="relative z-[2]">
-        <CoverSection />
         <QuoteSection />
         <CouplesSection />
         <ScheduleSection />
@@ -1115,6 +1161,7 @@ function MainContent() {
         <GallerySection />
         <WishesSection />
         <ClosingSection />
+        <CoverSection />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
           <p className="text-cream/40 text-[10px] font-content">Terima kasih atas kehadiran dan doa restunya</p>
@@ -1156,57 +1203,5 @@ function GuestName() {
 }
 
 export default function InvitationPage() {
-  const [revealed, setRevealed] = useState(false)
-  const envelopeRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress: envProgress } = useScroll({
-    target: envelopeRef,
-    offset: ['start start', 'end end'],
-  })
-
-  useEffect(() => {
-    const unsubscribe = envProgress.on('change', (v: number) => {
-      setRevealed(v > 0.3)
-    })
-    return unsubscribe
-  }, [envProgress])
-
-  return (
-    <>
-      {/* -- Envelope Section (sticky — scrolls open) -- */}
-      <section ref={envelopeRef} className="relative h-[200vh]">
-        <div className="sticky top-0 h-screen overflow-hidden">
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
-          <div className="relative z-10 h-full flex flex-col items-center justify-center pt-12 md:pt-20">
-            <div className="mb-6 text-center">
-              <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
-              <GuestName />
-            </div>
-            <div className="flex items-center justify-center">
-              <div className="relative">
-                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
-                <div className="absolute inset-0 z-10 flex items-center justify-center">
-                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
-                    <div className="envelope-first">
-                      <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-                    </div>
-                    <div className="envelope-second relative">
-                      <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                        <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                        <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* -- Main Content (scrollable after envelope) -- */}
-      <MainContent />
-    </>
-  )
+  return <MainContent />
 }
