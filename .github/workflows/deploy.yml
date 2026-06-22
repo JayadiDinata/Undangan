@@ -20,6 +20,8 @@ jobs:
       - run: npm ci
 
       - run: npm run build:static
+        env:
+          NEXT_PUBLIC_API_URL: https://undangan-sand-ten.vercel.app
 
       - name: Sync build to root for GH Pages
         run: |

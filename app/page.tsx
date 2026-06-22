@@ -74,7 +74,6 @@ const events = [
 
 
 
-const WEBHOOK_URL = 'https://formspree.io/f/YOUR_FORM_ID_HERE'
 const API_URL = process.env.NEXT_PUBLIC_API_URL || ''
 
 // --- HELPERS ---------------------------------------------------------
@@ -756,7 +755,6 @@ function WishesSection() {
     localStorage.setItem('weddingWishes', JSON.stringify([newWish, ...wishes]))
     setName(''); setStatus(''); setMessage('')
     setSuccess(true); setTimeout(() => setSuccess(false), 3000)
-    try { await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
     setSubmitting(false)
   }
 
