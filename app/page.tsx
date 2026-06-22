@@ -835,22 +835,25 @@ function WishesSection() {
 
         {/* --- List: Wishes --- */}
         {tab === 'wishes' && (
-          <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
-            <AnimatePresence>
-              {wishes.length === 0 ? (
-                <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada ucapan. Jadilah yang pertama!</p>
-              ) : (
-                wishes.map((w, i) => (
-                  <motion.div
-                    key={`${w.timestamp}-${i}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ margin: '-40px' }}
-                    transition={{ duration: 0.4, ease: easeOut }}
-                    className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
+          <div className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl overflow-hidden">
+            <div className="px-4 md:px-5 pt-4 md:pt-5 pb-2 border-b border-cream/10 flex items-center justify-between">
+              <p className="text-[10px] text-cream/50 uppercase tracking-[0.2em] font-content">Ucapan &amp; Doa</p>
+              <span className="text-[10px] text-cream/40 font-content">{wishes.length} ucapan</span>
+            </div>
+            <div className="max-h-[320px] overflow-y-auto pe-1">
+              <AnimatePresence>
+                {wishes.length === 0 ? (
+                  <p className="text-center text-cream/40 text-sm font-content py-8">Belum ada ucapan. Jadilah yang pertama!</p>
+                ) : (
+                  wishes.map((w, i) => (
+                    <motion.div
+                      key={`${w.timestamp}-${i}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: i * 0.03, ease: easeOut }}
+                      className="flex items-start gap-3 px-4 md:px-5 py-3 border-b border-dashed border-cream/10 last:border-none"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cream/20 to-cream/5 flex items-center justify-center shrink-0 text-sm font-semibold text-cream font-content">
                         {w.name.charAt(0).toUpperCase()}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -861,11 +864,11 @@ function WishesSection() {
                         <p className="text-sm text-cream/80 mt-1 leading-relaxed font-content">{w.message}</p>
                         <p className="text-[9px] text-cream/40 mt-1 font-content">{w.timestamp}</p>
                       </div>
-                    </div>
-                  </motion.div>
-                ))
-              )}
-            </AnimatePresence>
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         )}
 
@@ -922,38 +925,41 @@ function WishesSection() {
                 </motion.p>
               )}
             </motion.form>
-            <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
-              <AnimatePresence>
-                {rsvpList.length === 0 ? (
-                  <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada konfirmasi kehadiran.</p>
-                ) : (
-                  rsvpList.map((r, i) => (
-                    <motion.div
-                      key={`${r.timestamp}-${i}`}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ margin: '-40px' }}
-                      transition={{ duration: 0.4, ease: easeOut }}
-                      className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
+            <div className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl overflow-hidden">
+              <div className="px-4 md:px-5 pt-4 md:pt-5 pb-2 border-b border-cream/10 flex items-center justify-between">
+                <p className="text-[10px] text-cream/50 uppercase tracking-[0.2em] font-content">Konfirmasi Kehadiran</p>
+                <span className="text-[10px] text-cream/40 font-content">{rsvpList.length} tamu</span>
+              </div>
+              <div className="max-h-[320px] overflow-y-auto pe-1">
+                <AnimatePresence>
+                  {rsvpList.length === 0 ? (
+                    <p className="text-center text-cream/40 text-sm font-content py-8">Belum ada konfirmasi kehadiran.</p>
+                  ) : (
+                    rsvpList.map((r, i) => (
+                      <motion.div
+                        key={`${r.timestamp}-${i}`}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: i * 0.03, ease: easeOut }}
+                        className="flex items-center gap-3 px-4 md:px-5 py-3 border-b border-dashed border-cream/10 last:border-none"
+                      >
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cream/20 to-cream/5 flex items-center justify-center shrink-0 text-sm font-semibold text-cream font-content">
                           {r.name.charAt(0).toUpperCase()}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-cream font-content">{r.name}</p>
                           <p className="text-[9px] text-cream/40 mt-0.5 font-content">{r.timestamp}</p>
                         </div>
-                        <span className={`shrink-0 text-[10px] font-content font-medium px-2.5 py-1 rounded-full border ${
+                        <span className={`shrink-0 text-[10px] font-content font-medium px-3 py-1 rounded-full border ${
                           r.attending === 'yes' ? 'bg-green-600/30 border-green-400/30 text-green-300' : 'bg-red-600/30 border-red-400/30 text-red-300'
                         }`}>
                           {r.attending === 'yes' ? 'Hadir' : 'Tidak Hadir'}
                         </span>
-                      </div>
-                    </motion.div>
-                  ))
-                )}
-              </AnimatePresence>
+                      </motion.div>
+                    ))
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </>
         )}
