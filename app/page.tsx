@@ -1,7 +1,7 @@
 ﻿'use client'
 
 import { useState, useEffect, useRef, FormEvent } from 'react'
-import { motion, AnimatePresence, useScroll, useTransform, useInView, type Easing } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform, type Easing } from 'framer-motion'
 import ShinyText from '@/components/ui/ShinyText'
 import { CircularTestimonials } from '@/components/ui/circular-testimonials'
 import InfiniteMenu from '@/components/ui/InfiniteMenu'
@@ -431,9 +431,16 @@ function QuoteSection() {
 }
 
 // --- COUPLES CARD (envelope-style) -----------------------------------
-function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bride; isGroom: boolean; expanded: boolean }) {
+function CouplesCard({ person, isGroom, reveal }: { person: typeof couples.bride; isGroom: boolean; reveal: any }) {
+  const height = useTransform(reveal, [0, 1], [200, 380])
+  const radius = useTransform(reveal, [0, 1], ['5%', '0%'])
+  const parentOpacity = useTransform(reveal, [0.55, 0.75], [0, 1])
+  const parentMaxH = useTransform(reveal, [0.55, 0.75], ['0px', '128px'])
+  const chevronRotate = useTransform(reveal, [0.5, 1], [0, 180])
+  const chevronOpacity = useTransform(reveal, [0.5, 0.7], [1, 0])
+
   return (
-    <div className={`uiverse-card ${expanded ? 'expanded' : ''}`}>
+    <motion.div className="uiverse-card" style={{ height, borderRadius: radius }}>
       <div className="uiverse-card-inner">
         <img src={person.img} alt={person.name} className={`uiverse-card-img ${isGroom ? '' : 'uiverse-card-img-bride'}`} />
         <img src="/img/ov-3.png" alt="" className="absolute top-0 left-0 w-full h-full object-fill pointer-events-none z-[1] opacity-60" />
@@ -441,23 +448,29 @@ function CouplesCard({ person, isGroom, expanded }: { person: typeof couples.bri
         <div className="uiverse-card-bottom">
           <p className="font-title leading-tight mb-0.5"><ShinyText text={person.name} color="#f5e6d3" shineColor="#ffd700" speed={3} spread={150} className="text-xl sm:text-2xl" /></p>
           <p className="text-cream/70 text-xs font-content">{isGroom ? 'Groom' : 'Bride'}</p>
-          <svg className={`chevron-down ${expanded ? 'open' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-          <div className={`overflow-hidden transition-all duration-400 ${expanded ? 'max-h-32 mt-2' : 'max-h-0'}`}>
+          <motion.div className="chevron-down" style={{ rotate: chevronRotate, opacity: chevronOpacity }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </motion.div>
+          <motion.div className="overflow-hidden" style={{ opacity: parentOpacity, maxHeight: parentMaxH }}>
             <div className="w-6 h-px bg-cream/20 mx-auto mb-2" />
             <p className="font-content leading-relaxed"><ShinyText text={person.parents} color="#d4c5a9" shineColor="#ffd700" speed={2.5} spread={150} className="text-[10px]" /></p>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 // --- COUPLES SECTION -------------------------------------------------
 function CouplesSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(sectionRef, { amount: 0.15, once: false })
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  const revealValue = useTransform(scrollYProgress, [0.15, 0.4, 0.6, 0.85], [0, 1, 1, 0])
 
   return (
     <section ref={sectionRef} id="bride" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
@@ -470,11 +483,11 @@ function CouplesSection() {
         </p>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-5 max-w-lg mx-auto md:max-w-none">
-          <CouplesCard person={couples.bride} isGroom={false} expanded={isInView} />
+          <CouplesCard person={couples.bride} isGroom={false} reveal={revealValue} />
           <div className="flex-shrink-0">
             <div className="text-cream/30 text-3xl font-serif italic">&amp;</div>
           </div>
-          <CouplesCard person={couples.groom} isGroom={true} expanded={isInView} />
+          <CouplesCard person={couples.groom} isGroom={true} reveal={revealValue} />
         </div>
       </div>
     </section>

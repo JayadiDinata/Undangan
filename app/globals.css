@@ -335,7 +335,7 @@
   background: transparent;
   border: none;
   filter: drop-shadow(0 8px 24px rgba(0,0,0,0.6));
-  transition: height 0.4s, transform 0.3s;
+  transition: transform 0.4s;
   overflow: hidden;
   color: white;
 }
@@ -366,15 +366,6 @@
   transform: scale(1.03);
 }
 
-.uiverse-card.expanded {
-  height: 380px;
-  border-radius: 0;
-}
-
-.uiverse-card.expanded .uiverse-card-inner {
-  border-radius: 0;
-}
-
 @keyframes rotateBorder {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -384,9 +375,6 @@
   .uiverse-card {
     width: 280px;
     height: 260px;
-  }
-  .uiverse-card.expanded {
-    height: 460px;
   }
 }
 
@@ -426,13 +414,6 @@
   margin: 6px auto 0;
   color: rgba(245, 230, 211, 0.5);
   animation: chevronBounce 2s ease-in-out infinite;
-  transition: all 0.4s;
-}
-
-.chevron-down.open {
-  opacity: 0;
-  transform: rotate(180deg) translateY(-4px);
-  animation: none;
 }
 
 @keyframes chevronBounce {
