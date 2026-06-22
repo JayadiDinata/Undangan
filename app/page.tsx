@@ -313,10 +313,9 @@ function CoverSection() {
   const contentOpacity = useTransform(scrollYProgress, [0.2, 0.5], [0, 1])
   const contentY = useTransform(scrollYProgress, [0.2, 0.5], [40, 0])
 
-  const scale2 = useTransform(scrollYProgress, [0, 0.7], [1, 2])
-  const scale25 = useTransform(scrollYProgress, [0, 0.7], [1, 2.5])
-  const scale3 = useTransform(scrollYProgress, [0, 0.7], [1, 3])
-  const scales = [scale3, scale25, scale2, scale25, scale2, scale25, scale2]
+  const scale15 = useTransform(scrollYProgress, [0, 0.35], [1, 1.5])
+  const scale2 = useTransform(scrollYProgress, [0, 0.35], [1, 2])
+  const scales = [scale2, scale15, scale15, scale15, scale15, scale15, scale15]
 
   return (
     <section ref={container} id="cover" className="relative h-[200vh]">
@@ -732,8 +731,14 @@ function WishesSection() {
   const [message, setMessage] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [rsvpName, setRsvpName] = useState('')
+  const [rsvpAttending, setRsvpAttending] = useState<'yes' | 'no' | null>(null)
+  const [rsvpSubmitting, setRsvpSubmitting] = useState(false)
+  const [rsvpSuccess, setRsvpSuccess] = useState(false)
 
   useEffect(() => {
+    const to = new URLSearchParams(window.location.search).get('to')
+    if (to) setRsvpName(decodeURIComponent(to))
     fetch(`${API_URL}/api/wishes`)
       .then(r => r.json())
       .then(data => { if (Array.isArray(data)) setWishes(data) })
@@ -741,7 +746,7 @@ function WishesSection() {
     fetch(`${API_URL}/api/rsvp`)
       .then(r => r.json())
       .then(data => { if (Array.isArray(data)) setRsvpList(data) })
-      .catch(() => {})
+      .catch(() => { try { const s = localStorage.getItem('weddingRsvp'); if (s) setRsvpList(JSON.parse(s)) } catch {} })
   }, [])
 
   const submit = async (e: FormEvent) => {
@@ -759,6 +764,26 @@ function WishesSection() {
     setSuccess(true); setTimeout(() => setSuccess(false), 3000)
     try { await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
     setSubmitting(false)
+  }
+
+  const submitRsvp = async (e: FormEvent) => {
+    e.preventDefault()
+    if (!rsvpName.trim() || !rsvpAttending) return
+    setRsvpSubmitting(true)
+    const entry: RsvpEntry = {
+      name: esc(rsvpName.trim()), attending: rsvpAttending,
+      timestamp: new Date().toLocaleString('id-ID'),
+    }
+    try {
+      await fetch(`${API_URL}/api/rsvp`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry),
+      })
+    } catch {}
+    setRsvpList([entry, ...rsvpList])
+    localStorage.setItem('weddingRsvp', JSON.stringify([entry, ...rsvpList]))
+    setRsvpSuccess(true)
+    setRsvpSubmitting(false)
   }
 
   return (
@@ -856,39 +881,91 @@ function WishesSection() {
 
         {/* --- List: RSVP --- */}
         {tab === 'rsvp' && (
-          <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
-            <AnimatePresence>
-              {rsvpList.length === 0 ? (
-                <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada konfirmasi kehadiran.</p>
+          <>
+            <motion.form
+              onSubmit={submitRsvp}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ margin: '-40px' }}
+              transition={{ duration: 0.5, ease: easeOut }}
+              className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-4 md:p-5 space-y-3 mb-5"
+            >
+              <p className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content mb-1">Konfirmasi Kehadiran</p>
+              {!rsvpSuccess ? (
+                <>
+                  <div>
+                    <label className="block text-[10px] text-cream/50 uppercase tracking-widest mb-1 font-content">Nama Anda</label>
+                    <input
+                      type="text" value={rsvpName} onChange={e => setRsvpName(e.target.value)} required
+                      placeholder="Masukkan nama Anda"
+                      className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors duration-200"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      type="submit" disabled={rsvpSubmitting}
+                      onClick={() => setRsvpAttending('yes')}
+                      className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer disabled:opacity-50 ${
+                        rsvpAttending === 'yes' ? 'bg-green-600/40 border border-green-400/40 text-green-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
+                      }`}
+                    >
+                      Hadir
+                    </button>
+                    <button
+                      type="submit" disabled={rsvpSubmitting}
+                      onClick={() => setRsvpAttending('no')}
+                      className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer disabled:opacity-50 ${
+                        rsvpAttending === 'no' ? 'bg-red-600/40 border border-red-400/40 text-red-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
+                      }`}
+                    >
+                      Tidak Hadir
+                    </button>
+                  </div>
+                </>
               ) : (
-                rsvpList.map((r, i) => (
-                  <motion.div
-                    key={`${r.timestamp}-${i}`}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ margin: '-40px' }}
-                    transition={{ duration: 0.4, ease: easeOut }}
-                    className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
-                        {r.name.charAt(0).toUpperCase()}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-cream font-content">{r.name}</p>
-                        <p className="text-[9px] text-cream/40 mt-0.5 font-content">{r.timestamp}</p>
-                      </div>
-                      <span className={`shrink-0 text-[10px] font-content font-medium px-2.5 py-1 rounded-full border ${
-                        r.attending === 'yes' ? 'bg-green-600/30 border-green-400/30 text-green-300' : 'bg-red-600/30 border-red-400/30 text-red-300'
-                      }`}>
-                        {r.attending === 'yes' ? 'Hadir' : 'Tidak Hadir'}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))
+                <motion.p
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="text-cream/70 text-sm font-content text-center py-2"
+                >
+                  Terima kasih atas konfirmasinya
+                </motion.p>
               )}
-            </AnimatePresence>
-          </div>
+            </motion.form>
+            <div className="max-h-[400px] overflow-y-auto space-y-2 pe-1">
+              <AnimatePresence>
+                {rsvpList.length === 0 ? (
+                  <p className="text-center text-cream/40 text-sm font-content py-6">Belum ada konfirmasi kehadiran.</p>
+                ) : (
+                  rsvpList.map((r, i) => (
+                    <motion.div
+                      key={`${r.timestamp}-${i}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ margin: '-40px' }}
+                      transition={{ duration: 0.4, ease: easeOut }}
+                      className="bg-cream/5 backdrop-blur-sm border border-cream/10 rounded-2xl p-3.5"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-cream/15 flex items-center justify-center flex-shrink-0 text-xs font-medium text-cream font-content">
+                          {r.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-cream font-content">{r.name}</p>
+                          <p className="text-[9px] text-cream/40 mt-0.5 font-content">{r.timestamp}</p>
+                        </div>
+                        <span className={`shrink-0 text-[10px] font-content font-medium px-2.5 py-1 rounded-full border ${
+                          r.attending === 'yes' ? 'bg-green-600/30 border-green-400/30 text-green-300' : 'bg-red-600/30 border-red-400/30 text-red-300'
+                        }`}>
+                          {r.attending === 'yes' ? 'Hadir' : 'Tidak Hadir'}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
+              </AnimatePresence>
+            </div>
+          </>
         )}
       </div>
     </section>
@@ -897,27 +974,6 @@ function WishesSection() {
 
 // --- CLOSING SECTION -------------------------------------------------
 function ClosingSection() {
-  const [attending, setAttending] = useState<'yes' | 'no' | null>(null)
-  const guestName = useRef<HTMLInputElement>(null)
-  const [guestSubmitted, setGuestSubmitted] = useState(false)
-  const [defaultName, setDefaultName] = useState('')
-  useEffect(() => {
-    const to = new URLSearchParams(window.location.search).get('to')
-    if (to) setDefaultName(decodeURIComponent(to))
-  }, [])
-
-  const submitAttendance = async (e: FormEvent) => {
-    e.preventDefault()
-    if (!guestName.current?.value.trim() || !attending) return
-    try {
-      await fetch(`${API_URL}/api/rsvp`, {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: esc(guestName.current.value.trim()), attending }),
-      })
-    } catch {}
-    setGuestSubmitted(true)
-  }
-
   return (
     <section id="closing" className="relative w-full py-16 md:py-20 lg:py-24 overflow-hidden">
       <div className="absolute inset-0 z-0 bg-green-dark/30" />
@@ -938,57 +994,6 @@ function ClosingSection() {
           <motion.p {...fadeIn(0.3)} className="text-cream/50 text-xs sm:text-sm font-content mb-6 leading-relaxed">
             Merupakan suatu kehormatan dan kebahagiaan apabila Bapak/Ibu/Saudara/i berkenan hadir memberikan doa restu.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ margin: '-40px' }}
-            transition={{ duration: 0.5, delay: 0.3, ease: easeOut }}
-            className="bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-5 mb-6"
-          >
-            <p className="text-cream/50 text-[10px] uppercase tracking-[0.2em] font-content mb-3">Konfirmasi Kehadiran</p>
-
-            {!guestSubmitted ? (
-              <form onSubmit={submitAttendance} className="space-y-3">
-                <input
-                  ref={guestName}
-                  type="text"
-                  required
-                  defaultValue={defaultName}
-                  placeholder="Nama tamu"
-                  className="w-full px-3.5 py-2.5 bg-cream/10 border border-cream/15 rounded-xl text-cream placeholder-cream/30 font-content text-sm focus:outline-none focus:border-cream/50 transition-colors"
-                />
-                <div className="flex gap-2">
-                  <button
-                    type="submit"
-                    onClick={() => setAttending('yes')}
-                    className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer ${
-                      attending === 'yes' ? 'bg-green-600/40 border border-green-400/40 text-green-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
-                    }`}
-                  >
-                    Hadir
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => setAttending('no')}
-                    className={`flex-1 py-2.5 rounded-xl text-sm font-content font-medium transition-all cursor-pointer ${
-                      attending === 'no' ? 'bg-red-600/40 border border-red-400/40 text-red-300' : 'bg-cream/10 border border-cream/20 text-cream/70 hover:bg-cream/20'
-                    }`}
-                  >
-                    Tidak Hadir
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <motion.p
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="text-cream/70 text-sm font-content"
-              >
-                Terima kasih atas konfirmasinya ≡ƒÖÅ
-              </motion.p>
-            )}
-          </motion.div>
 
           <motion.p {...fadeIn(0.35)} className="text-cream/40 text-xs font-content italic">
             Wassalamu&apos;alaikum Warahmatullahi Wabarakatuh

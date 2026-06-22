@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "node -e \"process.env.BUILD_STATIC='true';require('child_process').execSync('npx next build',{stdio:'inherit',env:{...process.env,BUILD_STATIC:'true'}})\"",
     "start": "next start",
     "lint": "next lint"
   },
