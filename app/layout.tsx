@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     siteName: 'Pernikahan Sarah & Riad',
     images: [
       {
-        url: '/img/SR.jpeg',
+        url: '/img/SR7.jpeg',
         width: 1200,
         height: 630,
         alt: 'Sarah & Riad',
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: 'Undangan Pernikahan: Sarah & Riad',
     description:
       'Sabtu, 11 Juli 2026 - Klik untuk melihat detail acara dan memberikan doa restu.',
-    images: ['/img/SR.jpeg'],
+    images: ['/img/SR7.jpeg'],
   },
   other: {
     'apple-mobile-web-app-capable': 'yes',
