@@ -1140,7 +1140,7 @@ function MainContent() {
             </div>
             <div className="flex items-center justify-center">
               <div className="relative">
-                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70" />
+                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70 mt-10" />
                 <div className="absolute inset-0 z-10 flex items-center justify-center">
                   <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
                     <div className="envelope-first">
