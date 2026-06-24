@@ -1091,16 +1091,16 @@ function ScrollOverlays() {
   return (
     <>
       <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[3] pointer-events-none">
-                <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-[0.05] animate-sway-left" />
+                <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
       <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[3] pointer-events-none">
-        <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-[0.05] animate-sway-right" />
+        <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
       <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[3] pointer-events-none">
-        <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
+        <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
       <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[3] pointer-events-none">
-        <img src="/img/ov-4.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-right" />
+        <img src="/img/ov-4.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
     </>
   )
@@ -1192,50 +1192,68 @@ function MainContent() {
 }
 
 // --- LOADING SCREEN ----------------------------------------------------
-function LoadingScreen() {
+function LoadingScreen({ onOpen, clicked }: { onOpen: () => void; clicked: boolean }) {
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }}>
+    <motion.div
+      exit={{ opacity: 0, y: -40 }}
+      transition={{ duration: 0.7, ease: easeOut }}
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat cursor-pointer select-none"
+      style={{ backgroundImage: "url('/img/bg-green.gif')" }}
+      onClick={clicked ? undefined : onOpen}
+    >
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.7) 100%)' }} />
       <div className="relative z-10 flex flex-col items-center gap-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: easeOut }}
-        >
-          <img src="/img/ov-1.png" alt="" className="w-48 md:w-64 h-auto object-contain opacity-60" />
-        </motion.div>
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: easeOut }}
-          className="font-title text-cream text-2xl md:text-3xl tracking-wider"
+          transition={{ duration: 0.6, ease: easeOut }}
+          className="font-content text-[10px] md:text-xs tracking-[0.25em] uppercase text-cream/80"
+        >
+          Undangan Pernikahan
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: easeOut }}
+          className="font-title text-cream text-3xl md:text-4xl tracking-wider"
         >
           Sarah &amp; Riad
         </motion.p>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: easeOut }}
-          className="flex gap-2"
+          transition={{ duration: 0.6, delay: 0.4, ease: easeOut }}
         >
-          <motion.span
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-2 h-2 rounded-full bg-champagne"
-          />
-          <motion.span
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="w-2 h-2 rounded-full bg-champagne"
-          />
-          <motion.span
-            animate={{ opacity: [0.3, 1, 0.3] }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="w-2 h-2 rounded-full bg-champagne"
-          />
+          {clicked ? (
+            <div className="flex gap-2 mt-4">
+              <motion.span
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-2 h-2 rounded-full bg-champagne"
+              />
+              <motion.span
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                className="w-2 h-2 rounded-full bg-champagne"
+              />
+              <motion.span
+                animate={{ opacity: [0.3, 1, 0.3] }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                className="w-2 h-2 rounded-full bg-champagne"
+              />
+            </div>
+          ) : (
+            <motion.p
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              className="font-content text-[11px] tracking-[0.15em] text-cream/60 mt-6"
+            >
+              Tap to Open
+            </motion.p>
+          )}
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -1245,7 +1263,6 @@ function GuestName() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     let guestName = params.get('to')
-    // Fallback: if & in value was split, collect remaining param keys as continuation
     if (guestName) {
       const rest: string[] = []
       params.forEach((v, k) => {
@@ -1263,10 +1280,27 @@ function GuestName() {
 
 export default function InvitationPage() {
   const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000)
-    return () => clearTimeout(timer)
-  }, [])
-  if (loading) return <LoadingScreen />
-  return <MainContent />
+  const [clicked, setClicked] = useState(false)
+
+  const handleOpen = () => {
+    setClicked(true)
+    setTimeout(() => setLoading(false), 1200)
+  }
+
+  return (
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <LoadingScreen key="loading" onOpen={handleOpen} clicked={clicked} />
+      ) : (
+        <motion.div
+          key="main"
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: easeOut }}
+        >
+          <MainContent />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  )
 }
