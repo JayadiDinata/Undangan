@@ -1140,7 +1140,7 @@ function MainContent() {
             </div>
             <div className="flex items-center justify-center">
               <div className="relative w-[340px] md:w-[430px] flex items-start justify-center" style={{ minHeight: '460px' }}>
-                <img src="/img/ov-1.png" alt="" className="absolute bottom-0 left-0 w-full h-auto object-contain pointer-events-none z-0 opacity-70" />
+                <img src="/img/ov-1.png" alt="" className="absolute bottom-0 left-0 w-full h-auto object-contain pointer-events-none z-0 opacity-[0.98]" />
                 <div className={`envelope-card relative z-10 mt-4 ${revealed ? 'revealed' : ''}`}>
                   <div className="envelope-first">
                     <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
@@ -1168,8 +1168,8 @@ function MainContent() {
         <ScheduleSection />
         <LoveStorySection />
         <GiftSection />
-        <GallerySection />
         <WishesSection />
+        <GallerySection />
         <ClosingSection />
 
         <footer className="relative text-center py-6 px-5 border-t border-cream/5">
