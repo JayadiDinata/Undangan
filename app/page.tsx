@@ -1028,7 +1028,7 @@ function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    const audio = new Audio('/img/wedding-music.mp3')
+    const audio = new Audio('/img/beautiful-in-white.mp3')
     audio.loop = true
     audioRef.current = audio
     setShow(true)
