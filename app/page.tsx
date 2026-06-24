@@ -1090,16 +1090,16 @@ function ScrollOverlays() {
 
   return (
     <>
-      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[3] pointer-events-none">
+      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
                 <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[3] pointer-events-none">
+      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
         <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
-      <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[3] pointer-events-none">
+      <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[1] pointer-events-none">
         <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[3] pointer-events-none">
+      <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[1] pointer-events-none">
         <img src="/img/ov-4.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
     </>
@@ -1125,14 +1125,12 @@ function MainContent() {
   return (
     <main className="relative w-full min-h-screen">
       <div className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-      <div className="fixed inset-0 z-[1]" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
       <ScrollOverlays />
 
       {/* -- Envelope Section (sticky — scrolls open) -- */}
       <section ref={envelopeRef} className="relative h-[120vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
           <div className="relative z-10 h-full flex flex-col items-center justify-start pt-24">
             <div className="mb-6 text-center">
               <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
