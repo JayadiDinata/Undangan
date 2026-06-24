@@ -1139,21 +1139,19 @@ function MainContent() {
               <GuestName />
             </div>
             <div className="flex items-center justify-center">
-              <div className="relative">
-                <img src="/img/ov-1.png" alt="" className="relative w-[340px] md:w-[430px] h-auto object-contain pointer-events-none z-0 opacity-70 mt-6" />
-                <div className="absolute inset-0 z-10 flex items-center justify-center">
-                  <div className={`envelope-card shadow-envelope ${revealed ? 'revealed' : ''}`}>
-                    <div className="envelope-first">
-                      <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
-                    </div>
-                    <div className="envelope-second relative">
-                      <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                      <div className="absolute inset-0 flex flex-col items-center justify-center px-8 max-w-full">
-                        <p className="font-content text-[10px] md:text-xs tracking-[0.25em] uppercase text-black/70 mb-2">Undangan Pernikahan</p>
-                        <p className="font-title text-xl md:text-2xl leading-tight"><ShinyText text="Sarah &amp; Riad" color="#000000" shineColor="#333333" speed={3} spread={80} /></p>
-                        <div className="w-10 h-px bg-black/20 my-3" />
-                        <p className="font-content text-[10px] md:text-xs tracking-[0.15em] text-black/60">11 Juli 2026</p>
-                      </div>
+              <div className="relative w-[340px] md:w-[430px] flex items-start justify-center" style={{ minHeight: '460px' }}>
+                <img src="/img/ov-1.png" alt="" className="absolute bottom-0 left-0 w-full h-auto object-contain pointer-events-none z-0 opacity-70" />
+                <div className={`envelope-card shadow-envelope relative z-10 mt-4 ${revealed ? 'revealed' : ''}`}>
+                  <div className="envelope-first">
+                    <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
+                  </div>
+                  <div className="envelope-second relative">
+                    <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center px-6 max-w-full">
+                      <p className="font-content text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-black/70 whitespace-nowrap mb-2">Undangan Pernikahan</p>
+                      <p className="font-title text-lg md:text-xl leading-tight"><ShinyText text="Sarah &amp; Riad" color="#000000" shineColor="#333333" speed={3} spread={60} /></p>
+                      <div className="w-8 h-px bg-black/20 my-2" />
+                      <p className="font-content text-[9px] md:text-[10px] tracking-[0.15em] text-black/60">11 Juli 2026</p>
                     </div>
                   </div>
                 </div>
