@@ -1141,17 +1141,17 @@ function MainContent() {
             <div className="flex items-center justify-center">
               <div className="relative w-[340px] md:w-[430px] flex items-start justify-center" style={{ minHeight: '460px' }}>
                 <img src="/img/ov-1.png" alt="" className="absolute bottom-0 left-0 w-full h-auto object-contain pointer-events-none z-0 opacity-70" />
-                <div className={`envelope-card shadow-envelope relative z-10 mt-4 ${revealed ? 'revealed' : ''}`}>
+                <div className={`envelope-card relative z-10 mt-4 ${revealed ? 'revealed' : ''}`}>
                   <div className="envelope-first">
                     <img src="/img/tutup.png" alt="Buka Undangan" className="w-full h-full object-contain p-6" />
                   </div>
                   <div className="envelope-second relative">
                     <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center px-6 max-w-full">
-                      <p className="font-content text-[9px] md:text-[10px] tracking-[0.15em] uppercase text-black/70 whitespace-nowrap mb-2">Undangan Pernikahan</p>
-                      <p className="font-title text-lg md:text-xl leading-tight"><ShinyText text="Sarah &amp; Riad" color="#000000" shineColor="#333333" speed={3} spread={60} /></p>
+                      <p className="mb-2"><ShinyText text="Undangan Pernikahan" color="#000000" shineColor="#d4af37" speed={3} spread={100} className="font-content text-[9px] md:text-[10px] tracking-[0.15em] uppercase whitespace-nowrap" /></p>
+                      <p className="leading-tight"><ShinyText text="Sarah &amp; Riad" color="#000000" shineColor="#d4af37" speed={3} spread={120} className="font-title text-lg md:text-xl" /></p>
                       <div className="w-8 h-px bg-black/20 my-2" />
-                      <p className="font-content text-[9px] md:text-[10px] tracking-[0.15em] text-black/60">11 Juli 2026</p>
+                      <p className="mt-1"><ShinyText text="11 Juli 2026" color="#000000" shineColor="#d4af37" speed={3} spread={100} className="font-content text-[9px] md:text-[10px] tracking-[0.15em]" /></p>
                     </div>
                   </div>
                 </div>

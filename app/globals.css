@@ -432,13 +432,8 @@
   animation: wiggle 3s ease-in-out infinite;
 }
 
-.shadow-envelope {
-  filter: drop-shadow(0 8px 32px rgba(200,200,200,0.25)) drop-shadow(0 2px 8px rgba(255,255,255,0.1));
-}
-
 .envelope-card:hover {
   animation: none;
-  transform: scale(1.05);
 }
 
 @keyframes wiggle {
