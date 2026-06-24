@@ -429,7 +429,7 @@
   transition: all 0.4s;
   cursor: pointer;
   overflow: hidden;
-  animation: envelopeFloat 3s ease-in-out infinite;
+  animation: wiggle 3s ease-in-out infinite;
 }
 
 .shadow-envelope {
@@ -441,9 +441,11 @@
   transform: scale(1.05);
 }
 
-@keyframes envelopeFloat {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-15px); }
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(1.5deg); }
+  50%      { transform: rotate(-1.5deg); }
+  75%      { transform: rotate(0.5deg); }
 }
 
 .envelope-card.revealed {
