@@ -741,16 +741,19 @@ function WishesSection() {
   const [rsvpAttending, setRsvpAttending] = useState<'yes' | 'no' | null>(null)
   const [rsvpSubmitting, setRsvpSubmitting] = useState(false)
   const [rsvpSuccess, setRsvpSuccess] = useState(false)
+  const [fetchError, setFetchError] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   useEffect(() => {
     const to = new URLSearchParams(window.location.search).get('to')
     if (to) setRsvpName(decodeURIComponent(to))
+    setFetchError(false)
     fetch(`${API_URL}/api/wishes`)
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setWishes(data) })
-      .catch(() => {})
+      .then(r => { if (!r.ok) throw new Error('Fetch failed'); return r.json() })
+      .then(data => { if (Array.isArray(data)) setWishes(data); setFetchError(false) })
+      .catch(() => setFetchError(true))
     fetch(`${API_URL}/api/rsvp`)
-      .then(r => r.json())
+      .then(r => { if (!r.ok) throw new Error('Fetch failed'); return r.json() })
       .then(data => { if (Array.isArray(data)) setRsvpList(data) })
       .catch(() => {})
   }, [])
@@ -758,34 +761,38 @@ function WishesSection() {
   const submit = async (e: FormEvent) => {
     e.preventDefault()
     if (!name.trim() || !message.trim()) return
-    setSubmitting(true)
+    setSubmitting(true); setSubmitError('')
     const newWish: Wish = {
       name: esc(name.trim()), status: esc(status.trim()), message: esc(message.trim()),
       timestamp: new Date().toLocaleString('id-ID'),
     }
-    try { await fetch(`${API_URL}/api/wishes`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) }) } catch {}
-    setWishes([newWish, ...wishes])
-    setName(''); setStatus(''); setMessage('')
-    setSuccess(true); setTimeout(() => setSuccess(false), 3000)
+    try {
+      const res = await fetch(`${API_URL}/api/wishes`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newWish) })
+      if (!res.ok) throw new Error('Server error')
+      setWishes([newWish, ...wishes])
+      setName(''); setStatus(''); setMessage('')
+      setSuccess(true); setTimeout(() => setSuccess(false), 3000)
+    } catch { setSubmitError('Gagal mengirim. Coba lagi.') }
     setSubmitting(false)
   }
 
   const submitRsvp = async (e: FormEvent) => {
     e.preventDefault()
     if (!rsvpName.trim() || !rsvpAttending) return
-    setRsvpSubmitting(true)
+    setRsvpSubmitting(true); setSubmitError('')
     const entry: RsvpEntry = {
       name: esc(rsvpName.trim()), attending: rsvpAttending,
       timestamp: new Date().toLocaleString('id-ID'),
     }
     try {
-      await fetch(`${API_URL}/api/rsvp`, {
+      const res = await fetch(`${API_URL}/api/rsvp`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry),
       })
-    } catch {}
-    setRsvpList([entry, ...rsvpList])
-    setRsvpSuccess(true)
+      if (!res.ok) throw new Error('Server error')
+      setRsvpList([entry, ...rsvpList])
+      setRsvpSuccess(true)
+    } catch { setSubmitError('Gagal mengirim. Coba lagi.') }
     setRsvpSubmitting(false)
   }
 
@@ -797,10 +804,10 @@ function WishesSection() {
 
         {/* --- Tabs --- */}
         <div className="flex bg-cream/5 backdrop-blur-sm border border-cream/15 rounded-2xl p-1 mb-5">
-          <button onClick={() => setTab('wishes')} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'wishes' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
+          <button onClick={() => { setTab('wishes'); setSubmitError('') }} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'wishes' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
             Ucapan &amp; Doa
           </button>
-          <button onClick={() => setTab('rsvp')} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'rsvp' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
+          <button onClick={() => { setTab('rsvp'); setSubmitError('') }} className={`flex-1 py-2 text-xs font-content tracking-wider rounded-xl transition-all cursor-pointer ${tab === 'rsvp' ? 'bg-cream/15 text-cream shadow-sm' : 'text-cream/50 hover:text-cream/70'}`}>
             Konfirmasi Kehadiran
           </button>
         </div>
@@ -842,6 +849,12 @@ function WishesSection() {
                   Berhasil dikirim! Terima kasih atas doa dan ucapannya
                 </motion.p>
               )}
+              {submitError && (
+                <motion.p key="e" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                  className="text-red-400 text-sm text-center font-content">
+                  {submitError}
+                </motion.p>
+              )}
             </AnimatePresence>
           </motion.form>
         )}
@@ -855,7 +868,9 @@ function WishesSection() {
             </div>
             <div className="max-h-[320px] overflow-y-auto pe-1">
               <AnimatePresence>
-                {wishes.length === 0 ? (
+                {fetchError ? (
+                  <p className="text-center text-red-400/70 text-sm font-content py-8">Gagal memuat data. Muat ulang halaman.</p>
+                ) : wishes.length === 0 ? (
                   <p className="text-center text-cream/40 text-sm font-content py-8">Belum ada ucapan. Jadilah yang pertama!</p>
                 ) : (
                   wishes.map((w, i) => (
@@ -934,7 +949,13 @@ function WishesSection() {
                   animate={{ scale: 1, opacity: 1 }}
                   className="text-cream/70 text-sm font-content text-center py-2"
                 >
-                  Terima kasih atas konfirmasinya
+                    Terima kasih atas konfirmasinya
+                </motion.p>
+              )}
+              {submitError && (
+                <motion.p key="e" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+                  className="text-red-400 text-sm text-center font-content">
+                  {submitError}
                 </motion.p>
               )}
             </motion.form>
@@ -945,7 +966,9 @@ function WishesSection() {
               </div>
               <div className="max-h-[320px] overflow-y-auto pe-1">
                 <AnimatePresence>
-                  {rsvpList.length === 0 ? (
+                  {fetchError ? (
+                    <p className="text-center text-red-400/70 text-sm font-content py-8">Gagal memuat data. Muat ulang halaman.</p>
+                  ) : rsvpList.length === 0 ? (
                     <p className="text-center text-cream/40 text-sm font-content py-8">Belum ada konfirmasi kehadiran.</p>
                   ) : (
                     rsvpList.map((r, i) => (
