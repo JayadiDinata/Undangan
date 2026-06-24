@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
 
 interface Testimonial {
@@ -31,6 +30,8 @@ export const CircularTestimonials = ({ testimonials, autoplay = true }: Circular
 
   const imageContainerRef = useRef<HTMLDivElement>(null)
   const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const touchStartX = useRef(0)
+  const wrapperRef = useRef<HTMLDivElement>(null)
 
   const testimonialsLength = useMemo(() => testimonials.length, [testimonials])
   const activeTestimonial = useMemo(() => testimonials[activeIndex], [activeIndex, testimonials])
@@ -73,6 +74,18 @@ export const CircularTestimonials = ({ testimonials, autoplay = true }: Circular
     setActiveIndex(prev => (prev - 1 + testimonialsLength) % testimonialsLength)
     if (autoplayIntervalRef.current) clearInterval(autoplayIntervalRef.current)
   }, [testimonialsLength])
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const delta = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(delta) > 50) {
+      if (delta < 0) handleNext()
+      else handlePrev()
+    }
+  }, [handleNext, handlePrev])
 
   function getImageStyle(index: number): React.CSSProperties {
     const gap = calculateGap(containerWidth)
@@ -124,7 +137,7 @@ export const CircularTestimonials = ({ testimonials, autoplay = true }: Circular
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-5">
+    <div ref={wrapperRef} className="w-full max-w-3xl mx-auto px-5" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <div className="md:grid md:grid-cols-2 md:gap-20">
         <div className="relative w-full h-72 md:h-96" style={{ perspective: '1000px' }} ref={imageContainerRef}>
           {testimonials.map((testimonial, index) => (
@@ -168,21 +181,18 @@ export const CircularTestimonials = ({ testimonials, autoplay = true }: Circular
               </p>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-8 md:pt-0">
-            <button
-              onClick={handlePrev}
-              className="w-10 h-10 rounded-full bg-cream/10 border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-cream/20 transition-colors"
-              aria-label="Previous"
-            >
-              <FaArrowLeft size={16} className="text-cream/70" />
-            </button>
-            <button
-              onClick={handleNext}
-              className="w-10 h-10 rounded-full bg-cream/10 border border-cream/20 flex items-center justify-center cursor-pointer hover:bg-cream/20 transition-colors"
-              aria-label="Next"
-            >
-              <FaArrowRight size={16} className="text-cream/70" />
-            </button>
+          <div className="flex gap-2 pt-8 md:pt-0">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setActiveIndex(i)
+                  if (autoplayIntervalRef.current) clearInterval(autoplayIntervalRef.current)
+                }}
+                className={`w-2 h-2 rounded-full transition-all duration-300 cursor-pointer ${i === activeIndex ? 'bg-cream w-6' : 'bg-cream/30'}`}
+                aria-label={`Go to story ${i + 1}`}
+              />
+            ))}
           </div>
         </div>
       </div>
