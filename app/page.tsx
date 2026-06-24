@@ -1090,16 +1090,16 @@ function ScrollOverlays() {
 
   return (
     <>
-      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[9999] pointer-events-none">
                 <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[9999] pointer-events-none">
         <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
-      <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[9999] pointer-events-none">
         <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[1] pointer-events-none">
+      <motion.div style={{ x: botRightX }} className="fixed bottom-0 right-0 z-[9999] pointer-events-none">
         <img src="/img/ov-4.png" alt="" className="w-32 md:w-48 opacity-[0.98] animate-sway-right" />
       </motion.div>
     </>
