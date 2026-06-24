@@ -21,7 +21,7 @@ jobs:
 
       - run: npm run build:static
         env:
-          NEXT_PUBLIC_API_URL: https://undangan-sand-ten.vercel.app
+          NEXT_PUBLIC_API_URL: https://server-green-five-19.vercel.app
 
       - name: Sync build to root for GH Pages
         run: |

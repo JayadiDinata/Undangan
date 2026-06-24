@@ -2,6 +2,9 @@
   "functions": {
     "api/wishes.js": {
       "runtime": "@vercel/node@3"
+    },
+    "api/rsvp.js": {
+      "runtime": "@vercel/node@3"
     }
   }
 }

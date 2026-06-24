@@ -7,7 +7,7 @@ const handlers = {
   '/api/rsvp': require('./api/rsvp'),
 }
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT || 3000
 
 const server = http.createServer((req, res) => {
   const parsedUrl = new URL(req.url, `http://${req.headers.host}`)
