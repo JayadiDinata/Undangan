@@ -1148,9 +1148,11 @@ function MainContent() {
                     </div>
                     <div className="envelope-second relative">
                       <img src="/img/buka.png" alt="Undangan" className="w-full h-full object-contain" />
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
-                        <p className="font-title text-lg md:text-xl whitespace-nowrap"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
-                        <p className="font-content text-[9px] md:text-[10px] text-cream/80 tracking-wider mt-1">11 Juli 2026</p>
+                      <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+                        <p className="font-content text-[10px] md:text-xs tracking-[0.25em] uppercase text-cream/90 mb-2">Undangan Pernikahan</p>
+                        <p className="font-title text-xl md:text-2xl whitespace-nowrap leading-tight"><ShinyText text="Sarah &amp; Riad" color="#0d2818" shineColor="#ffd700" speed={2} spread={150} /></p>
+                        <div className="w-10 h-px bg-cream/40 my-3" />
+                        <p className="font-content text-[10px] md:text-xs tracking-[0.15em] text-cream/80">11 Juli 2026</p>
                       </div>
                     </div>
                   </div>
