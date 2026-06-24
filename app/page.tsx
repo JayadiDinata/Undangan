@@ -1090,11 +1090,11 @@ function ScrollOverlays() {
 
   return (
     <>
-      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[1] pointer-events-none">
-        <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
+      <motion.div style={{ x: topLeftX }} className="fixed top-0 left-0 z-[3] pointer-events-none">
+                <img src="/img/ov-2kiri.png" alt="" className="w-32 md:w-48 opacity-[0.05] animate-sway-left" />
       </motion.div>
-      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[1] pointer-events-none">
-        <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-right" />
+      <motion.div style={{ x: topRightX }} className="fixed top-0 right-0 z-[3] pointer-events-none">
+        <img src="/img/ov-2kanan.png" alt="" className="w-32 md:w-48 opacity-[0.05] animate-sway-right" />
       </motion.div>
       <motion.div style={{ x: botLeftX }} className="fixed bottom-0 left-0 z-[3] pointer-events-none">
         <img src="/img/ov-4kiri.png" alt="" className="w-32 md:w-48 opacity-50 animate-sway-left" />
@@ -1189,6 +1189,54 @@ function MainContent() {
   )
 }
 
+// --- LOADING SCREEN ----------------------------------------------------
+function LoadingScreen() {
+  return (
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }}>
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.3) 0%, rgba(13,40,24,0.7) 100%)' }} />
+      <div className="relative z-10 flex flex-col items-center gap-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: easeOut }}
+        >
+          <img src="/img/ov-1.png" alt="" className="w-48 md:w-64 h-auto object-contain opacity-60" />
+        </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: easeOut }}
+          className="font-title text-cream text-2xl md:text-3xl tracking-wider"
+        >
+          Sarah &amp; Riad
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.6, ease: easeOut }}
+          className="flex gap-2"
+        >
+          <motion.span
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-2 h-2 rounded-full bg-champagne"
+          />
+          <motion.span
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            className="w-2 h-2 rounded-full bg-champagne"
+          />
+          <motion.span
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            className="w-2 h-2 rounded-full bg-champagne"
+          />
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 // --- PAGE ------------------------------------------------------------
 function GuestName() {
   const [name, setName] = useState('Tamu Undangan')
@@ -1212,5 +1260,11 @@ function GuestName() {
 }
 
 export default function InvitationPage() {
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000)
+    return () => clearTimeout(timer)
+  }, [])
+  if (loading) return <LoadingScreen />
   return <MainContent />
 }
