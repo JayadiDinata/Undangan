@@ -1133,8 +1133,8 @@ function MainContent() {
         <div className="sticky top-0 h-screen overflow-hidden">
           <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/img/bg-green.gif')" }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(13,40,24,0.1) 0%, rgba(13,40,24,0.5) 100%)' }} />
-          <div className="relative z-10 h-full flex flex-col items-center justify-start pt-6">
-            <div className="mb-6 text-center">
+          <div className="relative z-10 h-full flex flex-col items-center justify-start pt-14">
+            <div className="mb-10 text-center">
               <p className="text-xs uppercase tracking-[0.2em] font-content mb-2"><ShinyText text="Selamat Datang" color="#b5b5b5" shineColor="#ffd700" speed={3} spread={150} /></p>
               <GuestName />
             </div>
