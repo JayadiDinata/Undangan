@@ -1022,21 +1022,11 @@ const floatingNotes = [
   { id: 5, x: 8, delay: 1.6, size: 8 },
 ]
 
-function MusicPlayer() {
-  const [playing, setPlaying] = useState(false)
+function MusicPlayer({ audioRef, playing, setPlaying }: { audioRef: React.RefObject<HTMLAudioElement | null>; playing: boolean; setPlaying: (v: boolean) => void }) {
   const [show, setShow] = useState(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
-    const audio = new Audio('/img/wd2.mp3')
-    audio.loop = true
-    audioRef.current = audio
     setShow(true)
-    const handler = () => {
-      if (audioRef.current && !playing) { audioRef.current.play().catch(() => {}); setPlaying(true) }
-    }
-    document.addEventListener('click', handler, { once: true })
-    return () => { document.removeEventListener('click', handler); audio.pause() }
   }, [])
 
   const toggle = () => {
@@ -1052,7 +1042,7 @@ function MusicPlayer() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ duration: 0.8, delay: 1, ease: easeOut }}
-      className="fixed bottom-20 right-4 z-50"
+      className="fixed bottom-20 right-4 z-[9999]"
     >
       {playing && floatingNotes.map(note => (
         <motion.div
@@ -1107,7 +1097,7 @@ function ScrollOverlays() {
 }
 
 // --- MAIN CONTENT ----------------------------------------------------
-function MainContent() {
+function MainContent({ audioRef, playing, setPlaying }: { audioRef: React.RefObject<HTMLAudioElement | null>; playing: boolean; setPlaying: (v: boolean) => void }) {
   const [revealed, setRevealed] = useState(false)
   const envelopeRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: envProgress } = useScroll({
@@ -1182,7 +1172,7 @@ function MainContent() {
         </footer>
       </div>
 
-      <MusicPlayer />
+      <MusicPlayer audioRef={audioRef} playing={playing} setPlaying={setPlaying} />
     </main>
   )
 }
@@ -1277,9 +1267,16 @@ function GuestName() {
 export default function InvitationPage() {
   const [loading, setLoading] = useState(true)
   const [clicked, setClicked] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [playing, setPlaying] = useState(false)
 
   const handleOpen = () => {
     setClicked(true)
+    const audio = new Audio('/img/Wd3.mp3')
+    audio.loop = true
+    audio.play().catch(() => {})
+    audioRef.current = audio
+    setPlaying(true)
     setTimeout(() => setLoading(false), 1200)
   }
 
@@ -1294,7 +1291,7 @@ export default function InvitationPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: easeOut }}
         >
-          <MainContent />
+          <MainContent audioRef={audioRef} playing={playing} setPlaying={setPlaying} />
         </motion.div>
       )}
     </AnimatePresence>
